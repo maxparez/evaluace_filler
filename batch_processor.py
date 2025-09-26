@@ -28,6 +28,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, WebDriverException
 
 from src.smart_playback_system import SmartPlaybackSystem
+from src.utils.status_indicator_manager import StatusIndicatorManager
 
 class BatchSurveyProcessor:
     """
@@ -174,7 +175,7 @@ class BatchSurveyProcessor:
 
         return str(year)
 
-    def process_single_survey(self, access_code: str) -> Dict:
+    def process_single_survey(self, access_code: str, survey_number: int = 1, total_surveys: int = 1) -> Dict:
         """Process a single survey with clean browser session"""
         survey_result = {
             "access_code": access_code,
@@ -207,6 +208,15 @@ class BatchSurveyProcessor:
             # Override browser initialization - use existing logged-in driver
             playback_system.driver = driver
             playback_system.session_stats["start_time"] = datetime.now().isoformat()
+
+            # Initialize batch status indicator manager
+            batch_status_manager = StatusIndicatorManager(driver)
+            batch_status_manager.set_status_with_progress(
+                'running',
+                survey_number,
+                total_surveys,
+                f'Zpracovávám dotazník {access_code}'
+            )
 
             # Update birth year in strategy config if needed
             if hasattr(playback_system, 'strategy_config') and 'strategies' in playback_system.strategy_config:
@@ -256,6 +266,14 @@ class BatchSurveyProcessor:
                     page_count += 1
                     logger.info(f"\n--- PAGE {page_count} ---")
 
+                    # Update batch status with page progress
+                    batch_status_manager.set_status_with_progress(
+                        'processing',
+                        survey_number,
+                        total_surveys,
+                        f'Dotazník {access_code} - Stránka {page_count}'
+                    )
+
                     page_processed = playback_system.process_current_page()
 
                     if not page_processed:
@@ -272,11 +290,23 @@ class BatchSurveyProcessor:
                         "completed" in current_url.lower() or
                         "thank" in page_source.lower()):
                         logger.success("🎉 SURVEY COMPLETED - Thank you page detected!")
+                        batch_status_manager.set_status_with_progress(
+                            'completed',
+                            survey_number,
+                            total_surveys,
+                            f'Dotazník {access_code} dokončen úspěšně!'
+                        )
                         break
 
                     # Check for final page pattern that was just processed
                     if page_processed and "konec evaluačního dotazníku" in page_source:
                         logger.success("🎉 SURVEY COMPLETED - Final submit executed!")
+                        batch_status_manager.set_status_with_progress(
+                            'completed',
+                            survey_number,
+                            total_surveys,
+                            f'Dotazník {access_code} dokončen úspěšně!'
+                        )
                         break
 
                     time.sleep(1)
@@ -294,6 +324,13 @@ class BatchSurveyProcessor:
 
             except Exception as e:
                 logger.error(f"Survey automation failed: {e}")
+                if 'batch_status_manager' in locals():
+                    batch_status_manager.set_status_with_progress(
+                        'error',
+                        survey_number,
+                        total_surveys,
+                        f'Chyba v dotazníku {access_code}: {str(e)[:50]}'
+                    )
                 result = {
                     "success": False,
                     "error": str(e),
@@ -312,6 +349,19 @@ class BatchSurveyProcessor:
         except Exception as e:
             survey_result["status"] = "FAILED"
             survey_result["error"] = str(e)
+            logger.error(f"Critical error processing survey {access_code}: {e}")
+            # Try to show error status if possible
+            try:
+                if 'driver' in locals() and driver:
+                    error_status_manager = StatusIndicatorManager(driver)
+                    error_status_manager.set_status_with_progress(
+                        'error',
+                        survey_number,
+                        total_surveys,
+                        f'Kritická chyba: {access_code}'
+                    )
+            except:
+                pass
             logger.error(f"Survey processing failed for code {access_code}: {e}")
 
         finally:
@@ -348,7 +398,7 @@ class BatchSurveyProcessor:
         for i, access_code in enumerate(access_codes, 1):
             logger.info(f"Processing survey {i}/{len(access_codes)}: {access_code}")
 
-            result = self.process_single_survey(access_code)
+            result = self.process_single_survey(access_code, survey_number=i, total_surveys=len(access_codes))
             self.batch_stats["survey_results"].append(result)
 
             if result["status"] == "SUCCESS":
@@ -358,7 +408,21 @@ class BatchSurveyProcessor:
 
             logger.info(f"Survey {i} completed - Status: {result['status']} - Progress: {self.batch_stats['completed_surveys']}/{len(access_codes)} successful")
 
+            # Show waiting status if not the last survey
+            if i < len(access_codes):
+                # Brief pause to show completion before moving to next survey
+                time.sleep(2)
+
+                # Show preparation for next survey
+                next_code = access_codes[i] if i < len(access_codes) else ""
+                logger.info(f"Preparing for next survey {i+1}/{len(access_codes)}: {next_code}")
+                time.sleep(1)
+
         self.batch_stats["end_time"] = datetime.now().isoformat()
+
+        # Show final batch completion status
+        logger.info(f"🎉 BATCH PROCESSING COMPLETED!")
+        logger.info(f"📊 Final Results: {self.batch_stats['completed_surveys']}/{len(access_codes)} surveys successful")
 
         # Generate final report
         self.generate_batch_report()
