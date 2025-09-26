@@ -1,0 +1,127 @@
+{
+  "survey_metadata": {
+    "survey_id": "OP_JAK_2025",
+    "survey_name": "Výstupní evaluační dotazník pro žadatele",
+    "total_pages": 52,
+    "total_patterns": 6,
+    "created_at": "2025-09-25T14:30:00Z"
+  },
+
+  "page_patterns": {
+    "MATRIX_RATING": {
+      "description": "Matrix otázky s rating škálou (souhlasím/nesouhlasím)",
+      "selector_pattern": "input[type=\"radio\"][id*=\"answer592479X{section}X{question}\"][id$=\"-A{rating}\"]",
+      "rating_levels": ["A1", "A2", "A3", "A4", "A5", "A6"],
+      "default_rating": "A5",
+      "auto_navigate": true,
+      "navigation_delay": 3000
+    },
+
+    "RADIO_CHOICE": {
+      "description": "Jednoduché radio button otázky",
+      "selector_pattern": "input[type=\"radio\"][name*=\"{question_id}\"]",
+      "common_values": ["Ano", "Ne", "Částečně", "Nevím"],
+      "default_choice": "Ano",
+      "auto_navigate": true,
+      "navigation_delay": 2000
+    },
+
+    "INPUT_FIELD": {
+      "description": "Textová pole pro zadávání hodnot",
+      "selector_pattern": "input[type=\"text\"][id*=\"answer\"], input[type=\"number\"][id*=\"answer\"]",
+      "default_value": "1990",
+      "auto_navigate": true,
+      "navigation_delay": 1000
+    },
+
+    "CHECKBOX_MULTI": {
+      "description": "Checkbox otázky s možností výběru více odpovědí",
+      "selector_pattern": "input[type=\"checkbox\"][id*=\"answer\"]",
+      "default_selections": ["first"],
+      "auto_navigate": true,
+      "navigation_delay": 2000
+    },
+
+    "FINAL_PAGE": {
+      "description": "Závěrečná stránka s tlačítkem Odeslat",
+      "selector_pattern": "#ls-button-submit",
+      "action": "submit",
+      "auto_navigate": false,
+      "confirmation_required": true
+    }
+  },
+
+  "pages": {
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti čtenářské gramotnosti": {
+      "pattern": "MATRIX_RATING",
+      "section_id": "111",
+      "question_id": "4433",
+      "rating_count": 17,
+      "specific_selectors": [
+        "#answer592479X111X4433SQ001-A5",
+        "#answer592479X111X4433SQ002-A5"
+      ],
+      "keywords": ["čtenářské gramotnosti", "souhlasíte", "následujícími výroky"],
+      "similarity_score": 1.0
+    },
+
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kariérového poradenství": {
+      "pattern": "MATRIX_RATING",
+      "section_id": "110",
+      "question_id": "4429",
+      "rating_count": 17,
+      "specific_selectors": [
+        "#answer592479X110X4429SQ001-A6",
+        "#answer592479X110X4429SQ002-A6"
+      ],
+      "keywords": ["kariérového poradenství", "souhlasíte", "následujícími výroky"],
+      "similarity_score": 0.95
+    },
+
+    "Využili jste pomoc při tvorbě žádosti svého projektu?": {
+      "pattern": "RADIO_CHOICE",
+      "expected_answers": ["Ano", "Ne"],
+      "default_answer": "Ne",
+      "keywords": ["využili", "pomoc", "žádosti"],
+      "similarity_score": 0.9
+    },
+
+    "Vyplňte, prosím, rok svého narození": {
+      "pattern": "INPUT_FIELD",
+      "input_type": "number",
+      "default_value": "1985",
+      "validation": "year_range",
+      "keywords": ["vyplňte", "rok", "narození"],
+      "similarity_score": 1.0
+    },
+
+    "Navštěvují Vaši základní školu romští žáci?": {
+      "pattern": "RADIO_CHOICE",
+      "expected_answers": ["Ano", "Ne", "Nevím"],
+      "default_answer": "Ne",
+      "keywords": ["navštěvují", "romští", "žáci"],
+      "similarity_score": 0.9
+    }
+  },
+
+  "fuzzy_matching": {
+    "enabled": true,
+    "similarity_threshold": 0.8,
+    "keyword_weights": {
+      "pattern_keywords": 0.6,
+      "content_keywords": 0.4
+    },
+    "fallback_patterns": {
+      "matrix_keywords": ["souhlasíte", "následujícími výroky", "do jaké míry"],
+      "radio_keywords": ["ano", "ne", "využili", "navštěvují"],
+      "input_keywords": ["vyplňte", "uveďte", "zadejte"]
+    }
+  },
+
+  "search_optimization": {
+    "primary_index": "page_title",
+    "secondary_indices": ["keywords", "pattern", "section_id"],
+    "cache_compiled_patterns": true,
+    "precompute_similarity_scores": true
+  }
+}

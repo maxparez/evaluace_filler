@@ -1,0 +1,507 @@
+{
+  "metadata": {
+    "survey_id": "interactive_mapping_20250925_143351",
+    "created_at": "2025-09-25T14:33:51.759702",
+    "total_pages_mapped": 44,
+    "mapping_session": "interactive"
+  },
+  "pages": {
+    "Výstupní evaluační dotazník pro žadatele ve výzvě \"Šablony pro MŠ a ZŠ I\" (číslo výzvy 02_22_002)": {
+      "pattern": "SKIP",
+      "auto_navigate": true
+    },
+    "Vyplňte, prosím, rok svého narození": {
+      "pattern": "INPUT_FIELD",
+      "input_value": "3 1972",
+      "auto_navigate": true,
+      "navigation_delay": 1000,
+      "description": "Fill input with: 3 1972"
+    },
+    "Vyplňte, prosím, z jaké pozice vyplňujete tento dotazník": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Externí firma nebo jiný externí pracovník pověřený k administraci žádosti/projektu",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Externí firma nebo jiný externí pracovník pověřený k administraci žádosti/projektu"
+    },
+    "Do jaké míry souhlasíte s tvrzením: „Podání (příprava a vyplnění) žádosti o podporu bylo jednoduché.“?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Spíše souhlasíme",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Spíše souhlasíme"
+    },
+    "Do jaké míry souhlasíte s tvrzením: „Administrace projektu byla jednoduchá.“?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Spíše souhlasíme",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Spíše souhlasíme"
+    },
+    "Využili jste pomoc při tvorbě žádosti svého projektu?": {
+      "pattern": "CHECKBOX_MULTI",
+      "selected_indices": [
+        2
+      ],
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Check boxes at indices: [2]"
+    },
+    "Využili jste pomoc při administraci svého projektu v průběhu realizace?": {
+      "pattern": "CHECKBOX_MULTI",
+      "selected_indices": [
+        2
+      ],
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Check boxes at indices: [2]"
+    },
+    "Realizovala vaše škola projekt šablon v OP VVV (alespoň 1 projekt v kterékoliv vlně)?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Ano",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Ano"
+    },
+    "Na základě zpětné vazby od příjemců šablon OP VVV došlo v OP JAK k odlišnému pojetí šablon. Při zachování různých možností realizace šablon došlo ke snížení jejich počtu a větší univerzálnosti jejich využití. Jak tento posun hodnotíte?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Tento posun vítám. Preferuji menší počet více univerzálních aktivit, protože škole poskytují větší svobodu a flexibilitu při realizaci projektu.",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Tento posun vítám. Preferuji menší počet více univerzálních aktivit, protože škole poskytují větší svobodu a flexibilitu při realizaci projektu."
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti čtenářské pregramotnosti.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti matematické pregramotnosti.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kreativního myšlení.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kritického myšlení.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A5",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A5']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A5"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti sociálních a občanských kompetencí.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Navštěvují Vaši mateřskou školu romské děti?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Nevím",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Nevím"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti inkluze.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Navštěvují Vaši školu děti s odlišným mateřským jazykem (děti s OMJ)? Tedy děti, které nedostatečně ovládají češtinu jako vyučovací jazyk (potřebují jazykovou podporu), bez ohledu na jejich státní občanství nebo také jazyk rodičů či zemi původu.": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Nevím, nemám o tom přehled",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Nevím, nemám o tom přehled"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti usnadnění přechodu dětí na ZŠ.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Byl projekt pro Vaši školu přínosný?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Určitě ano",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Určitě ano"
+    },
+    "Který druh setkávání byl na Vaší škole vyhodnocen jako přínosnější?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Oba druhy stejný přínos",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Oba druhy stejný přínos"
+    },
+    "Kolik rodičů se v průměru zapojilo do jednoho odborně zaměřeného tematického nebo komunitního setkání v MŠ?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "1 – 10 rodičů",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: 1 – 10 rodičů"
+    },
+    "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání dětí ohrožených školním neúspěchem?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Spíše ano",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Spíše ano"
+    },
+    "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání dětí s odlišným mateřským jazykem?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Nevíme",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Nevíme"
+    },
+    "Došlo ve Vaší škole díky šablonám ke zlepšení osobnostně sociálního a profesního rozvoje pracovníků ve vzdělávání  (získání a rozvoj dovedností, znalostí a kompetencí)?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Určitě ano",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Určitě ano"
+    },
+    "Setkali jste se s nějakými problémy/komplikacemi v průběhu realizace projektu?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Ne",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Ne"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti čtenářské gramotnosti.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A5",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A5']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A5"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti matematické gramotnosti.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti cizích jazyků.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti digitální gramotnosti.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kariérového poradenství.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kreativity, podnikavosti, iniciativy.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    },
+    "Navštěvují Vaši základní školu romští žáci?": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "Nevím",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-Nevím']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating Nevím"
+    },
+    "Navštěvují Vaši školu žáci s odlišným mateřským jazykem? Tedy žáci, kteří nedostatečně ovládají češtinu jako vyučovací jazyk (potřebují jazykovou podporu), bez ohledu na jejich státní občanství nebo také jazyk rodičů či zemi původu.": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Nevím, nemám o tom přehled",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Nevím, nemám o tom přehled"
+    },
+    "Kolik rodičů se v průměru zapojilo do jednoho odborně zaměřeného tematického nebo komunitního setkání v ZŠ?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "1 – 10 rodičů",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: 1 – 10 rodičů"
+    },
+    "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání žáků ohrožených školním neúspěchem?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Určitě ano",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Určitě ano"
+    },
+    "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání žáků s odlišným mateřským jazykem?": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Nevíme",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select radio option: Nevíme"
+    },
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vašemu školskému zařízení v oblasti čtenářské gramotnosti.": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill all matrix questions with rating A6"
+    }
+  },
+  "page_sequence": [
+    {
+      "page_number": 1,
+      "page_id": "Výstupní evaluační dotazník pro žadatele ve výzvě \"Šablony pro MŠ a ZŠ I\" (číslo výzvy 02_22_002)",
+      "strategy": "SKIP"
+    },
+    {
+      "page_number": 2,
+      "page_id": "Vyplňte, prosím, rok svého narození",
+      "strategy": "INPUT_FIELD"
+    },
+    {
+      "page_number": 3,
+      "page_id": "Vyplňte, prosím, z jaké pozice vyplňujete tento dotazník",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 4,
+      "page_id": "Do jaké míry souhlasíte s tvrzením: „Podání (příprava a vyplnění) žádosti o podporu bylo jednoduché.“?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 5,
+      "page_id": "Do jaké míry souhlasíte s tvrzením: „Administrace projektu byla jednoduchá.“?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 6,
+      "page_id": "Využili jste pomoc při tvorbě žádosti svého projektu?",
+      "strategy": "CHECKBOX_MULTI"
+    },
+    {
+      "page_number": 7,
+      "page_id": "Využili jste pomoc při administraci svého projektu v průběhu realizace?",
+      "strategy": "CHECKBOX_MULTI"
+    },
+    {
+      "page_number": 8,
+      "page_id": "Realizovala vaše škola projekt šablon v OP VVV (alespoň 1 projekt v kterékoliv vlně)?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 9,
+      "page_id": "Na základě zpětné vazby od příjemců šablon OP VVV došlo v OP JAK k odlišnému pojetí šablon. Při zachování různých možností realizace šablon došlo ke snížení jejich počtu a větší univerzálnosti jejich využití. Jak tento posun hodnotíte?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 10,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti čtenářské pregramotnosti.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 11,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti matematické pregramotnosti.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 12,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kreativního myšlení.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 13,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kritického myšlení.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 14,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti sociálních a občanských kompetencí.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 15,
+      "page_id": "Navštěvují Vaši mateřskou školu romské děti?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 16,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti inkluze.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 17,
+      "page_id": "Navštěvují Vaši školu děti s odlišným mateřským jazykem (děti s OMJ)? Tedy děti, které nedostatečně ovládají češtinu jako vyučovací jazyk (potřebují jazykovou podporu), bez ohledu na jejich státní občanství nebo také jazyk rodičů či zemi původu.",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 18,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti usnadnění přechodu dětí na ZŠ.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 19,
+      "page_id": "Byl projekt pro Vaši školu přínosný?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 20,
+      "page_id": "Který druh setkávání byl na Vaší škole vyhodnocen jako přínosnější?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 21,
+      "page_id": "Kolik rodičů se v průměru zapojilo do jednoho odborně zaměřeného tematického nebo komunitního setkání v MŠ?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 22,
+      "page_id": "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání dětí ohrožených školním neúspěchem?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 23,
+      "page_id": "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání dětí s odlišným mateřským jazykem?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 24,
+      "page_id": "Došlo ve Vaší škole díky šablonám ke zlepšení osobnostně sociálního a profesního rozvoje pracovníků ve vzdělávání  (získání a rozvoj dovedností, znalostí a kompetencí)?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 25,
+      "page_id": "Setkali jste se s nějakými problémy/komplikacemi v průběhu realizace projektu?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 26,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti čtenářské gramotnosti.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 27,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti matematické gramotnosti.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 28,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti cizích jazyků.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 29,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti digitální gramotnosti.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 30,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kariérového poradenství.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 31,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kreativity, podnikavosti, iniciativy.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 32,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kritického myšlení.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 33,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti sociálních a občanských kompetencí.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 34,
+      "page_id": "Navštěvují Vaši základní školu romští žáci?",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 35,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti inkluze.",
+      "strategy": "MATRIX_RATING"
+    },
+    {
+      "page_number": 36,
+      "page_id": "Navštěvují Vaši školu žáci s odlišným mateřským jazykem? Tedy žáci, kteří nedostatečně ovládají češtinu jako vyučovací jazyk (potřebují jazykovou podporu), bez ohledu na jejich státní občanství nebo také jazyk rodičů či zemi původu.",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 37,
+      "page_id": "Byl projekt pro Vaši školu přínosný?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 38,
+      "page_id": "Který druh setkávání byl na Vaší škole vyhodnocen jako přínosnější?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 39,
+      "page_id": "Kolik rodičů se v průměru zapojilo do jednoho odborně zaměřeného tematického nebo komunitního setkání v ZŠ?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 40,
+      "page_id": "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání žáků ohrožených školním neúspěchem?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 41,
+      "page_id": "Došlo ve Vaší škole díky šablonám ke zlepšení podmínek pro vzdělávání žáků s odlišným mateřským jazykem?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 42,
+      "page_id": "Došlo ve Vaší škole díky šablonám ke zlepšení osobnostně sociálního a profesního rozvoje pracovníků ve vzdělávání  (získání a rozvoj dovedností, znalostí a kompetencí)?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 43,
+      "page_id": "Setkali jste se s nějakými problémy/komplikacemi v průběhu realizace projektu?",
+      "strategy": "RADIO_CHOICE"
+    },
+    {
+      "page_number": 44,
+      "page_id": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vašemu školskému zařízení v oblasti čtenářské gramotnosti.",
+      "strategy": "MATRIX_RATING"
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "page_analysis": {
+    "page_title": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vašemu školskému zařízení v oblasti inkluze.",
+    "page_type": "matrix_rating_scale",
+    "survey_section": "inclusion_assessment",
+    "occurrence_pattern": "appears_multiple_times_per_survey"
+  },
+  "page_variants": [
+    {
+      "variant": "ms_variant",
+      "title": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti inkluze.",
+      "target_audience": "mateřská škola",
+      "flow_position": 15
+    },
+    {
+      "variant": "zs_variant",
+      "title": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti inkluze.",
+      "target_audience": "základní škola",
+      "flow_position": 32
+    },
+    {
+      "variant": "facility_variant",
+      "title": "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vašemu školskému zařízení v oblasti inkluze.",
+      "target_audience": "školské zařízení",
+      "flow_position": 48
+    }
+  ],
+  "page_identification": {
+    "primary_selector": ".question-text .ls-label-question",
+    "fuzzy_match_keywords": [
+      "inkluze",
+      "souhlasíte s následujícími výroky",
+      "školskému zařízení",
+      "škole"
+    ],
+    "unique_pattern": "inkluze",
+    "page_id_extraction": "exact_text_match"
+  },
+  "expected_structure": {
+    "question_type": "matrix_likert_scale",
+    "scale_type": "5_point_agreement",
+    "scale_options": [
+      "Rozhodně nesouhlasím",
+      "Spíše nesouhlasím",
+      "Neutrální",
+      "Spíše souhlasím",
+      "Rozhodně souhlasím"
+    ],
+    "multiple_subquestions": true,
+    "estimated_subquestions": "10-17"
+  },
+  "selector_patterns": {
+    "based_on_recorded_data": {
+      "radio_button_pattern": "#answer592479X110X4429SQ{001-017}-A6",
+      "answer_cell_pattern": ".answer_cell_A6",
+      "matrix_structure": "survey_id + section_id + question_id + answer_id"
+    },
+    "generalized_patterns": {
+      "radio_button_generic": "#answer[survey_id]X[section_id]X[subsection_id]SQ{question_num}-A[rating_level]",
+      "answer_cell_generic": ".answer_cell_A[rating_level]",
+      "common_rating_levels": {
+        "A1": "Rozhodně nesouhlasím",
+        "A2": "Spíše nesouhlasím",
+        "A3": "Neutrální",
+        "A4": "Spíše souhlasím",
+        "A5": "Rozhodně souhlasím",
+        "A6": "Souhlasím (často použité)"
+      }
+    }
+  },
+  "playbook_strategy": {
+    "page_detection": {
+      "method": "fuzzy_text_match",
+      "confidence_threshold": 0.8,
+      "fallback_selectors": [
+        ".question-text",
+        ".ls-label-question",
+        ".survey-question"
+      ]
+    },
+    "action_execution": {
+      "strategy": "matrix_fill_pattern",
+      "default_rating": "A6",
+      "rating_rationale": "A6 appears most frequently in recorded data (Agree/Souhlasím)",
+      "fill_method": "sequential_subquestions"
+    },
+    "error_handling": {
+      "missing_subquestion": "skip_and_continue",
+      "invalid_selector": "try_alternative_patterns",
+      "timeout": "move_to_next_page"
+    }
+  },
+  "automation_template": {
+    "step_1": {
+      "action": "identify_page",
+      "method": "text_contains('inkluze')"
+    },
+    "step_2": {
+      "action": "count_subquestions",
+      "selector_pattern": "input[type='radio'][name*='answer'][name*='SQ']"
+    },
+    "step_3": {
+      "action": "fill_matrix",
+      "for_each_subquestion": {
+        "selector": "#answer[survey_id]X[section]X[subsection]SQ{i}-A6",
+        "action_sequence": [
+          "click_answer_cell(.answer_cell_A6)",
+          "click_radio_button(calculated_selector)",
+          "verify_selection(checked=true)"
+        ]
+      }
+    },
+    "step_4": {
+      "action": "navigate_next",
+      "selector": "#ls-button-submit",
+      "wait_after": 2000
+    }
+  },
+  "expected_user_interactions": {
+    "per_subquestion": [
+      {
+        "sequence": 1,
+        "action": "click",
+        "target": "answer_cell",
+        "purpose": "visual_selection_feedback"
+      },
+      {
+        "sequence": 2,
+        "action": "click",
+        "target": "radio_button",
+        "purpose": "actual_form_input"
+      },
+      {
+        "sequence": 3,
+        "action": "change_event",
+        "target": "radio_button",
+        "purpose": "form_validation_trigger"
+      }
+    ],
+    "total_interactions_per_page": "30-51 actions (based on 10-17 subquestions × 3 actions each)"
+  },
+  "data_validation": {
+    "success_criteria": [
+      "All subquestions answered",
+      "Form validation passes",
+      "Navigation to next page successful"
+    ],
+    "failure_indicators": [
+      "Required field errors",
+      "Page navigation blocked",
+      "Timeout without progress"
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "survey_info": {
+    "title": "Výstupní evaluační dotazník pro žadatele ve výzvě \"Šablony pro MŠ a ZŠ I\"",
+    "url": "https://evaluace.opjak.cz/index.php/592479",
+    "survey_id": "592479",
+    "total_pages_expected": 15,
+    "completion_time_minutes": 10
+  },
+  "page_templates": {
+    "welcome_page": {
+      "page_id_pattern": "Výstupní evaluační dotazník",
+      "actions": ["navigation_next"],
+      "selectors": {
+        "next_button": "#ls-button-submit"
+      }
+    },
+    "demographics_birth_year": {
+      "page_id_pattern": "Vyplňte, prosím, rok svého narození",
+      "actions": ["input_text", "navigation_next"],
+      "selectors": {
+        "year_input": "input[type='text']",
+        "next_button": "#ls-button-submit"
+      }
+    },
+    "position_selection": {
+      "page_id_pattern": "z jaké pozice vyplňujete tento dotazník",
+      "actions": ["radio_selection", "navigation_next"],
+      "selectors": {
+        "radio_director": "#answer592479X108X4458A1",
+        "radio_external": "#answer592479X108X4458A5",
+        "next_button": "#ls-button-submit"
+      }
+    },
+    "satisfaction_questions": {
+      "page_id_pattern": "Do jaké míry souhlasíte s tvrzením",
+      "actions": ["radio_selection", "navigation_next"],
+      "selectors": {
+        "rating_scale": "input[type='radio'][name*='answer592479']",
+        "next_button": "#ls-button-submit"
+      }
+    },
+    "help_questions": {
+      "page_id_pattern": "Využili jste pomoc",
+      "actions": ["checkbox_selection", "navigation_next"],
+      "selectors": {
+        "checkbox_options": "input[type='checkbox'][name*='answer592479']",
+        "next_button": "#ls-button-submit"
+      }
+    },
+    "final_evaluation": {
+      "page_id_pattern": "do jaké míry souhlasíte s následujícími výroky",
+      "actions": ["matrix_selection", "navigation_submit"],
+      "selectors": {
+        "matrix_radio": "input[type='radio'][name*='answer592479']",
+        "submit_button": "#ls-button-submit"
+      }
+    }
+  },
+  "expected_flow": [
+    "Výstupní evaluační dotazník pro žadatele",
+    "Vyplňte, prosím, rok svého narození",
+    "Vyplňte, prosím, z jaké pozice vyplňujete tento dotazník",
+    "Do jaké míry souhlasíte s tvrzením: „Podání (příprava a vyplnění) žádosti o podporu bylo jednoduché."?",
+    "Do jaké míry souhlasíte s tvrzením: „Administrace projektu byla jednoduchá."?",
+    "Využili jste pomoc při tvorbě žádosti svého projektu?",
+    "Využili jste pomoc při administraci svého projektu v průběhu realizace?",
+    "Realizovala vaše škola projekt šablon v OP VVV (alespoň 1 projekt v kterékoliv vlně)?",
+    "Na základě zpětné vazby od příjemců šablon OP VVV došlo v OP JAK k odlišnému pojetí šablon",
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti čtenářské pregramotnosti",
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti matematické pregramotnosti",
+    "Uveďte, prosím, do jaké míry souhlasíte s následujícími výroky vztahujícími se k Vaší škole v oblasti kreativního myšlení",
+    "Děkujeme za vyplnění dotazníku"
+  ],
+  "playback_strategy": {
+    "page_matching": "fuzzy_text_match",
+    "fallback_mode": "interactive",
+    "error_handling": "retry_with_alternative_selectors",
+    "navigation_wait_seconds": 2,
+    "form_fill_delay_ms": 500
+  }
+}

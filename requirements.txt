@@ -1,0 +1,26 @@
+# Core web automation
+selenium==4.16.0
+webdriver-manager==4.0.1
+
+# HTML parsing (auxiliary)
+beautifulsoup4==4.12.2
+requests==2.31.0
+
+# Enhanced logging
+loguru==0.7.2
+
+# JSON handling and utilities
+jsonschema==4.20.0
+
+# Testing framework
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# Code quality
+black==23.11.0
+flake8==6.1.0
+mypy==1.7.1
+
+# Development utilities
+python-dotenv==1.0.0
+click==8.1.7

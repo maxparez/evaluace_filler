@@ -1,0 +1,75 @@
+# Sensitive files - DO NOT COMMIT
+CONTEXT.md
+PROGRESS.md
+*.log
+logs/
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Temporary and test files
+temp/
+*.tmp
+*.swp
+*.swo
+*~
+
+# Browser data
+/tmp/
+chrome_evaluace/
+*.crdownload
+
+# Session data
+scenarios/recorded_sessions/*.json
+scenarios/backup/
+
+# IDE and editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.atom/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Chrome debugging
+.chrome/
+
+# Logs and monitoring
+*.log.*
+nohup.out
