@@ -21,6 +21,7 @@ from src.utils.page_identifier import PageIdentifier
 from src.utils.javascript_loader import JavaScriptLoader
 from src.smart_page_matcher import SmartPageMatcher
 from src.inclusion_page_handler import InclusionPageHandler
+from src.config import Config
 
 class SmartPlaybackSystem:
     """
@@ -427,7 +428,7 @@ class SmartPlaybackSystem:
                             self.driver.execute_script("arguments[0].click();", button)
 
                         logger.success("🎉 FINAL SUBMIT CLICKED - SURVEY COMPLETED!")
-                        time.sleep(3)  # Wait for final submission
+                        time.sleep(Config.NAVIGATION_DELAY)  # Wait for final submission
                         return True
                 except Exception as e:
                     logger.debug(f"Selector {selector} failed: {e}")
@@ -474,7 +475,7 @@ class SmartPlaybackSystem:
 
             if result and result.get('success'):
                 logger.success("Navigation successful")
-                time.sleep(2)  # Wait for page load
+                time.sleep(Config.NAVIGATION_DELAY - 1)  # Wait for page load
                 return True
             else:
                 logger.warning("Navigation may have failed")
@@ -595,7 +596,7 @@ class SmartPlaybackSystem:
                     break
 
                 # Small delay between pages
-                time.sleep(1)
+                time.sleep(Config.FORM_FILL_DELAY)
 
         except KeyboardInterrupt:
             logger.warning("Survey automation interrupted by user")

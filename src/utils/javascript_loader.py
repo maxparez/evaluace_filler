@@ -9,20 +9,25 @@ from pathlib import Path
 from typing import Dict, Any
 from loguru import logger
 
+# Import config from parent directory
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+from config import Config
+
 class JavaScriptLoader:
     """Utility class for loading and managing external JavaScript files"""
 
     def __init__(self, js_scripts_dir: str = None):
         """Initialize JavaScript loader with scripts directory"""
         if js_scripts_dir is None:
-            # Default to src/js_scripts relative to this file
-            current_dir = Path(__file__).parent.parent
-            self.js_scripts_dir = current_dir / 'js_scripts'
+            self.js_scripts_dir = Config.JS_SCRIPTS_DIR
         else:
             self.js_scripts_dir = Path(js_scripts_dir)
 
-        self._script_cache = {}
+        # Use caching based on config
+        self._script_cache = {} if Config.JS_CACHE_ENABLED else None
         logger.debug(f"JavaScript loader initialized with directory: {self.js_scripts_dir}")
+        logger.debug(f"Caching {'enabled' if Config.JS_CACHE_ENABLED else 'disabled'}")
 
     def load_script(self, script_name: str) -> str:
         """Load JavaScript code from external file"""

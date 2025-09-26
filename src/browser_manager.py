@@ -17,13 +17,19 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import WebDriverException
 from loguru import logger
 
+try:
+    from .config import Config
+except ImportError:
+    # Fallback for when imported from test or other contexts
+    from config import Config
+
 
 class BrowserManager:
     """Manages persistent browser instances for recorder reuse"""
 
-    def __init__(self, debug_port: int = 9222, user_data_dir: str = "/tmp/chrome_evaluace"):
-        self.debug_port = debug_port
-        self.user_data_dir = user_data_dir
+    def __init__(self, debug_port: int = None, user_data_dir: str = None):
+        self.debug_port = debug_port or Config.CHROME_DEBUG_PORT
+        self.user_data_dir = user_data_dir or Config.CHROME_USER_DATA_DIR
         self.driver: Optional[webdriver.Chrome] = None
 
     def is_browser_running(self) -> bool:
@@ -67,15 +73,18 @@ class BrowserManager:
             chrome_options.add_argument("--disable-blink-features=AutomationControlled")
             chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
             chrome_options.add_experimental_option('useAutomationExtension', False)
-            chrome_options.add_argument("--window-size=1200,800")
+            chrome_options.add_argument(f"--window-size={Config.BROWSER_WINDOW_SIZE}")
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
 
+            if Config.BROWSER_HEADLESS:
+                chrome_options.add_argument("--headless")
+
             # Keep browser alive
             chrome_options.add_experimental_option("detach", True)
 
-            service = Service("/usr/bin/chromedriver")
+            service = Service(Config.CHROMEDRIVER_PATH)
             self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
             logger.success(f"New browser started on port {self.debug_port}")

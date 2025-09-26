@@ -18,6 +18,7 @@ from browser_manager import BrowserManager
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from utils.page_identifier import PageIdentifier
+from config import Config
 
 # WORKING JavaScript from debug test
 WORKING_JS = """
@@ -132,11 +133,11 @@ def simple_recording_session():
     # Connect to existing browser
     manager = BrowserManager()
     if not manager.is_browser_running():
-        print("❌ No browser running on port 9222")
+        print(f"❌ No browser running on port {Config.CHROME_DEBUG_PORT}")
         return
 
     chrome_options = Options()
-    chrome_options.add_experimental_option("debuggerAddress", "localhost:9222")
+    chrome_options.add_experimental_option("debuggerAddress", f"localhost:{Config.CHROME_DEBUG_PORT}")
     driver = webdriver.Chrome(options=chrome_options)
 
     session_data = {
