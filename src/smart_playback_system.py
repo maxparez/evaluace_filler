@@ -18,6 +18,7 @@ from loguru import logger
 from selenium.webdriver.common.by import By
 from src.browser_manager import BrowserManager
 from src.utils.page_identifier import PageIdentifier
+from src.utils.javascript_loader import JavaScriptLoader
 from src.smart_page_matcher import SmartPageMatcher
 from src.inclusion_page_handler import InclusionPageHandler
 
@@ -36,6 +37,7 @@ class SmartPlaybackSystem:
     def __init__(self, strategy_file: str = "scenarios/optimized_survey_strategy.json"):
         self.browser_manager = BrowserManager()
         self.page_identifier = PageIdentifier()
+        self.js_loader = JavaScriptLoader()
         self.driver = None
 
         # Load strategy configuration
@@ -210,17 +212,22 @@ class SmartPlaybackSystem:
             return False
 
     def execute_inclusion_strategy(self, strategy: Dict) -> bool:
-        """Execute specialized inclusion page strategy"""
+        """Execute specialized inclusion page strategy using external JavaScript"""
         logger.info("Executing inclusion mixed strategy (barrier-free A1, others A6)")
 
         try:
-            js_code = strategy.get('javascript_strategy', '')
-            if not js_code:
-                logger.error("No JavaScript strategy provided for inclusion")
+            barrier_keywords = strategy.get('barrier_keywords', [])
+            if not barrier_keywords:
+                logger.error("No barrier keywords provided for inclusion strategy")
                 return False
 
-            # Execute JavaScript
-            result = self.driver.execute_script(js_code)
+            # Execute external JavaScript function
+            result = self.js_loader.execute_script(
+                self.driver,
+                'barrier_free_inclusion',
+                'executeBarrierFreeInclusion',
+                barrier_keywords
+            )
 
             if result and isinstance(result, dict):
                 logger.success(f"Inclusion strategy executed: {result.get('barrier_free_a1', 0)} A1 + {result.get('regular_a6', 0)} A6")
@@ -234,40 +241,18 @@ class SmartPlaybackSystem:
             return False
 
     def execute_matrix_strategy(self, strategy: Dict) -> bool:
-        """Execute matrix rating strategy"""
+        """Execute matrix rating strategy using external JavaScript"""
         rating_level = strategy.get('rating_level', 'A5')
         logger.info(f"Executing matrix strategy: rating {rating_level}")
 
         try:
-            # JavaScript template for matrix filling
-            # Always use our improved JavaScript that returns proper results
-            js_code = f"""
-            console.log('Matrix filling with rating {rating_level}');
-            var radios = document.querySelectorAll('input[type="radio"][id*="answer"][id$="-{rating_level}"]');
-            console.log('Found', radios.length, 'radio buttons');
-
-            var clicked = 0;
-            var alreadySelected = 0;
-
-            radios.forEach(function(radio) {{
-                if (radio.checked) {{
-                    alreadySelected++;
-                }} else {{
-                    try {{
-                        radio.click();
-                        clicked++;
-                    }} catch(e) {{
-                        console.error('Click failed:', e);
-                    }}
-                }}
-            }});
-
-            var totalSelected = clicked + alreadySelected;
-            console.log('Matrix result: clicked', clicked, ', already selected', alreadySelected, ', total selected', totalSelected);
-            return {{total: radios.length, clicked: clicked, alreadySelected: alreadySelected, totalSelected: totalSelected}};
-            """
-
-            result = self.driver.execute_script(js_code)
+            # Execute external JavaScript function
+            result = self.js_loader.execute_script(
+                self.driver,
+                'matrix_strategy',
+                'executeMatrixStrategy',
+                rating_level
+            )
 
             if result:
                 total_selected = result.get('totalSelected', 0)
@@ -290,73 +275,18 @@ class SmartPlaybackSystem:
             return False
 
     def execute_matrix_random_strategy(self, strategy: Dict) -> bool:
-        """Execute matrix strategy with random rating selection (A5/A6/A7)"""
-        import random
-
+        """Execute matrix strategy with random rating selection using external JavaScript"""
         rating_options = strategy.get('rating_options', ['A5', 'A6', 'A7'])
         logger.info(f"Executing matrix random strategy with options: {rating_options}")
 
         try:
-            # Create JavaScript that randomly selects from A5/A6/A7 for each row
-            rating_options_js = str(rating_options).replace("'", '"')
-            js_code = f"""
-            console.log('Matrix random rating with options:', {rating_options_js});
-            var ratingOptions = {rating_options_js};
-            var totalClicked = 0;
-            var totalAlready = 0;
-            var ratingCounts = {{}};
-
-            // Initialize rating counts
-            ratingOptions.forEach(function(rating) {{
-                ratingCounts[rating] = 0;
-            }});
-
-            // Find all radio button groups (matrix rows)
-            var processedRows = new Set();
-            var allRadios = document.querySelectorAll('input[type="radio"]');
-
-            allRadios.forEach(function(radio) {{
-                // Extract row identifier from radio name/id
-                var rowId = radio.name || radio.id.split('-')[0];
-
-                if (!processedRows.has(rowId)) {{
-                    processedRows.add(rowId);
-
-                    // Randomly select rating for this row
-                    var randomRating = ratingOptions[Math.floor(Math.random() * ratingOptions.length)];
-
-                    // Find radio for this rating in this row
-                    var targetRadio = document.querySelector(
-                        'input[type="radio"][name="' + rowId + '"][value="' + randomRating + '"]'
-                    );
-
-                    if (!targetRadio && radio.id) {{
-                        // Fallback: try to find by ID pattern
-                        var baseId = radio.id.split('-')[0];
-                        targetRadio = document.querySelector('#' + baseId + '-' + randomRating);
-                    }}
-
-                    if (targetRadio) {{
-                        if (!targetRadio.checked) {{
-                            targetRadio.click();
-                            totalClicked++;
-                            ratingCounts[randomRating]++;
-                        }} else {{
-                            totalAlready++;
-                        }}
-                    }}
-                }}
-            }});
-
-            return {{
-                total_clicked: totalClicked,
-                total_already: totalAlready,
-                rating_distribution: ratingCounts,
-                total_processed: totalClicked + totalAlready
-            }};
-            """
-
-            result = self.driver.execute_script(js_code)
+            # Execute external JavaScript function
+            result = self.js_loader.execute_script(
+                self.driver,
+                'matrix_random_strategy',
+                'executeMatrixRandomStrategy',
+                rating_options
+            )
 
             if result and isinstance(result, dict):
                 total_processed = result.get('total_processed', 0)
@@ -375,29 +305,18 @@ class SmartPlaybackSystem:
             return False
 
     def execute_radio_strategy(self, strategy: Dict) -> bool:
-        """Execute radio choice strategy"""
+        """Execute radio choice strategy using external JavaScript"""
         selected_answer = strategy.get('selected_answer', '')
         logger.info(f"Executing radio strategy: '{selected_answer}'")
 
         try:
-            js_code = f"""
-            console.log('Radio choice selection: {selected_answer}');
-            var targetRadio = Array.from(document.querySelectorAll('input[type="radio"]')).find(radio => {{
-                var label = radio.parentElement || radio.nextElementSibling || radio.previousElementSibling;
-                return label && label.textContent && label.textContent.includes('{selected_answer}');
-            }});
-
-            if (targetRadio) {{
-                targetRadio.click();
-                console.log('Radio clicked:', targetRadio.id);
-                return {{success: true, clicked: targetRadio.id}};
-            }} else {{
-                console.log('Target radio not found');
-                return {{success: false, error: 'Radio not found'}};
-            }}
-            """
-
-            result = self.driver.execute_script(js_code)
+            # Execute external JavaScript function
+            result = self.js_loader.execute_script(
+                self.driver,
+                'radio_strategy',
+                'executeRadioStrategy',
+                selected_answer
+            )
 
             if result and result.get('success'):
                 logger.success(f"Radio clicked: {result.get('clicked', 'unknown')}")
@@ -411,41 +330,18 @@ class SmartPlaybackSystem:
             return False
 
     def execute_input_strategy(self, strategy: Dict) -> bool:
-        """Execute input field strategy"""
+        """Execute input field strategy using external JavaScript"""
         input_value = strategy.get('input_value', '')
         logger.info(f"Executing input strategy: '{input_value}'")
 
         try:
-            js_code = f"""
-            console.log('Input field filling: {input_value}');
-            var inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
-            var filled = 0;
-
-            console.log('Found', inputs.length, 'input fields');
-
-            inputs.forEach(function(input, index) {{
-                console.log('Input', index, ':', input.id, 'current value:', input.value);
-
-                // Always fill, even if has existing value
-                input.focus();
-                input.value = '';  // Clear first
-                input.value = '{input_value}';
-
-                // Trigger proper events for validation
-                input.dispatchEvent(new Event('focus', {{bubbles: true}}));
-                input.dispatchEvent(new Event('input', {{bubbles: true}}));
-                input.dispatchEvent(new Event('change', {{bubbles: true}}));
-                input.dispatchEvent(new Event('blur', {{bubbles: true}}));
-
-                filled++;
-                console.log('Filled input', index, 'with:', input.value);
-            }});
-
-            console.log('Total filled:', filled, 'input fields');
-            return {{total: inputs.length, filled: filled, success: filled > 0}};
-            """
-
-            result = self.driver.execute_script(js_code)
+            # Execute external JavaScript function
+            result = self.js_loader.execute_script(
+                self.driver,
+                'input_strategy',
+                'executeInputStrategy',
+                input_value
+            )
 
             if result and result.get('success', False):
                 logger.success(f"Input filled: {result.get('filled', 0)}/{result.get('total', 0)} fields")
@@ -459,49 +355,18 @@ class SmartPlaybackSystem:
             return False
 
     def execute_checkbox_strategy(self, strategy: Dict) -> bool:
-        """Execute checkbox strategy"""
+        """Execute checkbox strategy using external JavaScript"""
         selected_indices = strategy.get('selected_indices', [])
         logger.info(f"Executing checkbox strategy: indices {selected_indices}")
 
         try:
-            js_code = f"""
-            console.log('Checkbox selection: {selected_indices}');
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            var clickedCount = 0;
-            var targetIndices = {selected_indices};
-
-            // First, count how many target checkboxes are already selected
-            var alreadySelected = 0;
-            targetIndices.forEach(function(index) {{
-                var checkbox = checkboxes[index - 1];
-                if (checkbox && checkbox.checked) {{
-                    alreadySelected++;
-                }}
-            }});
-
-            // If we want exactly these checkboxes selected, ensure only they are selected
-            targetIndices.forEach(function(index) {{
-                var checkbox = checkboxes[index - 1];
-                if (checkbox && !checkbox.checked) {{
-                    checkbox.click();
-                    clickedCount++;
-                }}
-            }});
-
-            // Final count of target checkboxes that are selected
-            var finalSelected = 0;
-            targetIndices.forEach(function(index) {{
-                var checkbox = checkboxes[index - 1];
-                if (checkbox && checkbox.checked) {{
-                    finalSelected++;
-                }}
-            }});
-
-            console.log('Clicked', clickedCount, 'checkboxes, now', finalSelected, 'target checkboxes selected');
-            return {{total: checkboxes.length, clicked: clickedCount, targetSelected: finalSelected, requiredCount: targetIndices.length}};
-            """
-
-            result = self.driver.execute_script(js_code)
+            # Execute external JavaScript function
+            result = self.js_loader.execute_script(
+                self.driver,
+                'checkbox_strategy',
+                'executeCheckboxStrategy',
+                selected_indices
+            )
 
             if result:
                 target_selected = result.get('targetSelected', 0)
@@ -690,82 +555,11 @@ class SmartPlaybackSystem:
         for rule in exception_rules:
             barrier_keywords.extend(rule.get('text_contains', []))
 
-        # Improved JavaScript that correctly finds barrier-free questions and A1 buttons
-        javascript_strategy = f"""
-        console.log('🔍 EXECUTING IMPROVED BARRIER-FREE STRATEGY');
-        var barrierKeywords = {str(barrier_keywords).replace("'", '"')};
-        var barrierCount = 0;
-        var regularCount = 0;
-        var totalProcessed = 0;
-
-        // Find all A1 and A6 radio buttons
-        var allA1 = document.querySelectorAll('input[type="radio"][id*="-A1"]');
-        var allA6 = document.querySelectorAll('input[type="radio"][id*="-A6"]');
-        console.log('🔘 Total A1 radios:', allA1.length, 'A6 radios:', allA6.length);
-
-        // Look through table rows for barrier-free keywords
-        var tableRows = document.querySelectorAll('tr');
-
-        tableRows.forEach(function(row, index) {{
-            var rowText = row.textContent.toLowerCase();
-            var hasBarrierKeyword = barrierKeywords.some(function(keyword) {{
-                return rowText.includes(keyword.toLowerCase());
-            }});
-
-            if (hasBarrierKeyword) {{
-                console.log('🎯 BARRIER-FREE FOUND in row:', index + 1, rowText.substring(0, 50) + '...');
-
-                // Look for A1 in this row and nearby elements
-                var a1InRow = row.querySelector('input[type="radio"][id*="-A1"]');
-                var a1InNext = row.nextElementSibling ? row.nextElementSibling.querySelector('input[type="radio"][id*="-A1"]') : null;
-                var a1InParent = row.parentElement.querySelector('input[type="radio"][id*="-A1"]');
-
-                // Try to click any A1 we find
-                var targetA1 = a1InRow || a1InNext || a1InParent;
-                if (targetA1 && !targetA1.checked) {{
-                    console.log('✅ CLICKING A1:', targetA1.id);
-                    targetA1.click();
-                    barrierCount++;
-                    totalProcessed++;
-                }}
-            }}
-        }});
-
-        // Handle regular (non-barrier) questions with A6
-        allA6.forEach(function(a6Radio) {{
-            if (!a6Radio.checked) {{
-                // Check if this A6 belongs to a barrier-free question
-                var rowElement = a6Radio.closest('tr');
-                var isBarrierFree = false;
-
-                if (rowElement) {{
-                    var rowText = rowElement.textContent.toLowerCase();
-                    isBarrierFree = barrierKeywords.some(function(keyword) {{
-                        return rowText.includes(keyword.toLowerCase());
-                    }});
-                }}
-
-                // Only click A6 if it's NOT a barrier-free question
-                if (!isBarrierFree) {{
-                    a6Radio.click();
-                    regularCount++;
-                    totalProcessed++;
-                }}
-            }}
-        }});
-
-        console.log('📊 RESULT: A1=' + barrierCount + ', A6=' + regularCount + ', Total=' + totalProcessed);
-
-        return {{
-            barrier_free_a1: barrierCount,
-            regular_a6: regularCount,
-            total_processed: totalProcessed
-        }};
-        """
+        # Use external JavaScript for barrier-free inclusion strategy
 
         return {
             'pattern': 'INCLUSION_MIXED_STRATEGY',
-            'javascript_strategy': javascript_strategy,
+            'barrier_keywords': barrier_keywords,
             'auto_navigate': True,
             'navigation_delay': 4000,
             'description': 'Mixed inclusion strategy: A1 for barrier-free, A6 for others'
