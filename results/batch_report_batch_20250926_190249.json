@@ -1,0 +1,36 @@
+{
+  "batch_summary": {
+    "batch_id": "batch_20250926_190249",
+    "start_time": "2025-09-26T19:02:49.034170",
+    "end_time": "2025-09-26T19:03:05.372421",
+    "total_surveys": 2,
+    "completed_surveys": 0,
+    "failed_surveys": 2,
+    "survey_results": [
+      {
+        "access_code": "00XhkO",
+        "start_time": "2025-09-26T19:02:49.034420",
+        "end_time": "2025-09-26T19:02:50.782728",
+        "status": "FAILED",
+        "error": "cannot access local variable 'batch_status_manager' where it is not associated with a value",
+        "pages_completed": 0,
+        "execution_time_seconds": 1.748308
+      },
+      {
+        "access_code": "00XcmS",
+        "start_time": "2025-09-26T19:02:58.784480",
+        "end_time": "2025-09-26T19:03:00.370916",
+        "status": "FAILED",
+        "error": "cannot access local variable 'batch_status_manager' where it is not associated with a value",
+        "pages_completed": 0,
+        "execution_time_seconds": 1.586436
+      }
+    ]
+  },
+  "performance_metrics": {
+    "total_execution_time_seconds": 16.338251,
+    "average_survey_time_seconds": 8.1691255,
+    "success_rate_percent": 0.0,
+    "surveys_per_hour": 2.0
+  }
+}

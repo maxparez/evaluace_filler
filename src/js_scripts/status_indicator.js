@@ -102,9 +102,7 @@ window.AutomationStatusIndicator = {
             text-align: center;
             border-bottom: 3px solid;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease-in-out;
-            transform: translateY(-100%);
-            animation: slideDown 0.5s ease-out forwards;
+            /* No animations - immediate display */
         `;
 
         // Create text content
@@ -114,7 +112,7 @@ window.AutomationStatusIndicator = {
 
         // Create close button (hidden by default)
         const closeButton = document.createElement('button');
-        closeButton.innerHTML = '✕';
+        closeButton.textContent = '✕';
         closeButton.id = 'status-close-btn';
         closeButton.style.cssText = `
             position: absolute;
@@ -134,20 +132,9 @@ window.AutomationStatusIndicator = {
         closeButton.onclick = () => this.hide();
         this.statusBar.appendChild(closeButton);
 
-        // Add CSS animation
+        // Add minimal CSS styles (no animations)
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes slideDown {
-                from { transform: translateY(-100%); }
-                to { transform: translateY(0); }
-            }
-            @keyframes slideUp {
-                from { transform: translateY(0); }
-                to { transform: translateY(-100%); }
-            }
-            #automation-status-bar.slide-up {
-                animation: slideUp 0.5s ease-in-out forwards;
-            }
             #automation-status-bar:hover #status-close-btn {
                 display: block !important;
             }
@@ -219,21 +206,15 @@ window.AutomationStatusIndicator = {
     show: function() {
         if (this.statusBar) {
             this.statusBar.style.display = 'block';
-            this.statusBar.classList.remove('slide-up');
         }
     },
 
     /**
-     * Hide the status bar with animation
+     * Hide the status bar immediately
      */
     hide: function() {
         if (this.statusBar) {
-            this.statusBar.classList.add('slide-up');
-            setTimeout(() => {
-                if (this.statusBar) {
-                    this.statusBar.style.display = 'none';
-                }
-            }, 500);
+            this.statusBar.style.display = 'none';
         }
     },
 
@@ -274,7 +255,7 @@ window.AutomationStatusIndicator = {
         const baseText = this.statusConfig[status]?.text || 'Probíhá automatizace...';
         const fullText = `${baseText} (${progressText})`;
 
-        this.setStatus(status, fullText);
+        return this.setStatus(status, fullText);
     },
 
     /**
@@ -284,13 +265,15 @@ window.AutomationStatusIndicator = {
      */
     setManualRequired: function(reason, suggestion) {
         const text = `⚠️ Manuální zásah: ${reason}${suggestion ? ' - ' + suggestion : ''}`;
-        this.setStatus('manual_required', text);
+        const result = this.setStatus('manual_required', text);
 
         // Show close button for manual interventions
         const closeBtn = this.statusBar?.querySelector('#status-close-btn');
         if (closeBtn) {
             closeBtn.style.display = 'block';
         }
+
+        return result;
     },
 
     /**

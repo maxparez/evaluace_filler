@@ -27,10 +27,27 @@ class StatusIndicatorManager:
 
     def _ensure_status_js_loaded(self) -> bool:
         """Ensure status indicator JavaScript is loaded in the browser"""
-        if self.status_js_loaded:
-            return True
 
+        # Always check if the JavaScript object is available, regardless of loaded flag
         try:
+            # Check if AutomationStatusIndicator exists and is properly initialized
+            js_check = """
+            return typeof window.AutomationStatusIndicator !== 'undefined' &&
+                   typeof window.AutomationStatusIndicator.setStatusWithProgress === 'function';
+            """
+            is_available = self.driver.execute_script(js_check)
+
+            if is_available and self.status_js_loaded:
+                return True
+
+        except Exception as e:
+            logger.debug(f"JavaScript availability check failed: {e}")
+            is_available = False
+
+        # If not available or not loaded, load and initialize
+        try:
+            logger.debug("Loading/reloading status indicator JavaScript...")
+
             # Load status indicator JavaScript
             if self.js_loader:
                 status_js = self.js_loader.load_script('status_indicator')
@@ -50,6 +67,13 @@ class StatusIndicatorManager:
                 else:
                     logger.error(f"Status indicator JS file not found: {js_path}")
                     return False
+
+            # Verify the object is now available
+            is_available = self.driver.execute_script(js_check)
+
+            if not is_available:
+                logger.error("AutomationStatusIndicator object not available after loading")
+                return False
 
             # Initialize the status indicator
             result = self.driver.execute_script("return window.AutomationStatusIndicator.init();")
@@ -116,6 +140,18 @@ class StatusIndicatorManager:
             return False
 
         try:
+            # Double-check that the object is available before calling
+            check_js = """
+            return typeof window.AutomationStatusIndicator !== 'undefined' &&
+                   typeof window.AutomationStatusIndicator.setStatusWithProgress === 'function';
+            """
+
+            if not self.driver.execute_script(check_js):
+                logger.warning("AutomationStatusIndicator not available, attempting to reload...")
+                if not self._ensure_status_js_loaded():
+                    logger.error("Failed to reload status indicator JavaScript")
+                    return False
+
             result = self.driver.execute_script(
                 "return window.AutomationStatusIndicator.setStatusWithProgress(arguments[0], arguments[1], arguments[2], arguments[3]);",
                 status, current, total, action
@@ -125,6 +161,22 @@ class StatusIndicatorManager:
 
         except Exception as e:
             logger.error(f"Failed to set status with progress: {e}")
+            logger.debug(f"Status: {status}, Current: {current}, Total: {total}, Action: {action}")
+
+            # Try to diagnose the issue
+            try:
+                exists = self.driver.execute_script("return typeof window.AutomationStatusIndicator;")
+                logger.debug(f"AutomationStatusIndicator type: {exists}")
+
+                if exists != 'undefined':
+                    methods = self.driver.execute_script(
+                        "return Object.getOwnPropertyNames(window.AutomationStatusIndicator);"
+                    )
+                    logger.debug(f"Available methods: {methods}")
+
+            except Exception as diag_e:
+                logger.debug(f"Diagnostic check failed: {diag_e}")
+
             return False
 
     def set_manual_required(self, reason: str, suggestion: Optional[str] = None) -> bool:
@@ -232,8 +284,9 @@ class StatusIndicatorManager:
         self.set_status_with_progress('processing', page_number, None, action)
 
     def waiting_for_page(self, page_number: int):
-        """Waiting for page load status"""
-        self.set_status_with_progress('waiting', page_number, None, 'Čekám na načtení')
+        """Deprecated: Page transition status (now skipped for smoother UX)"""
+        # No longer used - transitions are too fast and disruptive
+        pass
 
     def automation_completed(self):
         """Automation completed successfully"""

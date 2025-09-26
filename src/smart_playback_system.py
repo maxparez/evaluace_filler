@@ -483,11 +483,7 @@ class SmartPlaybackSystem:
             if result and result.get('success'):
                 logger.success("Navigation successful")
 
-                # Update status indicator after successful navigation
-                if self.status_manager:
-                    # Get current page count for status update
-                    current_page = self.session_stats.get('pages_processed', 0) + 1
-                    self.status_manager.waiting_for_page(current_page)
+                # Navigation successful - status will be updated when processing new page
 
                 time.sleep(Config.NAVIGATION_DELAY - 1)  # Wait for page load
 
@@ -629,9 +625,7 @@ class SmartPlaybackSystem:
                         self.status_manager.automation_completed()
                     break
 
-                # Show waiting status during delay
-                if self.status_manager:
-                    self.status_manager.waiting_for_page(page_count + 1)
+                # Delay between pages - status will be updated when processing starts
 
                 # Small delay between pages
                 time.sleep(Config.FORM_FILL_DELAY)
