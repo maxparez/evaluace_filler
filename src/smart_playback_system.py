@@ -298,9 +298,10 @@ class SmartPlaybackSystem:
 
         try:
             # Create JavaScript that randomly selects from A5/A6/A7 for each row
+            rating_options_js = str(rating_options).replace("'", '"')
             js_code = f"""
-            console.log('Matrix random rating with options: {rating_options}');
-            var ratingOptions = {str(rating_options).replace("'", '"')};
+            console.log('Matrix random rating with options:', {rating_options_js});
+            var ratingOptions = {rating_options_js};
             var totalClicked = 0;
             var totalAlready = 0;
             var ratingCounts = {{}};
@@ -359,10 +360,10 @@ class SmartPlaybackSystem:
 
             if result and isinstance(result, dict):
                 total_processed = result.get('total_processed', 0)
-                distribution = result.get('rating_distribution', {{}})
+                distribution = result.get('rating_distribution', {})
 
-                logger.success(f"Matrix random strategy: {{total_processed}} radios processed")
-                logger.info(f"Rating distribution: {{distribution}}")
+                logger.success(f"Matrix random strategy: {total_processed} radios processed")
+                logger.info(f"Rating distribution: {distribution}")
 
                 return total_processed > 0
             else:
@@ -370,7 +371,7 @@ class SmartPlaybackSystem:
                 return False
 
         except Exception as e:
-            logger.error(f"Matrix random strategy failed: {{e}}")
+            logger.error(f"Matrix random strategy failed: {e}")
             return False
 
     def execute_radio_strategy(self, strategy: Dict) -> bool:
