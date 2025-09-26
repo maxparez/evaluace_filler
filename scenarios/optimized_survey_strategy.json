@@ -31,6 +31,23 @@
       "keywords": ["kritického myšlení", "čtenářské gramotnosti"]
     },
 
+    "MATRIX_RANDOM_RATING": {
+      "pattern": "MATRIX_RANDOM_RATING",
+      "rating_options": ["A5", "A6", "A7"],
+      "selector_patterns": {
+        "A5": "input[type='radio'][value='A5']",
+        "A6": "input[type='radio'][value='A6']",
+        "A7": "input[type='radio'][value='A7']"
+      },
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill matrix questions with random ratings (A5/A6/A7)",
+      "coverage": "Matrix pages when random_matrix enabled",
+      "keywords": ["uveďte, prosím, do jaké míry", "souhlasíte s následuj"],
+      "priority": 5,
+      "enabled": false
+    },
+
     "RADIO_YES_NO_YES": {
       "pattern": "RADIO_CHOICE",
       "selected_answer": "Určitě ano",
@@ -164,7 +181,7 @@
     "barrier_free_exception": {
       "page_patterns": ["v oblasti inkluze"],
       "exception_rules": [{
-        "text_contains": ["bezbariérová", "zpřístupnění školy", "přizpůsobení a vybavení učeben"],
+        "text_contains": ["bezbariérová", "zpřístupnění školy", "přizpůsobení a vybavení učeben", "bezbariérové", "přístupnost", "fyzické bariéry", "architektonické bariéry"],
         "action": "click_A1",
         "selector_pattern": "input[type='radio'][id$='-A1']",
         "description": "Barrier-free row: select A1 (Rozhodně nesouhlasím)",

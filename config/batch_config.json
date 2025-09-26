@@ -1,0 +1,30 @@
+{
+  "survey_config": {
+    "base_url": "https://evaluace.opjak.cz/",
+    "survey_selector": "li.btn-group a[href*='592479']",
+    "survey_title": "V\u00fdstupn\u00ed evalua\u010dn\u00ed dotazn\u00edk pro \u017eadatele ve v\u00fdzv\u011b \"\u0160ablony pro M\u0160 a Z\u0160 I\"",
+    "code_input_selector": "#token",
+    "access_code_submit_selector": "button[name='continue']",
+    "survey_submit_selector": "#ls-button-submit",
+    "start_survey_url": "/index.php/592479?lang=cs"
+  },
+  "user_profile": {
+    "birth_year": 1972,
+    "use_random_year": true,
+    "random_year_range": [
+      1970,
+      1990
+    ]
+  },
+  "batch_settings": {
+    "delay_between_surveys": 5,
+    "max_retries": 3,
+    "cleanup_browser": true,
+    "log_level": "DEBUG",
+    "random_matrix": true
+  },
+  "access_codes": [
+    "00XhkO",
+    "00XcmS"
+  ]
+}

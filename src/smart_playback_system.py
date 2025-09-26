@@ -15,6 +15,7 @@ from typing import Dict, Optional, List
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from loguru import logger
+from selenium.webdriver.common.by import By
 from src.browser_manager import BrowserManager
 from src.utils.page_identifier import PageIdentifier
 from src.smart_page_matcher import SmartPageMatcher
@@ -35,7 +36,6 @@ class SmartPlaybackSystem:
     def __init__(self, strategy_file: str = "scenarios/optimized_survey_strategy.json"):
         self.browser_manager = BrowserManager()
         self.page_identifier = PageIdentifier()
-        self.inclusion_handler = InclusionPageHandler()
         self.driver = None
 
         # Load strategy configuration
@@ -107,7 +107,7 @@ class SmartPlaybackSystem:
 
                     # Handle inclusion pages specially
                     if case_name == 'barrier_free_exception':
-                        return self.inclusion_handler.get_inclusion_filling_strategy(page_title)
+                        return self.create_barrier_free_strategy(case_config)
 
                     return case_config.get('strategy', {})
 
@@ -118,6 +118,10 @@ class SmartPlaybackSystem:
         matched_strategies = []
 
         for strategy_name, strategy_config in default_strategies.items():
+            # Skip disabled strategies
+            if not strategy_config.get('enabled', True):
+                continue
+
             keywords = strategy_config.get('keywords', [])
             priority = strategy_config.get('priority', 0)
 
@@ -177,6 +181,9 @@ class SmartPlaybackSystem:
 
             elif strategy_pattern == 'MATRIX_RATING':
                 return self.execute_matrix_strategy(strategy)
+
+            elif strategy_pattern == 'MATRIX_RANDOM_RATING':
+                return self.execute_matrix_random_strategy(strategy)
 
             elif strategy_pattern == 'RADIO_CHOICE':
                 return self.execute_radio_strategy(strategy)
@@ -280,6 +287,90 @@ class SmartPlaybackSystem:
 
         except Exception as e:
             logger.error(f"Matrix strategy failed: {e}")
+            return False
+
+    def execute_matrix_random_strategy(self, strategy: Dict) -> bool:
+        """Execute matrix strategy with random rating selection (A5/A6/A7)"""
+        import random
+
+        rating_options = strategy.get('rating_options', ['A5', 'A6', 'A7'])
+        logger.info(f"Executing matrix random strategy with options: {rating_options}")
+
+        try:
+            # Create JavaScript that randomly selects from A5/A6/A7 for each row
+            js_code = f"""
+            console.log('Matrix random rating with options: {rating_options}');
+            var ratingOptions = {str(rating_options).replace("'", '"')};
+            var totalClicked = 0;
+            var totalAlready = 0;
+            var ratingCounts = {{}};
+
+            // Initialize rating counts
+            ratingOptions.forEach(function(rating) {{
+                ratingCounts[rating] = 0;
+            }});
+
+            // Find all radio button groups (matrix rows)
+            var processedRows = new Set();
+            var allRadios = document.querySelectorAll('input[type="radio"]');
+
+            allRadios.forEach(function(radio) {{
+                // Extract row identifier from radio name/id
+                var rowId = radio.name || radio.id.split('-')[0];
+
+                if (!processedRows.has(rowId)) {{
+                    processedRows.add(rowId);
+
+                    // Randomly select rating for this row
+                    var randomRating = ratingOptions[Math.floor(Math.random() * ratingOptions.length)];
+
+                    // Find radio for this rating in this row
+                    var targetRadio = document.querySelector(
+                        'input[type="radio"][name="' + rowId + '"][value="' + randomRating + '"]'
+                    );
+
+                    if (!targetRadio && radio.id) {{
+                        // Fallback: try to find by ID pattern
+                        var baseId = radio.id.split('-')[0];
+                        targetRadio = document.querySelector('#' + baseId + '-' + randomRating);
+                    }}
+
+                    if (targetRadio) {{
+                        if (!targetRadio.checked) {{
+                            targetRadio.click();
+                            totalClicked++;
+                            ratingCounts[randomRating]++;
+                        }} else {{
+                            totalAlready++;
+                        }}
+                    }}
+                }}
+            }});
+
+            return {{
+                total_clicked: totalClicked,
+                total_already: totalAlready,
+                rating_distribution: ratingCounts,
+                total_processed: totalClicked + totalAlready
+            }};
+            """
+
+            result = self.driver.execute_script(js_code)
+
+            if result and isinstance(result, dict):
+                total_processed = result.get('total_processed', 0)
+                distribution = result.get('rating_distribution', {{}})
+
+                logger.success(f"Matrix random strategy: {{total_processed}} radios processed")
+                logger.info(f"Rating distribution: {{distribution}}")
+
+                return total_processed > 0
+            else:
+                logger.warning("Matrix random script returned no results")
+                return False
+
+        except Exception as e:
+            logger.error(f"Matrix random strategy failed: {{e}}")
             return False
 
     def execute_radio_strategy(self, strategy: Dict) -> bool:
@@ -435,9 +526,53 @@ class SmartPlaybackSystem:
         return True  # Skip always succeeds
 
     def execute_final_page_strategy(self, strategy: Dict) -> bool:
-        """Execute final page strategy"""
-        logger.info("Reached final page - stopping automation")
-        return True
+        """Execute final page strategy - click final submit button"""
+        logger.info("Reached final page - clicking final submit button")
+
+        try:
+            # Try different final submit button selectors
+            final_submit_selectors = [
+                "#ls-button-submit",  # Primary selector for final submit
+                "button[value='movesubmit'][name='move']",  # Specific final submit button
+                "button:contains('Odeslat')",  # Button with "Odeslat" text
+                "input[type='submit'][value*='Odeslat']",
+                "button[type='submit']"
+            ]
+
+            for selector in final_submit_selectors:
+                try:
+                    button = self.driver.find_element(By.CSS_SELECTOR, selector)
+                    logger.debug(f"Found button with selector {selector}: enabled={button.is_enabled()}, displayed={button.is_displayed()}")
+
+                    if button:
+                        if not button.is_enabled():
+                            logger.warning(f"Button found but disabled: {selector}")
+                            continue
+                        if not button.is_displayed():
+                            logger.warning(f"Button found but not displayed: {selector}")
+                            continue
+
+                        logger.info(f"Clicking final submit button: {selector}")
+                        # Try JavaScript click if regular click fails
+                        try:
+                            button.click()
+                        except:
+                            logger.warning("Regular click failed, trying JavaScript click")
+                            self.driver.execute_script("arguments[0].click();", button)
+
+                        logger.success("🎉 FINAL SUBMIT CLICKED - SURVEY COMPLETED!")
+                        time.sleep(3)  # Wait for final submission
+                        return True
+                except Exception as e:
+                    logger.debug(f"Selector {selector} failed: {e}")
+                    continue
+
+            logger.warning("No final submit button found - survey may already be completed")
+            return True
+
+        except Exception as e:
+            logger.error(f"Final page submission failed: {e}")
+            return False
 
     def navigate_to_next_page(self, strategy: Dict) -> bool:
         """Navigate to next page with appropriate delay"""
@@ -542,6 +677,73 @@ class SmartPlaybackSystem:
             logger.error(f"Page processing error: {e}")
             self.session_stats['errors'].append(f"Page processing: {str(e)}")
             return False
+
+    def create_barrier_free_strategy(self, barrier_config: Dict) -> Dict:
+        """Create barrier-free exception strategy for inclusion pages"""
+        # Get barrier-free keywords from config
+        exception_rules = barrier_config.get('exception_rules', [])
+        default_strategy = barrier_config.get('default_strategy', {})
+
+        # Create JavaScript strategy that handles both barrier-free (A1) and regular (A6) questions
+        barrier_keywords = []
+        for rule in exception_rules:
+            barrier_keywords.extend(rule.get('text_contains', []))
+
+        # Enhanced JavaScript that looks for multiple barrier-free keywords
+        javascript_strategy = f"""
+        console.log('Executing barrier-free inclusion strategy');
+        var barrierKeywords = {str(barrier_keywords).replace("'", '"')};
+        var barrierCount = 0;
+        var regularCount = 0;
+        var totalProcessed = 0;
+
+        // Find all radio button groups (rows in matrix)
+        var rows = document.querySelectorAll('tr, .answer-item, .answers-list > li');
+
+        rows.forEach(function(row) {{
+            var rowText = row.textContent.toLowerCase();
+            var hasBarrierKeyword = barrierKeywords.some(function(keyword) {{
+                return rowText.includes(keyword.toLowerCase());
+            }});
+
+            var radioA1 = row.querySelector('input[type="radio"][value="A1"]') ||
+                          row.querySelector('input[type="radio"][id*="-A1"]') ||
+                          row.parentElement.querySelector('input[type="radio"][value="A1"]');
+            var radioA6 = row.querySelector('input[type="radio"][value="A6"]') ||
+                          row.querySelector('input[type="radio"][id*="-A6"]') ||
+                          row.parentElement.querySelector('input[type="radio"][value="A6"]');
+
+            if (hasBarrierKeyword && radioA1) {{
+                // Barrier-free question: select A1 (Rozhodně nesouhlasím)
+                if (!radioA1.checked) {{
+                    radioA1.click();
+                    barrierCount++;
+                    totalProcessed++;
+                }}
+            }} else if (radioA6) {{
+                // Regular question: select A6 (Souhlasím)
+                if (!radioA6.checked) {{
+                    radioA6.click();
+                    regularCount++;
+                    totalProcessed++;
+                }}
+            }}
+        }});
+
+        return {{
+            barrier_free_a1: barrierCount,
+            regular_a6: regularCount,
+            total_processed: totalProcessed
+        }};
+        """
+
+        return {
+            'pattern': 'INCLUSION_MIXED_STRATEGY',
+            'javascript_strategy': javascript_strategy,
+            'auto_navigate': True,
+            'navigation_delay': 4000,
+            'description': 'Mixed inclusion strategy: A1 for barrier-free, A6 for others'
+        }
 
     def run_complete_survey(self, max_pages: int = 60) -> Dict:
         """
