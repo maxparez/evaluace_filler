@@ -482,7 +482,19 @@ class SmartPlaybackSystem:
 
             if result and result.get('success'):
                 logger.success("Navigation successful")
+
+                # Update status indicator after successful navigation
+                if self.status_manager:
+                    # Get current page count for status update
+                    current_page = self.session_stats.get('pages_processed', 0) + 1
+                    self.status_manager.waiting_for_page(current_page)
+
                 time.sleep(Config.NAVIGATION_DELAY - 1)  # Wait for page load
+
+                # Update status to show we're ready to process the new page
+                if self.status_manager:
+                    self.status_manager.processing_page(current_page, 'Načítám novou stránku')
+
                 return True
             else:
                 logger.warning("Navigation may have failed")

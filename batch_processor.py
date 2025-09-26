@@ -278,7 +278,22 @@ class BatchSurveyProcessor:
 
                     if not page_processed:
                         logger.error(f"Failed to process page {page_count}")
+                        # Show error status
+                        batch_status_manager.set_status_with_progress(
+                            'manual_required',
+                            survey_number,
+                            total_surveys,
+                            f'Problém na stránce {page_count} - dotazník {access_code}'
+                        )
                         # Try to continue to next page anyway
+                    else:
+                        # Show successful page processing and transition
+                        batch_status_manager.set_status_with_progress(
+                            'waiting',
+                            survey_number,
+                            total_surveys,
+                            f'Přecházím na další stránku - dotazník {access_code}'
+                        )
 
                     # Check if final submit was clicked
                     current_url = driver.current_url
