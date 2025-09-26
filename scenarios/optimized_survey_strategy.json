@@ -58,16 +58,28 @@
       "coverage": "3+ pages",
       "keywords": ["byl projekt", "došlo"]
     },
-    "RADIO_OMJ_ANO": {
+    "RADIO_OMJ_NE": {
       "pattern": "RADIO_CHOICE",
-      "selected_answer": "Ano",
+      "selected_answer": "Ne",
       "selector_strategy": "find_radio_with_text",
       "auto_navigate": true,
       "navigation_delay": 2000,
-      "description": "Select 'Ano' for OMJ (odlišný mateřský jazyk) questions",
+      "description": "Select 'Ne' for OMJ (odlišný mateřský jazyk) questions",
       "coverage": "OMJ questions",
       "keywords": ["navštěvují", "odlišným mateřským jazykem", "děti s omj"],
       "priority": 8,
+      "enabled": true
+    },
+    "INPUT_OMJ_COUNT": {
+      "pattern": "INPUT_FIELD",
+      "input_value": "0",
+      "selector_pattern": "input[type='text'], input[type='number']",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Input number of children with different mother tongue",
+      "coverage": "OMJ count questions",
+      "keywords": ["kolik dětí", "odlišný mateřský jazyk"],
+      "priority": 25,
       "enabled": true
     },
 

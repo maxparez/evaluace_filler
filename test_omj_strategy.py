@@ -14,7 +14,7 @@ from src.smart_playback_system import SmartPlaybackSystem
 
 def test_omj_strategy():
     """Test OMJ strategy selection and configuration"""
-    logger.info("🧪 Testing RADIO_OMJ_ANO strategy")
+    logger.info("🧪 Testing RADIO_OMJ_NE strategy")
 
     try:
         # Create playback system
@@ -37,10 +37,10 @@ def test_omj_strategy():
                 answer = strategy.get('selected_answer', '')
                 logger.info(f"🎯 Selected answer: '{answer}'")
 
-                if answer == "Ano":
+                if answer == "Ne":
                     logger.success("✅ Correct OMJ strategy selected")
                 else:
-                    logger.warning(f"⚠️ Wrong answer: '{answer}' (expected: 'Ano')")
+                    logger.warning(f"⚠️ Wrong answer: '{answer}' (expected: 'Ne')")
             else:
                 logger.error(f"❌ Wrong strategy type: {strategy.get('pattern')}")
 
