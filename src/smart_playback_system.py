@@ -19,6 +19,7 @@ from selenium.webdriver.common.by import By
 from src.browser_manager import BrowserManager
 from src.utils.page_identifier import PageIdentifier
 from src.utils.javascript_loader import JavaScriptLoader
+from src.utils.status_indicator_manager import StatusIndicatorManager
 from src.smart_page_matcher import SmartPageMatcher
 from src.inclusion_page_handler import InclusionPageHandler
 from src.config import Config
@@ -39,6 +40,7 @@ class SmartPlaybackSystem:
         self.browser_manager = BrowserManager()
         self.page_identifier = PageIdentifier()
         self.js_loader = JavaScriptLoader()
+        self.status_manager = None  # Will be initialized when driver is available
         self.driver = None
 
         # Load strategy configuration
@@ -78,6 +80,11 @@ class SmartPlaybackSystem:
             if self.driver:
                 current_url = self.driver.current_url
                 logger.success(f"Connected to browser: {current_url}")
+
+                # Initialize status indicator manager
+                self.status_manager = StatusIndicatorManager(self.driver)
+                logger.debug("Status indicator manager initialized")
+
                 return True
             else:
                 logger.error("Failed to connect to browser")
@@ -510,6 +517,11 @@ class SmartPlaybackSystem:
 
             if not strategy:
                 logger.error(f"No strategy found for page")
+                if self.status_manager:
+                    self.status_manager.require_manual_intervention(
+                        "Neznámý typ stránky",
+                        "Vyplňte stránku ručně a pokračujte kliknutím na Další"
+                    )
                 page_info['status'] = 'failed'
                 page_info['error'] = 'No strategy found'
                 self.session_stats['pages_failed'] += 1
@@ -582,9 +594,17 @@ class SmartPlaybackSystem:
         try:
             page_count = 0
 
+            # Initialize status indicator
+            if self.status_manager:
+                self.status_manager.start_automation(1, max_pages)
+
             while max_pages is None or page_count < max_pages:
                 page_count += 1
                 logger.info(f"\n--- PAGE {page_count} ---")
+
+                # Update status for current page
+                if self.status_manager:
+                    self.status_manager.processing_page(page_count, 'Zpracovávám otázky')
 
                 # Process current page
                 success = self.process_current_page()
@@ -593,7 +613,13 @@ class SmartPlaybackSystem:
                 current_page_id = self.page_identifier.get_page_id(self.driver)
                 if any(indicator in current_page_id.lower() for indicator in ['dostali jste se na konec', 'dokončení', 'odeslat']):
                     logger.success("🎉 Reached final page - survey completed!")
+                    if self.status_manager:
+                        self.status_manager.automation_completed()
                     break
+
+                # Show waiting status during delay
+                if self.status_manager:
+                    self.status_manager.waiting_for_page(page_count + 1)
 
                 # Small delay between pages
                 time.sleep(Config.FORM_FILL_DELAY)
@@ -601,10 +627,14 @@ class SmartPlaybackSystem:
         except KeyboardInterrupt:
             logger.warning("Survey automation interrupted by user")
             self.session_stats['errors'].append("User interrupted")
+            if self.status_manager:
+                self.status_manager.automation_error("Přerušeno uživatelem")
 
         except Exception as e:
             logger.error(f"Survey automation error: {e}")
             self.session_stats['errors'].append(f"Automation error: {str(e)}")
+            if self.status_manager:
+                self.status_manager.automation_error(f"Systémová chyba: {str(e)}")
 
         finally:
             self.session_stats['end_time'] = datetime.now().isoformat()

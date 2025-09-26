@@ -16,6 +16,7 @@ All JavaScript code has been moved from Python files to separate `.js` files for
 - **`radio_strategy.js`** - Radio button selection by label text matching
 - **`checkbox_strategy.js`** - Checkbox selection by indices
 - **`barrier_free_inclusion.js`** - Special inclusion strategy (A1 for barrier-free, A6 for others)
+- **`status_indicator.js`** - Visual status indicators during automation
 
 ### Function Format
 
