@@ -57,6 +57,7 @@ class Config:
     PLAYBACK_RANDOM_MATRIX: bool = os.getenv('PLAYBACK_RANDOM_MATRIX', 'true').lower() == 'true'
     PLAYBACK_ENABLE_SCREENSHOTS: bool = os.getenv('PLAYBACK_ENABLE_SCREENSHOTS', 'false').lower() == 'true'
     PLAYBACK_SCREENSHOT_DIR: str = os.getenv('PLAYBACK_SCREENSHOT_DIR', str(PROJECT_ROOT / 'screenshots'))
+    PLAYBACK_MAX_PAGES: int = int(os.getenv('PLAYBACK_MAX_PAGES', '0'))  # 0 = unlimited
 
     @classmethod
     def get_chrome_options(cls) -> Dict[str, Any]:

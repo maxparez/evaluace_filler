@@ -18,6 +18,10 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from loguru import logger
 from selenium import webdriver
+
+# Add src imports
+sys.path.insert(0, 'src')
+from config import Config
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -238,12 +242,12 @@ class BatchSurveyProcessor:
             # Call the main survey loop directly, skipping connect_to_browser()
             page_count = 0
 
-            # Set different max_pages based on access code
-            if access_code == "00XcmS":
-                max_pages = 10  # Test code - only fill few questions
-                logger.info("🧪 TEST MODE: Limited to 10 pages for MATRIX_RANDOM_RATING testing")
+            # Configure page limit based on Config.PLAYBACK_MAX_PAGES
+            max_pages = Config.PLAYBACK_MAX_PAGES if Config.PLAYBACK_MAX_PAGES > 0 else None
+            if max_pages is None:
+                logger.info("🚀 UNLIMITED MODE: Running until survey completion")
             else:
-                max_pages = 60  # Full survey
+                logger.info(f"📊 LIMITED MODE: Maximum {max_pages} pages")
 
             try:
                 logger.info("🚀 STARTING SURVEY AUTOMATION WITH EXISTING BROWSER")
@@ -277,9 +281,7 @@ class BatchSurveyProcessor:
 
                     time.sleep(1)
 
-                    if page_count >= max_pages:
-                        logger.warning(f"Reached maximum pages limit: {max_pages}")
-                        break
+                    # No page limit check - survey runs until completion
 
                 playback_system.session_stats["end_time"] = datetime.now().isoformat()
                 playback_system.session_stats["pages_processed"] = page_count

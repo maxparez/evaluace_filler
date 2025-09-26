@@ -44,6 +44,7 @@ JS_CACHE_ENABLED = True     # Enable JavaScript file caching
 PLAYBACK_RANDOM_MATRIX = True           # Use random matrix selection
 PLAYBACK_ENABLE_SCREENSHOTS = False     # Enable screenshot capture
 PLAYBACK_SCREENSHOT_DIR = 'screenshots' # Screenshot storage directory
+PLAYBACK_MAX_PAGES = 0                  # Maximum pages per survey (0 = unlimited)
 ```
 
 ### Batch Processing Configuration
@@ -80,6 +81,12 @@ CHROME_DEBUG_PORT=9999 python src/smart_playback_system.py
 
 # Run in headless mode
 BROWSER_HEADLESS=true python batch_processor.py
+
+# Set page limit for testing (e.g., only process 5 pages)
+PLAYBACK_MAX_PAGES=5 python batch_processor.py
+
+# Run with unlimited pages (default)
+PLAYBACK_MAX_PAGES=0 python batch_processor.py
 ```
 
 ## Usage Examples

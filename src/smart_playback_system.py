@@ -566,7 +566,7 @@ class SmartPlaybackSystem:
             'description': 'Mixed inclusion strategy: A1 for barrier-free, A6 for others'
         }
 
-    def run_complete_survey(self, max_pages: int = 60) -> Dict:
+    def run_complete_survey(self, max_pages: int = None) -> Dict:
         """
         Run complete survey automation
 
