@@ -56,7 +56,19 @@
       "navigation_delay": 2000,
       "description": "Select 'Určitě ano' for yes/no questions",
       "coverage": "3+ pages",
-      "keywords": ["byl projekt", "došlo", "navštěvují"]
+      "keywords": ["byl projekt", "došlo"]
+    },
+    "RADIO_OMJ_ANO": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Ano",
+      "selector_strategy": "find_radio_with_text",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select 'Ano' for OMJ (odlišný mateřský jazyk) questions",
+      "coverage": "OMJ questions",
+      "keywords": ["navštěvují", "odlišným mateřským jazykem", "děti s omj"],
+      "priority": 8,
+      "enabled": true
     },
 
     "RADIO_SIMPLE_YES": {
