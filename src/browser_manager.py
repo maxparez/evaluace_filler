@@ -85,8 +85,8 @@ class BrowserManager:
             # Keep browser alive
             chrome_options.add_experimental_option("detach", True)
 
-            # Download chromedriver to project directory
-            chromedriver_path = ChromeDriverManager(path="./drivers").install()
+            # Use webdriver-manager for automatic chromedriver management
+            chromedriver_path = ChromeDriverManager().install()
             service = Service(chromedriver_path)
             self.driver = webdriver.Chrome(service=service, options=chrome_options)
 

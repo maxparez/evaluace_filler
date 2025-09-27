@@ -105,7 +105,7 @@ class BatchSurveyProcessor:
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
         # Use webdriver-manager for automatic chromedriver management
-        service = Service(ChromeDriverManager(path="./drivers").install())
+        service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
