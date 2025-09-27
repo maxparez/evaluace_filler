@@ -99,10 +99,16 @@ if errorlevel 1 (
     exit /b 1
 )
 
-rem Presune obsah z docasneho adresare do aktualniho.
-move temp_clone\* "%CD%"
-rem Odstrani prazdny docasny adresar
-rmdir temp_clone
+rem Presune VŠECHNY soubory a adresáře z docasneho adresare do aktualniho
+echo       Presouvam soubory a adresáře...
+xcopy temp_clone\* "%CD%" /E /H /Y
+if errorlevel 1 (
+    echo [CHYBA] Nepodarilo se presunout soubory aplikace!
+    pause
+    exit /b 1
+)
+rem Odstrani docasny adresar
+rmdir /s /q temp_clone
 
 echo [OK] Aplikace stazena a pripravena v instalacnim adresari.
 echo.
