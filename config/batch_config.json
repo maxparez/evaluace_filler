@@ -9,12 +9,7 @@
     "start_survey_url": "/index.php/592479?lang=cs"
   },
   "user_profile": {
-    "birth_year": 1972,
-    "use_random_year": true,
-    "random_year_range": [
-      1970,
-      1990
-    ]
+    "birth_year": 1972
   },
   "batch_settings": {
     "delay_between_surveys": 5,
