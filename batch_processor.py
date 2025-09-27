@@ -117,20 +117,39 @@ class BatchSurveyProcessor:
             raw_path = ChromeDriverManager().install()
             logger.debug(f"webdriver-manager returned path: {raw_path}")
 
-            # --- WINDOWS WORKAROUND FOR PATH BUG ---
+            # --- CROSS-PLATFORM WORKAROUND FOR PATH BUG ---
             driver_path = Path(raw_path)
             driver_dir = driver_path.parent
-            expected_exe_path = driver_dir / "chromedriver.exe"
 
-            logger.debug(f"Checking for expected executable at: {expected_exe_path}")
-
-            if sys.platform == "win32" and expected_exe_path.is_file():
-                chromedriver_path = str(expected_exe_path)
-                logger.info(f"Using corrected Windows path: {chromedriver_path}")
+            if sys.platform == "win32":
+                expected_exe_path = driver_dir / "chromedriver.exe"
+                logger.debug(f"Windows: Checking for executable at: {expected_exe_path}")
+                if expected_exe_path.is_file():
+                    chromedriver_path = str(expected_exe_path)
+                    logger.info(f"Using corrected Windows path: {chromedriver_path}")
+                else:
+                    chromedriver_path = raw_path
+                    logger.debug(f"Using original Windows path: {chromedriver_path}")
             else:
-                chromedriver_path = raw_path
-                logger.debug(f"Using original path: {chromedriver_path}")
-            # --- END OF WINDOWS WORKAROUND ---
+                # Linux/Unix workaround
+                expected_exe_path = driver_dir / "chromedriver"
+                logger.debug(f"Linux: Checking for executable at: {expected_exe_path}")
+                if expected_exe_path.is_file():
+                    chromedriver_path = str(expected_exe_path)
+                    logger.info(f"Using corrected Linux path: {chromedriver_path}")
+                else:
+                    # Look for chromedriver in subdirectories
+                    for subdir in driver_dir.iterdir():
+                        if subdir.is_dir() and "chromedriver" in subdir.name:
+                            potential_exe = subdir / "chromedriver"
+                            if potential_exe.is_file():
+                                chromedriver_path = str(potential_exe)
+                                logger.info(f"Found chromedriver in subdirectory: {chromedriver_path}")
+                                break
+                    else:
+                        chromedriver_path = raw_path
+                        logger.warning(f"Using original problematic path: {chromedriver_path}")
+            # --- END OF CROSS-PLATFORM WORKAROUND ---
 
             service = Service(chromedriver_path)
         except Exception as e:
