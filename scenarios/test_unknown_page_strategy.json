@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "strategy_name": "Test_Unknown_Page_Strategy",
+    "description": "Modified strategy to create unknown page by changing 0 → 1 Ukrainian participants",
+    "test_purpose": "Test loop detection and unknown page handling",
+    "created_at": "2025-09-26T20:00:00Z"
+  },
+
+  "default_strategies": {
+    "MATRIX_RATING_A6": {
+      "pattern": "MATRIX_RATING",
+      "rating_level": "A6",
+      "selector_pattern": "input[type='radio'][id*='answer'][id$='-A6']",
+      "auto_navigate": true,
+      "navigation_delay": 3000,
+      "description": "Fill matrix questions with 'Souhlasím' (A6)",
+      "keywords": ["uveďte", "prosím", "do jaké míry", "souhlasíte", "následujícími výroky"]
+    },
+
+    "RADIO_OMJ_NE": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Ne",
+      "selector_strategy": "find_radio_with_text",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select 'Ne' for OMJ questions",
+      "keywords": ["navštěvují", "odlišným mateřským jazykem", "děti s omj"],
+      "priority": 8,
+      "enabled": true
+    },
+
+    "INPUT_BIRTH_YEAR": {
+      "pattern": "INPUT_FIELD",
+      "input_value": "1985",
+      "selector_pattern": "input[type='text'], input[type='number']",
+      "auto_navigate": true,
+      "navigation_delay": 1000,
+      "description": "Fill birth year field",
+      "keywords": ["rok svého narození", "vyplňte, prosím, rok"]
+    },
+
+    "INPUT_UKRAINIAN_PARTICIPANTS_MODIFIED": {
+      "pattern": "INPUT_FIELD",
+      "input_value": "1",
+      "selector_pattern": "input[type='text'], input[type='number']",
+      "auto_navigate": true,
+      "navigation_delay": 1000,
+      "description": "🧪 TEST: Fill Ukrainian participants count with 1 (instead of 0) to create unknown page",
+      "keywords": ["počet účastníků ve vzdělávání z ukrajiny", "účastníků ve vzdělávání z ukrajiny"],
+      "priority": 25,
+      "test_modification": true
+    },
+
+    "RADIO_YES_NO_YES": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Určitě ano",
+      "selector_strategy": "find_radio_with_text",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select 'Určitě ano' for yes/no questions",
+      "keywords": ["byl projekt", "došlo"]
+    },
+
+    "RADIO_SIMPLE_YES": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Ano",
+      "selector_strategy": "find_radio_with_text",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select 'Ano' for simple yes/no questions",
+      "keywords": ["realizovala vaše škola projekt"],
+      "priority": 12
+    },
+
+    "INPUT_POSITION": {
+      "pattern": "RADIO_CHOICE",
+      "selected_answer": "Externí firma nebo jiný externí pracovník pověřený k administraci žádosti/projektu",
+      "selector_strategy": "find_radio_with_text",
+      "auto_navigate": true,
+      "navigation_delay": 2000,
+      "description": "Select external position",
+      "keywords": ["z jaké pozice vyplňujete tento dotazník", "vyplňujete tento dotazník"],
+      "priority": 15
+    }
+  },
+
+  "special_cases": {
+    "barrier_free_exception": {
+      "page_patterns": ["v oblasti inkluze"],
+      "exception_rules": [{
+        "text_contains": ["bezbariérová", "zpřístupnění školy", "přizpůsobení a vybavení učeben"],
+        "action": "click_A1",
+        "selector_pattern": "input[type='radio'][id$='-A1']",
+        "description": "Barrier-free row: select A1",
+        "javascript": "var row = Array.from(document.querySelectorAll('tr, .answer-item')).find(r => r.textContent.includes('bezbariérová')); if(row) { var a1 = row.querySelector('input[type=\"radio\"][id$=\"-A1\"]'); if(a1) a1.click(); }"
+      }],
+      "default_strategy": {
+        "pattern": "MATRIX_RATING",
+        "rating_level": "A6"
+      }
+    }
+  },
+
+  "fuzzy_matching": {
+    "enabled": true,
+    "similarity_threshold": 0.75,
+    "keyword_matching": true,
+    "fallback_strategy": "MATRIX_RATING_A6"
+  },
+
+  "test_expectations": {
+    "unknown_page_trigger": "INPUT_UKRAINIAN_PARTICIPANTS_MODIFIED with value '1'",
+    "expected_behavior": "System should detect unknown page after Ukrainian count input",
+    "loop_detection_test": "Should trigger after 3 failed page processing attempts",
+    "fallback_required": "Manual intervention prompt for unknown Ukrainian demographics page"
+  }
+}

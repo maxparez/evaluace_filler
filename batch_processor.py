@@ -283,8 +283,10 @@ class BatchSurveyProcessor:
             # Update user profile for this survey
             birth_year = self.get_birth_year()
 
-            # Create SmartPlaybackSystem and prevent it from creating new browser
-            playback_system = SmartPlaybackSystem()
+            # Create SmartPlaybackSystem with strategy file from config
+            strategy_file = self.config.get('batch_settings', {}).get('strategy_file', "scenarios/optimized_survey_strategy.json")
+            logger.info(f"Using strategy file: {strategy_file}")
+            playback_system = SmartPlaybackSystem(strategy_file=strategy_file)
 
             # Override browser initialization - use existing logged-in driver
             playback_system.driver = driver
@@ -342,9 +344,44 @@ class BatchSurveyProcessor:
             try:
                 logger.info("🚀 STARTING SURVEY AUTOMATION WITH EXISTING BROWSER")
 
+                # Anti-loop protection variables
+                last_page_id = None
+                same_page_count = 0
+                MAX_SAME_PAGE_ATTEMPTS = 3
+
                 while max_pages is None or page_count < max_pages:
                     page_count += 1
                     logger.info(f"\n--- PAGE {page_count} ---")
+
+                    # Get current page ID for loop detection
+                    current_page_id = playback_system.page_identifier.get_page_id(driver)
+
+                    # Anti-loop protection: Check if we're stuck on the same page
+                    if current_page_id == last_page_id:
+                        same_page_count += 1
+                        logger.warning(f"⚠️ Same page detected {same_page_count}/{MAX_SAME_PAGE_ATTEMPTS}: {current_page_id[:50]}...")
+
+                        if same_page_count >= MAX_SAME_PAGE_ATTEMPTS:
+                            logger.error(f"🔄 LOOP DETECTED: Stuck on page '{current_page_id[:50]}...' for {MAX_SAME_PAGE_ATTEMPTS} attempts")
+
+                            # Show red status indicator
+                            batch_status_manager.set_status_with_progress(
+                                'manual_required',
+                                survey_number,
+                                total_surveys,
+                                f'SMYČKA DETEKOVÁNA - {access_code} - stránka {page_count}'
+                            )
+
+                            # Prompt for manual intervention
+                            response = input(f"\n❓ UNKNOWN PAGE DETECTED: {current_page_id[:50]}...\n   Continue manually in browser and press ENTER when ready: ")
+                            logger.info("🔄 Manual intervention completed, continuing...")
+
+                            # Reset loop detection after manual intervention
+                            same_page_count = 0
+                            last_page_id = None
+                    else:
+                        same_page_count = 0  # Reset counter on new page
+                        last_page_id = current_page_id
 
                     # Update batch status with page progress
                     batch_status_manager.set_status_with_progress(

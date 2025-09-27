@@ -1,0 +1,18 @@
+{
+  "batch_summary": {
+    "batch_id": "batch_20250927_091013",
+    "start_time": "2025-09-27T09:10:13.177433",
+    "end_time": "2025-09-27T09:13:06.878947",
+    "total_surveys": 2,
+    "completed_surveys": 0,
+    "failed_surveys": 0,
+    "survey_results": [],
+    "status": "INTERRUPTED"
+  },
+  "performance_metrics": {
+    "total_execution_time_seconds": 173.701514,
+    "average_survey_time_seconds": 86.850757,
+    "success_rate_percent": 0.0,
+    "surveys_per_hour": 2.0
+  }
+}

@@ -21,7 +21,8 @@
     "max_retries": 3,
     "cleanup_browser": true,
     "log_level": "DEBUG",
-    "random_matrix": true
+    "random_matrix": true,
+    "strategy_file": "scenarios/optimized_survey_strategy.json"
   },
   "access_codes": [
     "00XhkO",
