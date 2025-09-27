@@ -24,7 +24,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Add src imports
 sys.path.insert(0, 'src')
-from config import Config
+from src.config import Config
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
