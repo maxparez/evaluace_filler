@@ -35,19 +35,7 @@ if %errorlevel% equ 0 (
 )
 echo.
 
-echo [3/6] Checking Google Chrome installation...
-if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
-    echo [OK] Chrome found in Program Files
-) else if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" (
-    echo [OK] Chrome found in Program Files (x86)
-) else (
-    echo [ERROR] Google Chrome not found
-    echo   Download from: https://chrome.google.com
-    set /a ERROR_COUNT+=1
-)
-echo.
-
-echo [4/6] Checking pip (Python package manager)...
+echo [3/5] Checking pip (Python package manager)...
 python -m pip --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo [OK] pip is available
@@ -59,7 +47,7 @@ if %errorlevel% equ 0 (
 )
 echo.
 
-echo [5/6] Checking virtual environment support...
+echo [4/5] Checking virtual environment support...
 python -m venv --help >nul 2>&1
 if %errorlevel% equ 0 (
     echo [OK] Python venv module is available
@@ -70,7 +58,7 @@ if %errorlevel% equ 0 (
 )
 echo.
 
-echo [6/6] Checking internet connectivity...
+echo [5/5] Checking internet connectivity...
 ping -n 1 google.com >nul 2>&1
 if %errorlevel% equ 0 (
     echo [OK] Internet connection is working
@@ -99,7 +87,7 @@ if %ERROR_COUNT% equ 0 (
     echo Required software:
     echo - Python 3.8+ (python.org)
     echo - Git (git-scm.com)
-    echo - Google Chrome (chrome.google.com)
+    echo Note: Chrome will be auto-managed by webdriver-manager
     color 0C
 )
 
