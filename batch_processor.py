@@ -261,7 +261,79 @@ class BatchSurveyProcessor:
                 time.sleep(delay)
         return survey_result
 
-    # ... (the rest of the class methods like process_batch, generate_batch_report)
+    def process_batch(self):
+        """
+        Process all surveys in batch configuration
+        """
+        access_codes = self.config.get('access_codes', [])
+        if not access_codes:
+            logger.error("No access codes found in configuration")
+            return
+
+        logger.info(f"Starting batch processing of {len(access_codes)} surveys")
+        batch_results = []
+
+        for i, access_code in enumerate(access_codes, 1):
+            logger.info(f"Processing survey {i}/{len(access_codes)}: {access_code}")
+            result = self.process_single_survey(access_code, i, len(access_codes))
+            batch_results.append(result)
+
+            if result['status'] == 'SUCCESS':
+                logger.success(f"Survey {access_code} completed successfully")
+            else:
+                logger.error(f"Survey {access_code} failed: {result.get('error', 'Unknown error')}")
+
+        # Generate batch report
+        report = self.generate_batch_report(batch_results)
+        self.save_batch_report(report)
+
+        # Summary
+        successful = len([r for r in batch_results if r['status'] == 'SUCCESS'])
+        failed = len(batch_results) - successful
+
+        logger.info(f"Batch processing completed: {successful} successful, {failed} failed")
+        return batch_results
+
+    def generate_batch_report(self, batch_results):
+        """
+        Generate comprehensive batch processing report
+        """
+        report = {
+            "batch_id": self.batch_id,
+            "start_time": datetime.now().isoformat(),
+            "total_surveys": len(batch_results),
+            "successful_surveys": len([r for r in batch_results if r['status'] == 'SUCCESS']),
+            "failed_surveys": len([r for r in batch_results if r['status'] == 'FAILED']),
+            "results": batch_results,
+            "summary": {
+                "success_rate": 0,
+                "total_execution_time": 0,
+                "average_time_per_survey": 0
+            }
+        }
+
+        if report["total_surveys"] > 0:
+            report["summary"]["success_rate"] = (report["successful_surveys"] / report["total_surveys"]) * 100
+            total_time = sum(r.get('execution_time_seconds', 0) for r in batch_results)
+            report["summary"]["total_execution_time"] = total_time
+            report["summary"]["average_time_per_survey"] = total_time / report["total_surveys"]
+
+        return report
+
+    def save_batch_report(self, report):
+        """
+        Save batch report to results directory
+        """
+        results_dir = Path("results")
+        results_dir.mkdir(exist_ok=True)
+
+        report_file = results_dir / f"batch_report_{self.batch_id}.json"
+
+        with open(report_file, 'w', encoding='utf-8') as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+
+        logger.info(f"Batch report saved to: {report_file}")
+        return report_file
 
 def main():
     """Main execution function"""
