@@ -272,17 +272,10 @@ class BatchSurveyProcessor:
             return False
 
     def get_birth_year(self) -> str:
-        """Get birth year based on config (fixed or random)"""
+        """Get birth year from config"""
         profile_config = self.config.get('user_profile', {})
-
-        if profile_config.get('use_random_year', False):
-            year_range = profile_config.get('random_year_range', [1970, 1990])
-            year = random.randint(year_range[0], year_range[1])
-            logger.debug(f"Using random birth year: {year}")
-        else:
-            year = profile_config.get('birth_year', 1972)
-            logger.debug(f"Using fixed birth year: {year}")
-
+        year = profile_config.get('birth_year', 1972)
+        logger.debug(f"Using birth year from config: {year}")
         return str(year)
 
     def process_single_survey(self, access_code: str, survey_number: int = 1, total_surveys: int = 1) -> Dict:
