@@ -12,7 +12,7 @@
     "birth_year": 1972
   },
   "batch_settings": {
-    "delay_between_surveys": 5,
+    "delay_between_surveys": 3,
     "max_retries": 3,
     "cleanup_browser": true,
     "log_level": "DEBUG",
