@@ -351,7 +351,7 @@ class BatchSurveyProcessor:
                         'processing',
                         survey_number,
                         total_surveys,
-                        f'Dotazník {access_code} - Stránka {page_count}'
+                        f'{access_code} - stránka {page_count}'
                     )
 
                     page_processed = playback_system.process_current_page()
@@ -478,35 +478,44 @@ class BatchSurveyProcessor:
         return survey_result
 
     def process_batch(self) -> Dict:
-        """Process all surveys in batch"""
+        """Process all surveys in batch autonomously"""
         self.batch_stats["start_time"] = datetime.now().isoformat()
         access_codes = self.config.get('access_codes', [])
         self.batch_stats["total_surveys"] = len(access_codes)
 
-        logger.info(f"Starting batch processing - {len(access_codes)} surveys to process")
+        logger.info(f"🚀 Starting autonomous batch processing - {len(access_codes)} surveys to process")
+        logger.info("🤖 Fully automated mode - no user intervention required")
 
-        for i, access_code in enumerate(access_codes, 1):
-            logger.info(f"Processing survey {i}/{len(access_codes)}: {access_code}")
+        try:
+            for i, access_code in enumerate(access_codes, 1):
+                logger.info(f"Processing survey {i}/{len(access_codes)}: {access_code}")
 
-            result = self.process_single_survey(access_code, survey_number=i, total_surveys=len(access_codes))
-            self.batch_stats["survey_results"].append(result)
+                result = self.process_single_survey(access_code, survey_number=i, total_surveys=len(access_codes))
+                self.batch_stats["survey_results"].append(result)
 
-            if result["status"] == "SUCCESS":
-                self.batch_stats["completed_surveys"] += 1
-            else:
-                self.batch_stats["failed_surveys"] += 1
+                if result["status"] == "SUCCESS":
+                    self.batch_stats["completed_surveys"] += 1
+                else:
+                    self.batch_stats["failed_surveys"] += 1
 
-            logger.info(f"Survey {i} completed - Status: {result['status']} - Progress: {self.batch_stats['completed_surveys']}/{len(access_codes)} successful")
+                logger.info(f"Survey {i} completed - Status: {result['status']} - Progress: {self.batch_stats['completed_surveys']}/{len(access_codes)} successful")
 
-            # Show waiting status if not the last survey
-            if i < len(access_codes):
-                # Brief pause to show completion before moving to next survey
-                time.sleep(2)
+                # Show waiting status if not the last survey
+                if i < len(access_codes):
+                    # Brief pause to show completion before moving to next survey
+                    time.sleep(2)
 
-                # Show preparation for next survey
-                next_code = access_codes[i] if i < len(access_codes) else ""
-                logger.info(f"Preparing for next survey {i+1}/{len(access_codes)}: {next_code}")
-                time.sleep(1)
+                    # Show preparation for next survey
+                    next_code = access_codes[i] if i < len(access_codes) else ""
+                    logger.info(f"Preparing for next survey {i+1}/{len(access_codes)}: {next_code}")
+                    time.sleep(1)
+
+        except KeyboardInterrupt:
+            logger.warning(f"\n⚠️ BATCH PROCESSING INTERRUPTED")
+            logger.info(f"📊 Processed: {i}/{len(access_codes)} surveys before interruption")
+            logger.info(f"✅ Successful: {self.batch_stats['completed_surveys']}")
+            logger.info(f"❌ Failed: {self.batch_stats['failed_surveys']}")
+            self.batch_stats["status"] = "INTERRUPTED"
 
         self.batch_stats["end_time"] = datetime.now().isoformat()
 

@@ -1,0 +1,18 @@
+{
+  "batch_id": "batch_20250926_193134",
+  "timestamp": "2025-09-26T19:32:45.278180",
+  "total_surveys": 2,
+  "completed_surveys": 0,
+  "failed_surveys": 0,
+  "current_index": 2,
+  "remaining_codes": [],
+  "batch_stats": {
+    "batch_id": "batch_20250926_193134",
+    "start_time": "2025-09-26T19:31:34.581337",
+    "end_time": null,
+    "total_surveys": 2,
+    "completed_surveys": 0,
+    "failed_surveys": 0,
+    "survey_results": []
+  }
+}

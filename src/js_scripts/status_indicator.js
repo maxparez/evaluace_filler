@@ -243,7 +243,7 @@ window.AutomationStatusIndicator = {
      * @param {string} action - Current action description
      */
     setStatusWithProgress: function(status, current, total, action) {
-        let progressText = `Stránka ${current}`;
+        let progressText = `Dotazník ${current}`;
         if (total && total > 0) {
             progressText += `/${total}`;
         }

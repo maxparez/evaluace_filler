@@ -606,9 +606,32 @@ class SmartPlaybackSystem:
             if self.status_manager:
                 self.status_manager.start_automation(1, max_pages)
 
+            # Anti-loop protection variables
+            last_page_id = None
+            same_page_count = 0
+            MAX_SAME_PAGE_ATTEMPTS = 3
+
             while max_pages is None or page_count < max_pages:
                 page_count += 1
                 logger.info(f"\n--- PAGE {page_count} ---")
+
+                # Get current page ID for loop detection
+                current_page_id = self.page_identifier.get_page_id(self.driver)
+
+                # Anti-loop protection: Check if we're stuck on the same page
+                if current_page_id == last_page_id:
+                    same_page_count += 1
+                    logger.warning(f"⚠️ Same page detected {same_page_count}/{MAX_SAME_PAGE_ATTEMPTS}: {current_page_id[:50]}...")
+
+                    if same_page_count >= MAX_SAME_PAGE_ATTEMPTS:
+                        logger.error(f"🔄 LOOP DETECTED: Stuck on page '{current_page_id[:50]}...' for {MAX_SAME_PAGE_ATTEMPTS} attempts")
+                        self.session_stats['errors'].append(f"Loop detected on page: {current_page_id[:50]}")
+                        if self.status_manager:
+                            self.status_manager.automation_error("Detekována smyčka - ukončuji automatizaci")
+                        break
+                else:
+                    same_page_count = 0  # Reset counter on new page
+                    last_page_id = current_page_id
 
                 # Update status for current page
                 if self.status_manager:
@@ -618,7 +641,6 @@ class SmartPlaybackSystem:
                 success = self.process_current_page()
 
                 # Check if we've reached the final page
-                current_page_id = self.page_identifier.get_page_id(self.driver)
                 if any(indicator in current_page_id.lower() for indicator in ['dostali jste se na konec', 'dokončení', 'odeslat']):
                     logger.success("🎉 Reached final page - survey completed!")
                     if self.status_manager:
