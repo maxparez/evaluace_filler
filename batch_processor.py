@@ -22,18 +22,16 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Add src to Python path for imports
+# Direct imports with full path
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-
-from config import Config
+from src.config import Config
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, WebDriverException
 
-from smart_playback_system import SmartPlaybackSystem
-from utils.status_indicator_manager import StatusIndicatorManager
+from src.smart_playback_system import SmartPlaybackSystem
+from src.utils.status_indicator_manager import StatusIndicatorManager
 
 class BatchSurveyProcessor:
     """
