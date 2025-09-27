@@ -104,11 +104,30 @@ class BatchSurveyProcessor:
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
-        # Use webdriver-manager for automatic chromedriver management with explicit cache clear
+        # Use webdriver-manager for automatic chromedriver management with Windows path fix
         try:
-            # Clear cache and download fresh chromedriver
-            chromedriver_path = ChromeDriverManager().install()
-            logger.debug(f"ChromeDriver downloaded to: {chromedriver_path}")
+            # Get raw path from webdriver-manager
+            raw_path = ChromeDriverManager().install()
+            logger.debug(f"webdriver-manager returned path: {raw_path}")
+
+            # --- WINDOWS WORKAROUND FOR PATH BUG ---
+            # webdriver-manager sometimes returns path to wrong file on Windows
+            # We robustly find the actual .exe file in the parent directory
+            driver_path = Path(raw_path)
+            driver_dir = driver_path.parent
+            expected_exe_path = driver_dir / "chromedriver.exe"
+
+            logger.debug(f"Checking for expected executable at: {expected_exe_path}")
+
+            if sys.platform == "win32" and expected_exe_path.is_file():
+                chromedriver_path = str(expected_exe_path)
+                logger.info(f"Using corrected Windows path: {chromedriver_path}")
+            else:
+                # On other systems or if workaround fails, trust original path
+                chromedriver_path = raw_path
+                logger.debug(f"Using original path: {chromedriver_path}")
+            # --- END OF WINDOWS WORKAROUND ---
+
             service = Service(chromedriver_path)
         except Exception as e:
             logger.error(f"Failed to download ChromeDriver: {e}")
