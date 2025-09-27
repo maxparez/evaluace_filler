@@ -135,6 +135,9 @@ class BatchSurveyProcessor:
                 expected_exe_path = driver_dir / "chromedriver"
                 logger.debug(f"Linux: Checking for executable at: {expected_exe_path}")
                 if expected_exe_path.is_file():
+                    # Ensure executable permissions on Linux
+                    import stat
+                    expected_exe_path.chmod(expected_exe_path.stat().st_mode | stat.S_IEXEC)
                     chromedriver_path = str(expected_exe_path)
                     logger.info(f"Using corrected Linux path: {chromedriver_path}")
                 else:
@@ -143,6 +146,9 @@ class BatchSurveyProcessor:
                         if subdir.is_dir() and "chromedriver" in subdir.name:
                             potential_exe = subdir / "chromedriver"
                             if potential_exe.is_file():
+                                # Ensure executable permissions on Linux
+                                import stat
+                                potential_exe.chmod(potential_exe.stat().st_mode | stat.S_IEXEC)
                                 chromedriver_path = str(potential_exe)
                                 logger.info(f"Found chromedriver in subdirectory: {chromedriver_path}")
                                 break
