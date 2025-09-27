@@ -332,12 +332,9 @@ class BatchSurveyProcessor:
                 f'Zpracovávám dotazník {access_code}'
             )
 
-            # Update birth year in strategy config if needed
-            if hasattr(playback_system, 'strategy_config') and 'strategies' in playback_system.strategy_config:
-                for strategy in playback_system.strategy_config['strategies']:
-                    if strategy.get('name') == 'INPUT_BIRTH_YEAR':
-                        strategy['action_template'] = strategy['action_template'].replace('1985', birth_year)
-                        logger.debug(f"Updated birth year to {birth_year} in strategy")
+            # Pass birth year to playback system
+            playback_system.user_birth_year = birth_year
+            logger.debug(f"Set birth year to {birth_year} for survey processing")
 
             # Enable random matrix rating if configured
             use_random_matrix = self.config.get('batch_settings', {}).get('random_matrix', False)

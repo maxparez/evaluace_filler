@@ -119,11 +119,11 @@
 
     "INPUT_BIRTH_YEAR": {
       "pattern": "INPUT_FIELD",
-      "input_value": "1985",
+      "input_value": "CONFIG_BIRTH_YEAR",
       "selector_pattern": "input[type='text'], input[type='number']",
       "auto_navigate": true,
       "navigation_delay": 1000,
-      "description": "Fill birth year field",
+      "description": "Fill birth year field from config",
       "coverage": "1 page",
       "keywords": ["rok svého narození", "vyplňte, prosím, rok"]
     },

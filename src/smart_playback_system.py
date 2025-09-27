@@ -340,6 +340,14 @@ class SmartPlaybackSystem:
     def execute_input_strategy(self, strategy: Dict) -> bool:
         """Execute input field strategy using external JavaScript"""
         input_value = strategy.get('input_value', '')
+
+        # Handle CONFIG placeholders
+        if input_value == "CONFIG_BIRTH_YEAR":
+            # Use birth_year passed from batch processor
+            birth_year = getattr(self, 'user_birth_year', '1985')
+            input_value = str(birth_year)
+            logger.debug(f"Replaced CONFIG_BIRTH_YEAR with: {input_value}")
+
         logger.info(f"Executing input strategy: '{input_value}'")
 
         try:
