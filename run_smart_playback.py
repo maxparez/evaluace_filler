@@ -44,28 +44,47 @@ def check_environment():
     else:
         issues.append(f"❌ Strategy file missing: {strategy_file}")
 
-    # Check ChromeDriver
-    try:
-        result = subprocess.run(['which', 'chromedriver'], capture_output=True, text=True)
-        if result.returncode == 0:
-            print("✅ ChromeDriver: installed")
-        else:
-            issues.append("❌ ChromeDriver not found in PATH")
-    except:
-        issues.append("❌ ChromeDriver check failed")
+    # ChromeDriver is auto-managed by webdriver-manager - no manual check needed
+    print("✅ ChromeDriver: auto-managed via webdriver-manager")
 
     return issues
 
 def fix_common_issues():
     """Show fixes for common issues"""
-    print("\n🛠️  COMMON FIXES:")
-    print("1. Activate virtual environment:")
+    print("\n🛠️  SETUP INSTRUCTIONS:")
+    print()
+    print("📥 FIRST TIME SETUP FROM GITHUB:")
+    print("1. Clone repository:")
+    print("   git clone https://github.com/username/evaluace_filler.git")
+    print("   cd evaluace_filler")
+    print()
+    print("2. Create and activate virtual environment:")
+    print("   # Windows:")
+    print("   python -m venv venv")
+    print("   venv\\Scripts\\activate")
+    print("   # Linux/Mac:")
+    print("   python -m venv venv")
     print("   source venv/bin/activate")
     print()
-    print("2. Start browser with remote debugging:")
+    print("3. Install dependencies:")
+    print("   pip install -r requirements.txt")
+    print()
+    print("🌐 START BROWSER WITH REMOTE DEBUGGING:")
+    print("4. Start browser with remote debugging:")
+    print("   # Windows (try these paths in order):")
+    print("   \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --remote-debugging-port=9222 --user-data-dir=%TEMP%\\chrome_evaluace")
+    print("   # OR if installed in different location:")
+    print("   \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --remote-debugging-port=9222 --user-data-dir=%TEMP%\\chrome_evaluace")
+    print("   # OR use start command:")
+    print("   start chrome --remote-debugging-port=9222 --user-data-dir=%TEMP%\\chrome_evaluace")
+    print("   # Linux/Mac:")
     print("   google-chrome --remote-debugging-port=9222 --user-data-dir=/tmp/chrome_evaluace &")
     print()
-    print("3. Navigate to survey start page in the browser")
+    print("5. Navigate to survey start page in the browser")
+    print()
+    print("🚀 RUN THE APPLICATION:")
+    print("6. Run the smart playback system:")
+    print("   python run_smart_playback.py")
     print()
 
 def main():

@@ -1,6 +1,7 @@
 # Core web automation
 selenium==4.16.0
 webdriver-manager==4.0.1
+psutil==5.9.6
 
 # HTML parsing (auxiliary)
 beautifulsoup4==4.12.2

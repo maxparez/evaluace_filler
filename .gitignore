@@ -70,6 +70,9 @@ Thumbs.db
 # Chrome debugging
 .chrome/
 
+# WebDriver downloads
+drivers/
+
 # Logs and monitoring
 *.log.*
 nohup.out

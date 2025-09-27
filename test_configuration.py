@@ -28,7 +28,7 @@ def test_config_values():
     tests = [
         ("CHROME_DEBUG_PORT", int, Config.CHROME_DEBUG_PORT),
         ("CHROME_USER_DATA_DIR", str, Config.CHROME_USER_DATA_DIR),
-        ("CHROMEDRIVER_PATH", str, Config.CHROMEDRIVER_PATH),
+        # CHROMEDRIVER_PATH removed - now using webdriver-manager
         ("NAVIGATION_DELAY", float, Config.NAVIGATION_DELAY),
         ("JS_CACHE_ENABLED", bool, Config.JS_CACHE_ENABLED),
     ]

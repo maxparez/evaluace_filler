@@ -15,6 +15,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import WebDriverException
+from webdriver_manager.chrome import ChromeDriverManager
 from loguru import logger
 
 try:
@@ -84,7 +85,9 @@ class BrowserManager:
             # Keep browser alive
             chrome_options.add_experimental_option("detach", True)
 
-            service = Service(Config.CHROMEDRIVER_PATH)
+            # Download chromedriver to project directory
+            chromedriver_path = ChromeDriverManager(path="./drivers").install()
+            service = Service(chromedriver_path)
             self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
             logger.success(f"New browser started on port {self.debug_port}")

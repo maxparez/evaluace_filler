@@ -4,6 +4,7 @@ Centralized Configuration for Evaluace Filler
 """
 
 import os
+import tempfile
 from typing import Dict, Any
 from pathlib import Path
 
@@ -15,8 +16,8 @@ class Config:
 
     # Browser Configuration
     CHROME_DEBUG_PORT: int = int(os.getenv('CHROME_DEBUG_PORT', '9222'))
-    CHROME_USER_DATA_DIR: str = os.getenv('CHROME_USER_DATA_DIR', '/tmp/chrome_evaluace')
-    CHROMEDRIVER_PATH: str = os.getenv('CHROMEDRIVER_PATH', '/usr/bin/chromedriver')
+    CHROME_USER_DATA_DIR: str = os.getenv('CHROME_USER_DATA_DIR', str(Path(tempfile.gettempdir()) / "chrome_evaluace"))
+    # CHROMEDRIVER_PATH: Removed - now using webdriver-manager for automatic chromedriver management
 
     # Browser Options
     BROWSER_WINDOW_SIZE: str = os.getenv('BROWSER_WINDOW_SIZE', '1200,800')
@@ -138,7 +139,7 @@ class Config:
         print("=" * 50)
         print(f"Chrome Debug Port: {cls.CHROME_DEBUG_PORT}")
         print(f"Chrome User Data Dir: {cls.CHROME_USER_DATA_DIR}")
-        print(f"ChromeDriver Path: {cls.CHROMEDRIVER_PATH}")
+        print("ChromeDriver: Auto-managed via webdriver-manager")
         print(f"Browser Window Size: {cls.BROWSER_WINDOW_SIZE}")
         print(f"Browser Headless: {cls.BROWSER_HEADLESS}")
         print(f"Page Load Timeout: {cls.PAGE_LOAD_TIMEOUT}s")
