@@ -117,3 +117,6 @@ if %ERROR_COUNT% equ 0 (
 echo.
 echo Press any key to exit...
 pause >nul
+
+rem Reset color to default before exit
+color
