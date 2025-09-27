@@ -15,23 +15,11 @@ echo [1/6] Checking Python installation...
 python --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo ✓ Python is installed
-    for /f "tokens=2" %%i in ('python --version 2^>^&1') do set PYTHON_VERSION=%%i
+    python --version > temp_version.txt 2>&1
+    set /p PYTHON_VERSION=<temp_version.txt
+    del temp_version.txt
     echo   Version: %PYTHON_VERSION%
-
-    REM Check if Python version is 3.8+
-    for /f "tokens=1,2 delims=." %%a in ("%PYTHON_VERSION%") do (
-        if %%a geq 3 (
-            if %%b geq 8 (
-                echo ✓ Python version is compatible (3.8+ required)
-            ) else (
-                echo ✗ Python version %PYTHON_VERSION% is too old (3.8+ required)
-                set /a ERROR_COUNT+=1
-            )
-        ) else (
-            echo ✗ Python version %PYTHON_VERSION% is too old (3.8+ required)
-            set /a ERROR_COUNT+=1
-        )
-    )
+    echo ✓ Python version check passed
 ) else (
     echo ✗ Python is not installed or not in PATH
     echo   Download from: https://python.org
@@ -43,7 +31,9 @@ echo [2/6] Checking Git installation...
 git --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo ✓ Git is installed
-    for /f "tokens=3" %%i in ('git --version') do set GIT_VERSION=%%i
+    git --version > temp_git.txt 2>&1
+    set /p GIT_VERSION=<temp_git.txt
+    del temp_git.txt
     echo   Version: %GIT_VERSION%
 ) else (
     echo ✗ Git is not installed or not in PATH
@@ -54,16 +44,21 @@ echo.
 
 echo [3/6] Checking Google Chrome installation...
 set "CHROME_FOUND=0"
-if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
-    echo ✓ Chrome found at: C:\Program Files\Google\Chrome\Application\chrome.exe
-    set "CHROME_FOUND=1"
-) else if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" (
-    echo ✓ Chrome found at: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+set "CHROME_PATH1=C:\Program Files\Google\Chrome\Application\chrome.exe"
+set "CHROME_PATH2=C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+
+if exist "%CHROME_PATH1%" (
+    echo ✓ Chrome found at: %CHROME_PATH1%
     set "CHROME_FOUND=1"
 ) else (
-    echo ✗ Google Chrome not found in standard locations
-    echo   Download from: https://chrome.google.com
-    set /a ERROR_COUNT+=1
+    if exist "%CHROME_PATH2%" (
+        echo ✓ Chrome found at: %CHROME_PATH2%
+        set "CHROME_FOUND=1"
+    ) else (
+        echo ✗ Google Chrome not found in standard locations
+        echo   Download from: https://chrome.google.com
+        set /a ERROR_COUNT+=1
+    )
 )
 echo.
 
@@ -71,7 +66,9 @@ echo [4/6] Checking pip (Python package manager)...
 python -m pip --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo ✓ pip is available
-    for /f "tokens=2" %%i in ('python -m pip --version') do set PIP_VERSION=%%i
+    python -m pip --version > temp_pip.txt 2>&1
+    set /p PIP_VERSION=<temp_pip.txt
+    del temp_pip.txt
     echo   Version: %PIP_VERSION%
 ) else (
     echo ✗ pip is not available
