@@ -20,7 +20,8 @@ class Config:
     # CHROMEDRIVER_PATH: Removed - now using webdriver-manager for automatic chromedriver management
 
     # Browser Options
-    BROWSER_WINDOW_SIZE: str = os.getenv('BROWSER_WINDOW_SIZE', '1200,800')
+    BROWSER_WINDOW_SIZE: str = os.getenv('BROWSER_WINDOW_SIZE', '800,600')
+    BROWSER_WINDOW_POSITION: str = os.getenv('BROWSER_WINDOW_POSITION', '0,0')
     BROWSER_HEADLESS: bool = os.getenv('BROWSER_HEADLESS', 'false').lower() == 'true'
     BROWSER_TIMEOUT: int = int(os.getenv('BROWSER_TIMEOUT', '30'))
 

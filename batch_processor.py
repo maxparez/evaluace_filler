@@ -97,6 +97,10 @@ class BatchSurveyProcessor:
         temp_base = Path(tempfile.gettempdir()) / f"chrome_batch_{int(time.time())}_{random.randint(1000,9999)}"
         chrome_options.add_argument(f"--user-data-dir={temp_base}")
 
+        # Window size and position from config
+        chrome_options.add_argument(f"--window-size={Config.BROWSER_WINDOW_SIZE}")
+        chrome_options.add_argument(f"--window-position={Config.BROWSER_WINDOW_POSITION}")
+
         # Standard options
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
