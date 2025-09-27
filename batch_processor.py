@@ -22,12 +22,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Add current directory and src to Python path
-import os
 import sys
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_dir)
-sys.path.insert(0, os.path.join(current_dir, 'src'))
+import os
+
+# Tento blok přidá adresář 'src' do cesty, kde Python hledá moduly.
+# Musí být na úplném začátku souboru.
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
