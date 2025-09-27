@@ -20,8 +20,13 @@ if %errorlevel% equ 0 (
 
     REM Check if Python version is 3.8+
     for /f "tokens=1,2 delims=." %%a in ("%PYTHON_VERSION%") do (
-        if %%a geq 3 if %%b geq 8 (
-            echo ✓ Python version is compatible (3.8+ required)
+        if %%a geq 3 (
+            if %%b geq 8 (
+                echo ✓ Python version is compatible (3.8+ required)
+            ) else (
+                echo ✗ Python version %PYTHON_VERSION% is too old (3.8+ required)
+                set /a ERROR_COUNT+=1
+            )
         ) else (
             echo ✗ Python version %PYTHON_VERSION% is too old (3.8+ required)
             set /a ERROR_COUNT+=1
