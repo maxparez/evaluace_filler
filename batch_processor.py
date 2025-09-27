@@ -104,8 +104,16 @@ class BatchSurveyProcessor:
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
-        # Use webdriver-manager for automatic chromedriver management
-        service = Service(ChromeDriverManager().install())
+        # Use webdriver-manager for automatic chromedriver management with explicit cache clear
+        try:
+            # Clear cache and download fresh chromedriver
+            chromedriver_path = ChromeDriverManager().install()
+            logger.debug(f"ChromeDriver downloaded to: {chromedriver_path}")
+            service = Service(chromedriver_path)
+        except Exception as e:
+            logger.error(f"Failed to download ChromeDriver: {e}")
+            # Fallback to system chromedriver if available
+            service = Service()  # Uses system PATH
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 

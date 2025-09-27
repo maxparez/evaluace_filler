@@ -1,6 +1,6 @@
 # Core web automation
-selenium==4.16.0
-webdriver-manager==4.0.1
+selenium==4.25.0
+webdriver-manager==4.0.2
 psutil==5.9.6
 
 # HTML parsing (auxiliary)
