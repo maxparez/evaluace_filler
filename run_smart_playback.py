@@ -83,8 +83,13 @@ def fix_common_issues():
     print("5. Navigate to survey start page in the browser")
     print()
     print("🚀 RUN THE APPLICATION:")
-    print("6. Run the smart playback system:")
-    print("   python run_smart_playback.py")
+    print("6a. For BATCH processing (multiple surveys - RECOMMENDED):")
+    print("    python batch_processor.py")
+    print("    # This automatically manages Chrome for each survey")
+    print()
+    print("6b. For SINGLE survey with manual Chrome:")
+    print("    # First start Chrome manually (step 4 above), then:")
+    print("    python run_smart_playback.py")
     print()
 
 def main():

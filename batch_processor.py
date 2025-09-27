@@ -9,6 +9,7 @@ import os
 import json
 import time
 import random
+import tempfile
 from datetime import datetime
 from typing import Dict, List, Optional
 from pathlib import Path
@@ -18,6 +19,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 from loguru import logger
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 # Add src imports
 sys.path.insert(0, 'src')
@@ -90,9 +93,9 @@ class BatchSurveyProcessor:
         """Create a fresh Chrome browser instance"""
         chrome_options = webdriver.ChromeOptions()
 
-        # Use temporary user data directory for clean session
-        temp_dir = f"/tmp/chrome_batch_{int(time.time())}"
-        chrome_options.add_argument(f"--user-data-dir={temp_dir}")
+        # Use cross-platform temporary user data directory for clean session
+        temp_base = Path(tempfile.gettempdir()) / f"chrome_batch_{int(time.time())}"
+        chrome_options.add_argument(f"--user-data-dir={temp_base}")
 
         # Standard options
         chrome_options.add_argument("--no-sandbox")
@@ -101,10 +104,12 @@ class BatchSurveyProcessor:
         chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         chrome_options.add_experimental_option('useAutomationExtension', False)
 
-        driver = webdriver.Chrome(options=chrome_options)
+        # Use webdriver-manager for automatic chromedriver management
+        service = Service(ChromeDriverManager(path="./drivers").install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
-        logger.debug(f"Clean browser created with temp dir: {temp_dir}")
+        logger.debug(f"Clean browser created with temp dir: {temp_base}")
         return driver
 
     def handle_survey_login(self, driver: webdriver.Chrome, access_code: str, batch_status_manager, survey_number: int, total_surveys: int) -> bool:
