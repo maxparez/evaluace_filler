@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "created": "2025-01-25",
+  "description": "OP JAK Dotazník Action Scenarios",
+  "scenarios": {
+    "common_navigation": {
+      "next_button": {
+        "selector": "#ls-button-submit",
+        "action": "click",
+        "description": "Click Next button to proceed to next page"
+      },
+      "previous_button": {
+        "selector": "#ls-button-previous",
+        "action": "click",
+        "description": "Click Previous button to go back"
+      }
+    },
+    "question_types": {
+      "radio_single_choice": {
+        "pattern": "input[type='radio'][name*='X']",
+        "action": "click",
+        "description": "Select radio button option"
+      },
+      "checkbox_multiple_choice": {
+        "pattern": "input[type='checkbox'][name*='X']",
+        "action": "click",
+        "description": "Toggle checkbox option"
+      },
+      "text_input": {
+        "pattern": "input[type='text'], textarea",
+        "action": "type",
+        "description": "Enter text into input field"
+      }
+    },
+    "page_patterns": {
+      "question_page": {
+        "identifier_selector": ".question-text .ls-label-question",
+        "required_elements": [
+          "#ls-button-submit",
+          ".question-text"
+        ],
+        "description": "Standard question page with navigation"
+      },
+      "final_page": {
+        "identifier_patterns": ["dokončit", "dokonč", "finish", "submit"],
+        "selector": "#ls-button-submit",
+        "description": "Final submission page"
+      }
+    }
+  },
+  "recorded_sessions": []
+}

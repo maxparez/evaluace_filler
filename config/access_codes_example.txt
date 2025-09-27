@@ -1,0 +1,19 @@
+# Příklad konfigurace přístupových kódů
+# Každý kód na novém řádku, prázdné řádky a komentáře (začínající #) se ignorují
+
+# Testovací kódy (nahradit skutečnými)
+DEMO_CODE_001
+DEMO_CODE_002
+DEMO_CODE_003
+DEMO_CODE_004
+DEMO_CODE_005
+
+# Produkční kódy - zde budou skutečné kódy
+# OPJAK_PROD_001
+# OPJAK_PROD_002
+# ... atd až 50+ kódů
+
+# Poznámky:
+# - Kódy budou zpracovány v pořadí jak jsou uvedeny
+# - Každý kód = jeden kompletní dotazník
+# - Browser se resetuje mezi každým dotazníkem
