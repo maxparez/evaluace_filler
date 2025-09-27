@@ -94,7 +94,7 @@ class BatchSurveyProcessor:
         chrome_options = webdriver.ChromeOptions()
 
         # Use cross-platform temporary user data directory for clean session
-        temp_base = Path(tempfile.gettempdir()) / f"chrome_batch_{int(time.time())}"
+        temp_base = Path(tempfile.gettempdir()) / f"chrome_batch_{int(time.time())}_{random.randint(1000,9999)}"
         chrome_options.add_argument(f"--user-data-dir={temp_base}")
 
         # Standard options
