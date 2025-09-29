@@ -226,7 +226,7 @@
         <p>Před instalací si můžete ověřit, zda máte vše potřebné:</p>
 
         <ol>
-            <li>Stáhněte si kontrolní skript: <a href="https://raw.githubusercontent.com/maxparez/evaluace_filler/main/install_v2.bat" class="download-link">📋 install_v2.bat</a></li>
+            <li>Stáhněte si kontrolní skript: <a href="https://raw.githubusercontent.com/maxparez/evaluace_filler/main/setup_check_windows.bat" class="download-link">📋 setup_check_windows.bat</a></li>
             <li>Spusťte jej dvojklikem</li>
             <li>Skript zkontroluje Python, Git, Chrome a připojení k internetu</li>
             <li>Pokud něco chybí, dostanete přesné instrukce k nápravě</li>
@@ -395,8 +395,8 @@
             <span class="step-number">1</span>
             <strong>Otevření konfigurace</strong><br>
             <ul>
-                <li><strong>Standardní instalace:</strong> Spusťte <code>edit_config.bat</code> z nabídky Start</li>
-                <li><strong>Lokální instalace:</strong> Dvojklik na <code>edit_config.bat</code> ve složce aplikace</li>
+                <li><strong>Standardní instalace:</strong> Spusťte <code>edit_config_windows.bat</code> v instalační složce</li>
+                <li><strong>Lokální instalace:</strong> Spusťte <code>edit_config.bat</code> (vytvoří se při instalaci)</li>
             </ul>
         </div>
 
@@ -434,7 +434,8 @@
 
         <h3>🎯 První spuštění - test konfigurace</h3>
         <ol>
-            <li>Spusťte <code>run.bat</code> (standardní) nebo <code>run.bat</code> ve složce (lokální)</li>
+            <li><strong>Standardní instalace:</strong> Spusťte <code>run_batch_windows.bat</code> v instalační složce</li>
+            <li><strong>Lokální instalace:</strong> Spusťte <code>run.bat</code> (vytvoří se při instalaci)</li>
             <li>Aplikace automaticky:
                 <ul>
                     <li>Zkontroluje konfiguraci</li>
