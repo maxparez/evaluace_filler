@@ -75,4 +75,4 @@ drivers/
 
 # Logs and monitoring
 *.log.*
-nohup.out
+nohup.outresults/

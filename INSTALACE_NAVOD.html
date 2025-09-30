@@ -481,35 +481,44 @@
             <p><strong>Důležitá pravidla:</strong></p>
             <ol style="margin-left: 20px;">
                 <li>Každý hash kód napište na samostatný řádek</li>
-                <li>Hash kód musí být v <strong>uvozovkách</strong> ("kód")</li>
+                <li>Hash kód musí být v <strong>uvozovkách</strong> ("kód") - kvůli JSON formátu</li>
                 <li>Mezi kódy musí být <strong>čárka</strong></li>
                 <li>Za posledním kódem <strong>NESMÍ</strong> být čárka</li>
                 <li>Zachovejte hranaté závorky [ ]</li>
                 <li>Jeden hash kód = jeden dotazník k vyplnění</li>
             </ol>
 
-            <div class="info" style="background: #e3f2fd; border: 1px solid #2196f3;">
-                <strong>💡 Tip:</strong> Hash kódy obsahují pouze písmena a číslice (např. ABC123, XYZ789). Aplikace automaticky odstranění nadbytečné mezery.
+            <div class="info" style="background: #e8f5e9; border: 2px solid #4caf50;">
+                <strong>✅ Dobré zprávy:</strong> Hash kódy obsahují pouze písmena a číslice (např. ABC123, XYZ789). <strong>Aplikace automaticky odstraňuje nadbytečné mezery a chybně umístěné uvozovky</strong>, takže i když konfiguraci nenapíšete úplně přesně, většinou to bude fungovat!
             </div>
 
             <div class="warning" style="background: #ffebee; border: 1px solid #f44336;">
-                <strong>❌ ŠPATNĚ:</strong>
+                <strong>❌ ŠPATNĚ - tyto chyby aplikace NEODSTRANÍ:</strong>
                 <div class="code" style="margin-top: 10px;">
 "access_codes": [
-    ABC123,           ← chybí uvozovky
-    "DEF456"          ← chybí čárka
-    "GHI789",         ← čárka za posledním kódem
+    ABC123,           ← chybí uvozovky (CHYBA JSON)
+    "DEF456"          ← chybí čárka (CHYBA JSON)
+    "GHI789",         ← čárka za posledním kódem (CHYBA JSON)
 ]
                 </div>
+                <p style="margin-top: 10px;"><strong>Poznámka:</strong> Tyto chyby způsobí nefunkčnost konfigurace, protože poruší JSON formát!</p>
             </div>
 
             <div class="success" style="background: #e8f5e9; border: 1px solid #4caf50;">
-                <strong>✅ SPRÁVNĚ:</strong>
+                <strong>✅ SPRÁVNĚ - následující formáty budou fungovat:</strong>
                 <div class="code" style="margin-top: 10px; background: #1b5e20; color: #e8f5e9;">
 "access_codes": [
     "ABC123",
     "DEF456",
     "GHI789"
+]
+                </div>
+                <p style="margin-top: 10px;"><em>Aplikace automaticky vyčistí nadbytečné mezery:</em></p>
+                <div class="code" style="margin-top: 5px; background: #1b5e20; color: #e8f5e9;">
+"access_codes": [
+    " ABC123 ",     ← mezery budou automaticky odstraněny
+    "  DEF456",    ← mezery budou automaticky odstraněny
+    "GHI789  "     ← mezery budou automaticky odstraněny
 ]
                 </div>
             </div>
