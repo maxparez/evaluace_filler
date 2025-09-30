@@ -87,7 +87,7 @@ rem Kontrola, zda adresar neni prazdny (kromě install_local.bat)
 set FILE_COUNT=0
 for %%f in (*) do (
     if not "%%f"=="install_local.bat" (
-        set /a FILE_COUNT+=1
+        set /a "FILE_COUNT=FILE_COUNT+1"
     )
 )
 
