@@ -1,5 +1,5 @@
 @echo off
-set SCRIPT_VERSION=12.0
+set SCRIPT_VERSION=12.1
 rem "Lokalni" verze instalujici do aktualniho adresare (based on install.bat)
 
 chcp 1250 > nul
@@ -98,6 +98,9 @@ echo [OK] Adresar pripraven
 echo.
 
 echo [2/4] Stahuji aplikaci z GitHubu...
+
+rem Odstranit starou temp_clone slozku, pokud existuje
+if exist temp_clone rmdir /s /q temp_clone
 
 git clone -b windows-installer https://github.com/maxparez/evaluace_filler.git temp_clone
 if errorlevel 1 (
