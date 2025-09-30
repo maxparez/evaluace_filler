@@ -182,7 +182,13 @@
 
         <div class="info">
             <strong>ℹ️ Co je Evaluace Filler?</strong><br>
-            Automatizační nástroj pro vyplňování evaluačních dotazníků. Umožňuje hromadné zpracování dotazníků s minimální ruční prací.
+            Automatizační nástroj pro vyplňování evaluačních dotazníků OP JAK. Umožňuje hromadné zpracování dotazníků s minimální ruční prací.
+            <ul style="margin-top: 10px; margin-bottom: 0;">
+                <li>✅ Automatické vyplňování všech typů otázek</li>
+                <li>✅ Zpracování více dotazníků najednou</li>
+                <li>✅ Detailní reporty o úspěšnosti</li>
+                <li>✅ Kompatibilní s Windows i Linux</li>
+            </ul>
         </div>
 
         <h2>📋 Požadavky na systém</h2>
@@ -221,16 +227,33 @@
             </div>
         </div>
 
-        <h2>🔧 Kontrola systému</h2>
+        <h2>🔧 Kontrola systému (DOPORUČENO)</h2>
 
-        <p>Před instalací si můžete ověřit, zda máte vše potřebné:</p>
+        <div class="info">
+            <strong>💡 Tip:</strong> Před vlastní instalací doporučujeme provést kontrolu systému, která ověří, že máte vše potřebné!
+        </div>
+
+        <p><strong>Postup kontroly:</strong></p>
 
         <ol>
             <li>Stáhněte si kontrolní skript: <a href="https://raw.githubusercontent.com/maxparez/evaluace_filler/main/setup_check_windows.bat" class="download-link">📋 setup_check_windows.bat</a></li>
             <li>Spusťte jej dvojklikem</li>
-            <li>Skript zkontroluje Python, Git, Chrome a připojení k internetu</li>
-            <li>Pokud něco chybí, dostanete přesné instrukce k nápravě</li>
+            <li>Skript automaticky zkontroluje:
+                <ul>
+                    <li>Python instalaci a PATH</li>
+                    <li>Git dostupnost</li>
+                    <li>Google Chrome přítomnost</li>
+                    <li>pip (Python package manager)</li>
+                    <li>Python venv podporu</li>
+                    <li>Připojení k internetu</li>
+                </ul>
+            </li>
+            <li>Pokud něco chybí, dostanete <strong>přesné instrukce k nápravě</strong> včetně odkazů ke stažení</li>
         </ol>
+
+        <div class="success">
+            Po úspěšné kontrolě můžete pokračovat k instalaci!
+        </div>
 
         <h2>🎯 Výběr typu instalace</h2>
 
@@ -415,12 +438,15 @@
 
         <div class="step">
             <span class="step-number">3</span>
-            <strong>Kontrola rok narození</strong><br>
-            Ověřte nastavení roku narození v sekci <code>"user_profile"</code>:
+            <strong>Nastavení roku narození</strong><br>
+            V sekci <code>"user_profile"</code> nastavte správný rok narození:
             <div class="code">
 "user_profile": {
     "birth_year": 1972
 }
+            </div>
+            <div class="info">
+                <strong>💡 Poznámka:</strong> Rok narození se použije pro automatické vyplnění demografických údajů v dotazníku.
             </div>
         </div>
 
@@ -432,16 +458,38 @@
 
         <h2>🚀 Spuštění aplikace</h2>
 
-        <h3>🎯 První spuštění - test konfigurace</h3>
+        <h3>🎯 První spuštění</h3>
+
+        <div class="warning">
+            <strong>⚠️ Před prvním spuštěním:</strong> Ujistěte se, že jste správně nakonfigurovali hash kódy projektů!
+        </div>
+
         <ol>
-            <li><strong>Standardní instalace:</strong> Spusťte <code>run_batch_windows.bat</code> v instalační složce</li>
-            <li><strong>Lokální instalace:</strong> Spusťte <code>run.bat</code> (vytvoří se při instalaci)</li>
-            <li>Aplikace automaticky:
+            <li>
+                <strong>Spuštění aplikace:</strong>
                 <ul>
-                    <li>Zkontroluje konfiguraci</li>
-                    <li>Stáhne ChromeDriver</li>
-                    <li>Otevře Chrome browser</li>
-                    <li>Začne zpracovávat dotazníky podle vašich kódů</li>
+                    <li><strong>Standardní instalace:</strong> Dvojklik na <code>run_batch_windows.bat</code></li>
+                    <li><strong>Lokální instalace:</strong> Dvojklik na <code>run.bat</code></li>
+                </ul>
+            </li>
+            <li>
+                <strong>Co se stane při prvním spuštění:</strong>
+                <ul>
+                    <li>✓ Zkontroluje se konfigurace</li>
+                    <li>✓ Automaticky se stáhne správná verze ChromeDriver</li>
+                    <li>✓ Nastaví se executable permissions (Linux)</li>
+                    <li>✓ Otevře se Chrome browser v automatizovaném režimu</li>
+                    <li>✓ Aplikace se připojí na evaluační dotazník</li>
+                    <li>✓ Začne zpracovávat dotazníky podle vašich hash kódů</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Očekávané chování:</strong>
+                <ul>
+                    <li>Browser se otevře automaticky</li>
+                    <li>Uvidíte proces vyplňování v reálném čase</li>
+                    <li>V konzoli se zobrazují průběžné informace</li>
+                    <li>Po dokončení se browser automaticky zavře</li>
                 </ul>
             </li>
         </ol>
@@ -456,12 +504,40 @@
 
         <h2>📊 Výsledky a reporty</h2>
 
-        <p>Po dokončení najdete výsledky v složce <code>results/</code>:</p>
+        <p>Po dokončení zpracování najdete výsledky v složce <code>results/</code>:</p>
+
+        <h3>📄 Struktura reportu:</h3>
+        <div class="code">
+results/
+└── batch_report_batch_YYYYMMDD_HHMMSS.json
+        </div>
+
+        <h3>📋 Co obsahuje report:</h3>
         <ul>
-            <li><strong>batch_report_*.json</strong> - Kompletní report zpracování</li>
-            <li><strong>Informace o úspěšnosti</strong> - Kolik dotazníků bylo úspěšně vyplněno</li>
-            <li><strong>Časové údaje</strong> - Doba zpracování jednotlivých dotazníků</li>
+            <li><strong>batch_id</strong> - Unikátní identifikátor běhu</li>
+            <li><strong>total_surveys</strong> - Celkový počet dotazníků</li>
+            <li><strong>successful_surveys</strong> - Počet úspěšně vyplněných</li>
+            <li><strong>failed_surveys</strong> - Počet neúspěšných pokusů</li>
+            <li><strong>results</strong> - Detail každého dotazníku:
+                <ul>
+                    <li>Hash kód projektu</li>
+                    <li>Status (SUCCESS/FAILED)</li>
+                    <li>Čas zpracování</li>
+                    <li>Případná chybová hláška</li>
+                </ul>
+            </li>
+            <li><strong>summary</strong> - Souhrnné statistiky:
+                <ul>
+                    <li>Úspěšnost v procentech</li>
+                    <li>Celkový čas zpracování</li>
+                    <li>Průměrný čas na dotazník</li>
+                </ul>
+            </li>
         </ul>
+
+        <div class="success">
+            <strong>💡 Tip:</strong> Reporty lze otevřít v libovolném textovém editoru nebo JSON vieweru pro lepší čitelnost.
+        </div>
 
         <h2>🆘 Řešení problémů</h2>
 
@@ -484,25 +560,46 @@
 
         <div class="warning">
             <strong>Chyba:</strong> Dotazník se nevyplňuje správně<br>
-            <strong>Řešení:</strong> Zkontrolujte správnost přístupových kódů v konfiguraci.
+            <strong>Řešení:</strong> Zkontrolujte správnost hash kódů projektů v konfiguraci.
         </div>
 
         <h3>🔧 Pokročilé řešení problémů:</h3>
         <ol>
             <li><strong>Restartujte počítač</strong> po instalaci Pythonu a Gitu</li>
             <li><strong>Spusťte jako administrátor</strong> pokud máte problémy s právy</li>
-            <li><strong>Zkontrolujte antivirus</strong> - může blokovat automatizaci</li>
+            <li><strong>Zkontrolujte antivirus</strong> - může blokovat automatizaci browseru</li>
             <li><strong>Aktualizujte Chrome</strong> na nejnovější verzi</li>
+            <li><strong>Vypněte VPN</strong> - může způsobovat problémy s přístupem k dotazníkům</li>
+            <li><strong>Zkontrolujte firewall</strong> - může blokovat připojení ChromeDriveru</li>
+        </ol>
+
+        <h3>🔍 Debug režim:</h3>
+        <p>Pro detailnější informace o běhu aplikace:</p>
+        <ol>
+            <li>Otevřete <code>config/batch_config.json</code></li>
+            <li>Nastavte <code>"log_level": "DEBUG"</code></li>
+            <li>Spusťte aplikaci znovu</li>
+            <li>V konzoli a log souborech uvidíte detailní informace o každé operaci</li>
         </ol>
 
         <h2>📞 Podpora a další informace</h2>
 
         <div class="info">
             <strong>🔗 Užitečné odkazy:</strong><br>
-            <a href="https://github.com/maxparez/evaluace_filler" target="_blank">📁 GitHub repozitář</a><br>
-            <a href="https://github.com/maxparez/evaluace_filler/issues" target="_blank">🐛 Nahlášení chyb</a><br>
-            <a href="https://github.com/maxparez/evaluace_filler/tree/windows-installer" target="_blank">💾 Windows installer větev</a>
+            <a href="https://github.com/maxparez/evaluace_filler" target="_blank">📁 GitHub repozitář (hlavní větev)</a><br>
+            <a href="https://github.com/maxparez/evaluace_filler/tree/windows-installer" target="_blank">💾 Windows installer větev (čistá instalace)</a><br>
+            <a href="https://github.com/maxparez/evaluace_filler/issues" target="_blank">🐛 Nahlášení chyb a problémů</a><br>
+            <a href="https://github.com/maxparez/evaluace_filler/blob/main/GIT.md" target="_blank">📖 Git workflow dokumentace</a>
         </div>
+
+        <h3>💬 Kontakt:</h3>
+        <p>V případě problémů nebo dotazů:</p>
+        <ul>
+            <li>Vytvořte issue na GitHubu s detailním popisem problému</li>
+            <li>Přiložte log soubory z <code>logs/</code> složky</li>
+            <li>Uveďte verzi Windows a Pythonu</li>
+            <li>Popište kroky k reprodukci problému</li>
+        </ul>
 
         <div class="success">
             <strong>🎉 Gratulujeme!</strong><br>
