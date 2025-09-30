@@ -414,46 +414,146 @@
 
         <h2>⚙️ Konfigurace před prvním použitím</h2>
 
-        <div class="step">
-            <span class="step-number">1</span>
-            <strong>Otevření konfigurace</strong><br>
-            <ul>
-                <li><strong>Standardní instalace:</strong> Spusťte <code>edit_config_windows.bat</code> v instalační složce</li>
-                <li><strong>Lokální instalace:</strong> Spusťte <code>edit_config.bat</code> (vytvoří se při instalaci)</li>
-            </ul>
+        <div class="warning" style="background: #ffebee; border: 2px solid #f44336; padding: 20px;">
+            <h3 style="color: #c62828; margin-top: 0;">🚨 KRITICKY DŮLEŽITÉ - PŘEČTĚTE SI POZORNĚ!</h3>
+            <p style="font-size: 16px; font-weight: bold;">Bez správné konfigurace hash kódů aplikace NEBUDE FUNGOVAT!</p>
+            <p>Konfigurace je <strong>povinná</strong> a musí být provedena před prvním spuštěním aplikace. Bez zadání vašich hash kódů projektů nebude mít aplikace co zpracovávat.</p>
         </div>
 
-        <div class="step">
-            <span class="step-number">2</span>
-            <strong>Nastavení hash kódů projektů</strong><br>
-            V otevřeném souboru najděte sekci <code>"access_codes"</code> a zadejte hash kódy projektů:
+        <h3 style="color: #c62828; font-size: 20px; margin-top: 30px;">📝 Postup konfigurace krok za krokem:</h3>
+
+        <div class="step" style="border-left: 5px solid #f44336;">
+            <span class="step-number" style="background: #f44336;">1</span>
+            <strong style="font-size: 18px;">Otevření konfiguračního souboru</strong><br><br>
+
+            <p><strong>Standardní instalace:</strong></p>
+            <ol style="margin-left: 20px;">
+                <li>Otevřete složku <code>%LOCALAPPDATA%\evaluace_filler_app</code></li>
+                <li>Najděte a dvojklikněte na soubor <code>edit_config_windows.bat</code></li>
+                <li>Otevře se Notepad s konfiguračním souborem</li>
+            </ol>
+
+            <p><strong>Lokální instalace:</strong></p>
+            <ol style="margin-left: 20px;">
+                <li>Otevřete složku, kde jste instalovali aplikaci</li>
+                <li>Najděte a dvojklikněte na soubor <code>edit_config.bat</code></li>
+                <li>Otevře se Notepad s konfiguračním souborem</li>
+            </ol>
+        </div>
+
+        <div class="step" style="border-left: 5px solid #f44336;">
+            <span class="step-number" style="background: #f44336;">2</span>
+            <strong style="font-size: 18px;">Vymazání testovacích hash kódů</strong><br><br>
+
+            <div class="warning" style="background: #fff3cd; border: 2px solid #ff9800;">
+                <strong>⚠️ POZOR!</strong> Pokud v konfiguraci vidíte nějaké existující hash kódy (např. "00XhkO", "00XcmS"), <strong>MUSÍTE JE VYMAZAT</strong>!<br>
+                Tyto kódy jsou pouze pro testování a nebudou fungovat s vašimi dotazníky.
+            </div>
+
+            <p>V otevřeném souboru najděte sekci <code>"access_codes"</code>. Vypadá takto:</p>
             <div class="code">
+"access_codes": [
+    "00XhkO",
+    "00XcmS"
+]
+            </div>
+
+            <p><strong>Vymažte všechny existující kódy mezi hranatými závorkami!</strong></p>
+        </div>
+
+        <div class="step" style="border-left: 5px solid #f44336;">
+            <span class="step-number" style="background: #f44336;">3</span>
+            <strong style="font-size: 18px;">Vložení vašich hash kódů projektů</strong><br><br>
+
+            <p><strong>Kde najdete vaše hash kódy?</strong></p>
+            <ul>
+                <li>Hash kódy obdržíte od správce systému OP JAK</li>
+                <li>Nebo je najdete v e-mailu s přístupem k evaluačním dotazníkům</li>
+                <li>Každý projekt má svůj unikátní hash kód</li>
+            </ul>
+
+            <p><strong>Jak kódy správně vložit:</strong></p>
+
+            <div class="info" style="background: #e3f2fd; border: 1px solid #2196f3;">
+                <strong>Příklad správného formátu:</strong>
+            </div>
+            <div class="code">
+"access_codes": [
+    "ABC123XYZ",
+    "DEF456UVW",
+    "GHI789RST"
+]
+            </div>
+
+            <p><strong>Důležitá pravidla:</strong></p>
+            <ol style="margin-left: 20px;">
+                <li>Každý hash kód musí být v <strong>uvozovkách</strong> ("kód")</li>
+                <li>Mezi kódy musí být <strong>čárka</strong></li>
+                <li>Za posledním kódem <strong>NESMÍ</strong> být čárka</li>
+                <li>Zachovejte hranaté závorky [ ]</li>
+                <li>Jeden hash kód = jeden dotazník k vyplnění</li>
+            </ol>
+
+            <div class="warning" style="background: #ffebee; border: 1px solid #f44336;">
+                <strong>❌ ŠPATNĚ:</strong>
+                <div class="code" style="margin-top: 10px;">
+"access_codes": [
+    ABC123,           ← chybí uvozovky
+    "DEF456"          ← chybí čárka
+    "GHI789",         ← čárka za posledním kódem
+]
+                </div>
+            </div>
+
+            <div class="success" style="background: #e8f5e9; border: 1px solid #4caf50;">
+                <strong>✅ SPRÁVNĚ:</strong>
+                <div class="code" style="margin-top: 10px; background: #1b5e20; color: #e8f5e9;">
 "access_codes": [
     "ABC123",
     "DEF456",
     "GHI789"
 ]
+                </div>
             </div>
         </div>
 
-        <div class="step">
-            <span class="step-number">3</span>
-            <strong>Nastavení roku narození</strong><br>
-            V sekci <code>"user_profile"</code> nastavte správný rok narození:
+        <div class="step" style="border-left: 5px solid #2196f3;">
+            <span class="step-number" style="background: #2196f3;">4</span>
+            <strong style="font-size: 18px;">Nastavení roku narození (volitelné)</strong><br><br>
+
+            <p>V sekci <code>"user_profile"</code> můžete nastavit rok narození:</p>
             <div class="code">
 "user_profile": {
     "birth_year": 1972
 }
             </div>
             <div class="info">
-                <strong>💡 Poznámka:</strong> Rok narození se použije pro automatické vyplnění demografických údajů v dotazníku.
+                <strong>💡 Poznámka:</strong> Rok narození se použije pro automatické vyplnění demografických údajů v dotazníku. Pokud nechcete změnu, ponechte výchozí hodnotu.
             </div>
         </div>
 
-        <div class="step">
-            <span class="step-number">4</span>
-            <strong>Uložení konfigurace</strong><br>
-            Uložte soubor (Ctrl+S) a zavřete editor
+        <div class="step" style="border-left: 5px solid #4caf50;">
+            <span class="step-number" style="background: #4caf50;">5</span>
+            <strong style="font-size: 18px;">Uložení a kontrola konfigurace</strong><br><br>
+
+            <ol style="margin-left: 20px;">
+                <li><strong>Uložte soubor:</strong> Stiskněte <code>Ctrl+S</code> nebo v menu Soubor → Uložit</li>
+                <li><strong>Zavřete editor:</strong> Zavřete Notepad</li>
+                <li><strong>Zkontrolujte:</strong> Ujistěte se, že jste:
+                    <ul>
+                        <li>✓ Vymazali testovací kódy</li>
+                        <li>✓ Vložili své hash kódy</li>
+                        <li>✓ Dodrželi správný formát (uvozovky, čárky)</li>
+                        <li>✓ Uložili změny</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="success" style="background: #e8f5e9; border: 2px solid #4caf50; padding: 20px; margin-top: 30px;">
+            <h3 style="color: #2e7d32; margin-top: 0;">✅ Konfigurace dokončena!</h3>
+            <p style="font-size: 16px;">Nyní jste připraveni spustit aplikaci a začít automaticky vyplňovat dotazníky!</p>
+            <p><strong>Pokračujte na sekci "Spuštění aplikace" níže.</strong></p>
         </div>
 
         <h2>🚀 Spuštění aplikace</h2>
