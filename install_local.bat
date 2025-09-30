@@ -1,5 +1,5 @@
 @echo off
-set SCRIPT_VERSION=11.1
+set SCRIPT_VERSION=11.2
 rem "Lokalni" verze instalujici do aktualniho adresare
 
 chcp 1250 > nul
