@@ -165,7 +165,7 @@ class BatchSurveyProcessor:
         logger.debug(f"Clean browser created with temp dir: {temp_base}")
         return driver
 
-    def handle_survey_login(self, driver: webdriver.Chrome, access_code: str) -> bool:
+    def handle_survey_login(self, driver: webdriver.Chrome, access_code: str, status_manager: StatusIndicatorManager, survey_number: int, total_surveys: int) -> bool:
         """
         Handle complete survey login process
         1. Navigate to main page
@@ -182,6 +182,7 @@ class BatchSurveyProcessor:
             # Step 1: Navigate to main page
             logger.info(f"Navigating to {base_url}")
             driver.get(base_url)
+            status_manager.set_status_with_progress('running', survey_number, total_surveys, f'Připojuji se k systému - dotazník {access_code}')
             time.sleep(3)
 
             # Step 2: Click survey link
@@ -190,11 +191,13 @@ class BatchSurveyProcessor:
             survey_link = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, survey_selector)))
 
             logger.info(f"Found survey link: {survey_link.text[:50]}...")
+            status_manager.set_status_with_progress('processing', survey_number, total_surveys, f'Otevírám dotazník - {access_code}')
             survey_link.click()
             time.sleep(3)
 
             # Step 3: Enter access code
             logger.info(f"Entering access code: {access_code}")
+            status_manager.set_status_with_progress('processing', survey_number, total_surveys, f'Přihlašuji se pomocí kódu - {access_code}')
             code_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, code_input_selector)))
             code_input.clear()
             code_input.send_keys(access_code)
@@ -247,7 +250,7 @@ class BatchSurveyProcessor:
         logger.debug(f"Using birth year from config: {year}")
         return str(year)
 
-    def process_single_survey(self, access_code: str) -> Dict:
+    def process_single_survey(self, access_code: str, survey_number: int = 1, total_surveys: int = 1) -> Dict:
         """Process a single survey with clean browser session"""
         survey_result = {
             "access_code": access_code,
@@ -267,8 +270,11 @@ class BatchSurveyProcessor:
             # Create clean browser
             driver = self.create_clean_browser()
 
+            # Initialize status indicator
+            status_manager = StatusIndicatorManager(driver)
+
             # Handle login
-            if not self.handle_survey_login(driver, access_code):
+            if not self.handle_survey_login(driver, access_code, status_manager, survey_number, total_surveys):
                 raise Exception("Login failed")
 
             # Update user profile for this survey
@@ -279,6 +285,7 @@ class BatchSurveyProcessor:
             # Create SmartPlaybackSystem with strategy file
             playback_system = SmartPlaybackSystem(strategy_file=strategy_file)
             playback_system.driver = driver
+            playback_system.status_manager = status_manager
             playback_system.session_stats["start_time"] = datetime.now().isoformat()
             playback_system.user_birth_year = birth_year
             logger.debug(f"Set birth year to {birth_year} for survey processing")
@@ -432,7 +439,7 @@ class BatchSurveyProcessor:
         for i, access_code in enumerate(normalized_codes, 1):
             logger.info(f"Processing survey {i}/{len(normalized_codes)}: {access_code}")
 
-            result = self.process_single_survey(access_code)
+            result = self.process_single_survey(access_code, survey_number=i, total_surveys=len(normalized_codes))
             self.batch_stats["survey_results"].append(result)
 
             if result["status"] == "SUCCESS":
