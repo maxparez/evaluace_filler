@@ -295,12 +295,25 @@ class BatchSurveyProcessor:
             logger.error("No access codes found in configuration")
             return
 
-        logger.info(f"Starting batch processing of {len(access_codes)} surveys")
+        # Normalize access codes - remove quotes and whitespace, ensure alphanumeric
+        normalized_codes = []
+        for code in access_codes:
+            # Convert to string and strip whitespace and quotes
+            normalized = str(code).strip().strip('"').strip("'")
+            if normalized:  # Only add non-empty codes
+                normalized_codes.append(normalized)
+                logger.debug(f"Normalized code: '{code}' -> '{normalized}'")
+
+        if not normalized_codes:
+            logger.error("No valid access codes found after normalization")
+            return
+
+        logger.info(f"Starting batch processing of {len(normalized_codes)} surveys")
         batch_results = []
 
-        for i, access_code in enumerate(access_codes, 1):
-            logger.info(f"Processing survey {i}/{len(access_codes)}: {access_code}")
-            result = self.process_single_survey(access_code, i, len(access_codes))
+        for i, access_code in enumerate(normalized_codes, 1):
+            logger.info(f"Processing survey {i}/{len(normalized_codes)}: {access_code}")
+            result = self.process_single_survey(access_code, i, len(normalized_codes))
             batch_results.append(result)
 
             if result['status'] == 'SUCCESS':
