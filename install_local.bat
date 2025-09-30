@@ -1,6 +1,6 @@
 @echo off
-set SCRIPT_VERSION=11.3
-rem "Lokalni" verze instalujici do aktualniho adresare
+set SCRIPT_VERSION=12.0
+rem "Lokalni" verze instalujici do aktualniho adresare (based on install.bat)
 
 chcp 1250 > nul
 
@@ -81,41 +81,20 @@ echo --- KROK 2: Instalace aplikace do aktualniho adresare ---
 echo.
 
 set "INSTALL_DIR=%CD%"
-echo [1/4] Instalacni adresar: %INSTALL_DIR%
+echo [1/4] Pripravuji instalacni adresar: %INSTALL_DIR%
 
-rem Kontrola, zda adresar neni prazdny (kromě install_local.bat)
-set "FILE_COUNT=0"
+rem Odstranit vsechny soubory a slozky KROME install_local.bat
+echo       Cistim adresar (ponechavam install_local.bat)...
 for %%f in (*) do (
-    if not "%%f"=="install_local.bat" (
-        set /a FILE_COUNT+=1
-    )
-)
-
-if "%FILE_COUNT%" gtr "0" (
-    echo.
-    echo UPOZORNENI: Adresar neni prazdny!
-    echo Pokracovanim prepisete existujici soubory.
-    echo.
-    echo Stisknete Y pro pokracovani nebo N pro zruseni:
-    choice /c YN /n
-    if errorlevel 2 (
-        echo Instalace zrusena uzivatelem.
-        pause
-        exit /b 0
-    )
-    echo.
-    echo Odstranuji existujici soubory (kromě install_local.bat)...
-    for %%f in (*) do (
-        if not "%%f"=="install_local.bat" (
-            if exist "%%f\*" (
-                rmdir /s /q "%%f"
-            ) else (
-                del /q "%%f"
-            )
+    if /I not "%%f"=="install_local.bat" (
+        if exist "%%f\*" (
+            rmdir /s /q "%%f"
+        ) else (
+            del /q "%%f"
         )
     )
 )
-echo [OK] Adresar pripraven pro instalaci
+echo [OK] Adresar pripraven
 echo.
 
 echo [2/4] Stahuji aplikaci z GitHubu...
@@ -128,7 +107,7 @@ if errorlevel 1 (
 )
 
 rem Presune VŠECHNY soubory a adresáře z docasneho adresare do aktualniho
-echo       Presouvam soubory a adresáře...
+echo       Presouvam soubory a adresare...
 xcopy temp_clone\* "%CD%" /E /H /Y
 if errorlevel 1 (
     echo [CHYBA] Nepodarilo se presunout soubory aplikace!
