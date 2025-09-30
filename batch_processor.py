@@ -208,20 +208,26 @@ class BatchSurveyProcessor:
 
             # Verify we're in the survey
             current_url = driver.current_url
-            page_source = driver.page_source.lower()
 
-            # Check for invalid code error messages
-            if any(err in page_source for err in ['neplatný kód', 'neplatny kod', 'invalid token', 'invalid code', 'kód není platný', 'kod neni platny']):
-                logger.error(f"Invalid access code: {access_code}")
-                logger.warning("⚠️ NEPLATNÝ HASH KÓD - vyžadován ruční zásah!")
-                print(f"\n{'='*70}")
-                print(f"❌ NEPLATNÝ HASH KÓD: {access_code}")
-                print(f"{'='*70}")
-                print("Prosím zadejte platný hash kód do prohlížeče a stiskněte Enter.")
-                print("Nebo stiskněte Ctrl+C pro přerušení.\n")
-                input("Stiskněte Enter po zadání platného kódu: ")
-                time.sleep(2)
-                current_url = driver.current_url
+            # Check for invalid code error alert
+            try:
+                error_alert = driver.find_element(By.CSS_SELECTOR, "ul.alert-danger")
+                error_text = error_alert.text
+                if "není platný" in error_text or "již byl použit" in error_text:
+                    logger.error(f"Invalid access code: {access_code}")
+                    logger.warning(f"⚠️ Chybová hláška: {error_text}")
+                    print(f"\n{'='*70}")
+                    print(f"❌ NEPLATNÝ HASH KÓD: {access_code}")
+                    print(f"{'='*70}")
+                    print(f"Chyba: {error_text}")
+                    print("\nProsím zadejte platný hash kód do prohlížeče a stiskněte Enter.")
+                    print("Nebo stiskněte Ctrl+C pro přerušení.\n")
+                    input("Stiskněte Enter po zadání platného kódu: ")
+                    time.sleep(2)
+                    current_url = driver.current_url
+            except:
+                # No error alert found - continue normally
+                pass
 
             if "592479" in current_url:
                 logger.success(f"Successfully logged in to survey with code: {access_code}")
