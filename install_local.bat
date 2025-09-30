@@ -1,5 +1,5 @@
 @echo off
-set SCRIPT_VERSION=11.2
+set SCRIPT_VERSION=11.3
 rem "Lokalni" verze instalujici do aktualniho adresare
 
 chcp 1250 > nul
@@ -84,14 +84,14 @@ set "INSTALL_DIR=%CD%"
 echo [1/4] Instalacni adresar: %INSTALL_DIR%
 
 rem Kontrola, zda adresar neni prazdny (kromě install_local.bat)
-set FILE_COUNT=0
+set "FILE_COUNT=0"
 for %%f in (*) do (
     if not "%%f"=="install_local.bat" (
-        set /a "FILE_COUNT=FILE_COUNT+1"
+        set /a FILE_COUNT+=1
     )
 )
 
-if %FILE_COUNT% gtr 0 (
+if "%FILE_COUNT%" gtr "0" (
     echo.
     echo UPOZORNENI: Adresar neni prazdny!
     echo Pokracovanim prepisete existujici soubory.
