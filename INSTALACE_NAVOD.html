@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluace Filler - Návod k instalaci</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+        h2 {
+            color: #2980b9;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .step {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #28a745;
+        }
+        .step-number {
+            background: #28a745;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .download-link {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: bold;
+        }
+        .download-link:hover {
+            background: #2980b9;
+        }
+        .code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .variant {
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f8fafc;
+        }
+        .variant h3 {
+            color: #2980b9;
+            margin-top: 0;
+        }
+        ol {
+            counter-reset: step-counter;
+        }
+        ol li {
+            counter-increment: step-counter;
+            margin: 15px 0;
+            position: relative;
+            padding-left: 30px;
+        }
+        ol li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #3498db;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .pros-cons {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .pros, .cons {
+            flex: 1;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .pros {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .cons {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Evaluace Filler - Kompletní návod k instalaci</h1>
+
+        <div class="info">
+            <strong>ℹ️ Co je Evaluace Filler?</strong><br>
+            Automatizační nástroj pro vyplňování evaluačních dotazníků OP JAK. Umožňuje hromadné zpracování dotazníků s minimální ruční prací.
+            <ul style="margin-top: 10px; margin-bottom: 0;">
+                <li>✅ Automatické vyplňování všech typů otázek</li>
+                <li>✅ Zpracování více dotazníků najednou</li>
+                <li>✅ Detailní reporty o úspěšnosti</li>
+                <li>✅ Kompatibilní s Windows i Linux</li>
+            </ul>
+        </div>
+
+        <h2>📋 Požadavky na systém</h2>
+
+        <h3>Podporované systémy:</h3>
+        <ul>
+            <li><strong>Windows 10/11</strong> (doporučeno)</li>
+            <li><strong>Linux</strong> (Ubuntu, WSL2, apod.)</li>
+        </ul>
+
+        <h3>Požadovaný software:</h3>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Python 3.8 nebo novější</strong><br>
+            <a href="https://www.python.org/downloads/" class="download-link" target="_blank">🐍 Stáhnout Python</a>
+            <div class="warning">
+                <strong>⚠️ DŮLEŽITÉ:</strong> Při instalaci Pythonu zaškrtněte možnost <strong>"Add Python to PATH"</strong>!
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Git</strong><br>
+            <a href="https://git-scm.com/download/win" class="download-link" target="_blank">📦 Stáhnout Git pro Windows</a>
+            <div class="info">
+                Po instalaci Gitu restartujte Command Prompt nebo PowerShell.
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Google Chrome</strong><br>
+            <a href="https://chrome.google.com/" class="download-link" target="_blank">🌐 Stáhnout Chrome</a>
+            <div class="info">
+                Používejte standardní instalaci, ne portable verzi. ChromeDriver se stáhne automaticky.
+            </div>
+        </div>
+
+        <h2>🔧 Kontrola systému (DOPORUČENO)</h2>
+
+        <div class="info">
+            <strong>💡 Tip:</strong> Před vlastní instalací doporučujeme provést kontrolu systému, která ověří, že máte vše potřebné!
+        </div>
+
+        <p><strong>Postup kontroly:</strong></p>
+
+        <ol>
+            <li>Stáhněte si kontrolní skript: <a href="https://raw.githubusercontent.com/maxparez/evaluace_filler/main/setup_check_windows.bat" class="download-link">📋 setup_check_windows.bat</a></li>
+            <li>Spusťte jej dvojklikem</li>
+            <li>Skript automaticky zkontroluje:
+                <ul>
+                    <li>Python instalaci a PATH</li>
+                    <li>Git dostupnost</li>
+                    <li>Google Chrome přítomnost</li>
+                    <li>pip (Python package manager)</li>
+                    <li>Python venv podporu</li>
+                    <li>Připojení k internetu</li>
+                </ul>
+            </li>
+            <li>Pokud něco chybí, dostanete <strong>přesné instrukce k nápravě</strong> včetně odkazů ke stažení</li>
+        </ol>
+
+        <div class="success">
+            Po úspěšné kontrolě můžete pokračovat k instalaci!
+        </div>
+
+        <h2>🎯 Výběr typu instalace</h2>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Aspekt</th>
+                    <th>🏠 Standardní instalace</th>
+                    <th>📁 Lokální instalace</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Umístění</strong></td>
+                    <td>%LOCALAPPDATA%\evaluace_filler_app</td>
+                    <td>Aktuální složka</td>
+                </tr>
+                <tr>
+                    <td><strong>Přístup</strong></td>
+                    <td>Centrální umístění</td>
+                    <td>Přenosná instalace</td>
+                </tr>
+                <tr>
+                    <td><strong>Vhodné pro</strong></td>
+                    <td>Běžné použití, jeden uživatel</td>
+                    <td>USB, multiple instalace, testování</td>
+                </tr>
+                <tr>
+                    <td><strong>Správa práv</strong></td>
+                    <td>Nepotřebuje admin práva</td>
+                    <td>Nepotřebuje admin práva</td>
+                </tr>
+                <tr>
+                    <td><strong>Složitost</strong></td>
+                    <td>Jednoduchá</td>
+                    <td>Jednoduchá</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>🏠 VARIANTA A: Standardní instalace</h2>
+
+        <div class="variant">
+            <h3>📦 Automatická instalace do systémové složky</h3>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ Výhody:</h4>
+                    <ul>
+                        <li>Nejjednodušší způsob instalace</li>
+                        <li>Centrální umístění v systému</li>
+                        <li>Automatické vytvoření zástupců</li>
+                        <li>Ideální pro běžné použití</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ Nevýhody:</h4>
+                    <ul>
+                        <li>Méně flexibilní umístění</li>
+                        <li>Obtížnější přenos na jiný počítač</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>📋 Postup instalace:</h4>
+            <ol>
+                <li>
+                    <strong>Stažení installeru</strong><br>
+                    <a href="https://raw.githubusercontent.com/maxparez/evaluace_filler/main/install.bat" class="download-link">📥 Stáhnout install.bat</a>
+                </li>
+                <li>
+                    <strong>Spuštění installeru</strong><br>
+                    Dvojklik na stažený soubor <code>install.bat</code>
+                </li>
+                <li>
+                    <strong>Sledování průběhu</strong><br>
+                    Installer automaticky:
+                    <ul>
+                        <li>Zkontroluje systémové požadavky</li>
+                        <li>Vytvoří instalační adresář</li>
+                        <li>Stáhne aplikaci z GitHubu</li>
+                        <li>Nainstaluje Python knihovny</li>
+                        <li>Vytvoří spouštěcí skripty</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Dokončení</strong><br>
+                    Po úspěšné instalaci najdete aplikaci v:<br>
+                    <div class="code">%LOCALAPPDATA%\evaluace_filler_app</div>
+                </li>
+            </ol>
+
+            <div class="success">
+                <strong>🎉 Hotovo!</strong> Aplikace je nainstalována a připravena k použití.
+            </div>
+        </div>
+
+        <h2>📁 VARIANTA B: Lokální instalace</h2>
+
+        <div class="variant">
+            <h3>🎒 Přenosná instalace do vybrané složky</h3>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ Výhody:</h4>
+                    <ul>
+                        <li>Plná kontrola nad umístěním</li>
+                        <li>Snadný přenos na USB nebo jiný počítač</li>
+                        <li>Možnost více instalací současně</li>
+                        <li>Ideální pro testování</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ Nevýhody:</h4>
+                    <ul>
+                        <li>Vyžaduje ruční výběr složky</li>
+                        <li>Žádné automatické zástupce</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>📋 Postup instalace:</h4>
+            <ol>
+                <li>
+                    <strong>Příprava složky</strong><br>
+                    Vytvořte novou složku tam, kde chcete mít aplikaci.<br>
+                    Například: <code>C:\MojeAplikace\EvaluaceFiller</code>
+                </li>
+                <li>
+                    <strong>Stažení lokálního installeru</strong><br>
+                    <a href="https://raw.githubusercontent.com/maxparez/evaluace_filler/main/install_local.bat" class="download-link">📥 Stáhnout install_local.bat</a>
+                </li>
+                <li>
+                    <strong>Umístění installeru</strong><br>
+                    Zkopírujte stažený <code>install_local.bat</code> do připravené složky
+                </li>
+                <li>
+                    <strong>Spuštění installeru</strong><br>
+                    Ve složce dvojkliknete na <code>install_local.bat</code>
+                    <div class="warning">
+                        <strong>⚠️ Pozor:</strong> Pokud složka není prázdná, installer se zeptá na potvrzení před přepsáním souborů.
+                    </div>
+                </li>
+                <li>
+                    <strong>Sledování průběhu</strong><br>
+                    Installer provede stejné kroky jako standardní verze, ale vše nainstaluje do aktuální složky
+                </li>
+                <li>
+                    <strong>Dokončení</strong><br>
+                    Aplikace je nainstalována přímo ve vámi vybrané složce
+                </li>
+            </ol>
+
+            <div class="success">
+                <strong>🎉 Hotovo!</strong> Máte přenosnou instalaci připravenou k použití.
+            </div>
+        </div>
+
+        <h2>⚙️ Konfigurace před prvním použitím</h2>
+
+        <div class="warning" style="background: #ffebee; border: 2px solid #f44336; padding: 20px;">
+            <h3 style="color: #c62828; margin-top: 0;">🚨 KRITICKY DŮLEŽITÉ - PŘEČTĚTE SI POZORNĚ!</h3>
+            <p style="font-size: 16px; font-weight: bold;">Bez správné konfigurace hash kódů aplikace NEBUDE FUNGOVAT!</p>
+            <p>Konfigurace je <strong>povinná</strong> a musí být provedena před prvním spuštěním aplikace. Bez zadání vašich hash kódů projektů nebude mít aplikace co zpracovávat.</p>
+        </div>
+
+        <h3 style="color: #c62828; font-size: 20px; margin-top: 30px;">📝 Postup konfigurace krok za krokem:</h3>
+
+        <div class="step" style="border-left: 5px solid #f44336;">
+            <span class="step-number" style="background: #f44336;">1</span>
+            <strong style="font-size: 18px;">Otevření konfiguračního souboru</strong><br><br>
+
+            <p><strong>Standardní instalace:</strong></p>
+            <ol style="margin-left: 20px;">
+                <li>Otevřete složku <code>%LOCALAPPDATA%\evaluace_filler_app</code></li>
+                <li>Najděte a dvojklikněte na soubor <code>edit_config_windows.bat</code></li>
+                <li>Otevře se Notepad s konfiguračním souborem</li>
+            </ol>
+
+            <p><strong>Lokální instalace:</strong></p>
+            <ol style="margin-left: 20px;">
+                <li>Otevřete složku, kde jste instalovali aplikaci</li>
+                <li>Najděte a dvojklikněte na soubor <code>edit_config.bat</code></li>
+                <li>Otevře se Notepad s konfiguračním souborem</li>
+            </ol>
+        </div>
+
+        <div class="step" style="border-left: 5px solid #f44336;">
+            <span class="step-number" style="background: #f44336;">2</span>
+            <strong style="font-size: 18px;">Vymazání testovacích hash kódů</strong><br><br>
+
+            <div class="warning" style="background: #fff3cd; border: 2px solid #ff9800;">
+                <strong>⚠️ POZOR!</strong> Pokud v konfiguraci vidíte nějaké existující hash kódy (např. "00XhkO", "00XcmS"), <strong>MUSÍTE JE VYMAZAT</strong>!<br>
+                Tyto kódy jsou pouze pro testování a nebudou fungovat s vašimi dotazníky.
+            </div>
+
+            <p>V otevřeném souboru najděte sekci <code>"access_codes"</code>. Vypadá takto:</p>
+            <div class="code">
+"access_codes": [
+    "00XhkO",
+    "00XcmS"
+]
+            </div>
+
+            <p><strong>Vymažte všechny existující kódy mezi hranatými závorkami!</strong></p>
+        </div>
+
+        <div class="step" style="border-left: 5px solid #f44336;">
+            <span class="step-number" style="background: #f44336;">3</span>
+            <strong style="font-size: 18px;">Vložení vašich hash kódů projektů</strong><br><br>
+
+            <p><strong>Jak kódy správně vložit:</strong></p>
+
+            <div class="info" style="background: #e3f2fd; border: 1px solid #2196f3;">
+                <strong>Příklad správného formátu:</strong>
+            </div>
+            <div class="code">
+"access_codes": [
+    "ABC123XYZ",
+    "DEF456UVW",
+    "GHI789RST"
+]
+            </div>
+
+            <p><strong>Důležitá pravidla:</strong></p>
+            <ol style="margin-left: 20px;">
+                <li>Každý hash kód napište na samostatný řádek</li>
+                <li>Hash kód musí být v <strong>uvozovkách</strong> ("kód") - kvůli JSON formátu</li>
+                <li>Mezi kódy musí být <strong>čárka</strong></li>
+                <li>Za posledním kódem <strong>NESMÍ</strong> být čárka</li>
+                <li>Zachovejte hranaté závorky [ ]</li>
+                <li>Jeden hash kód = jeden dotazník k vyplnění</li>
+            </ol>
+
+            <div class="info" style="background: #e8f5e9; border: 2px solid #4caf50;">
+                <strong>✅ Dobré zprávy:</strong> Hash kódy obsahují pouze písmena a číslice (např. ABC123, XYZ789). <strong>Aplikace automaticky odstraňuje nadbytečné mezery a chybně umístěné uvozovky</strong>, takže i když konfiguraci nenapíšete úplně přesně, většinou to bude fungovat!
+            </div>
+
+            <div class="warning" style="background: #ffebee; border: 1px solid #f44336;">
+                <strong>❌ ŠPATNĚ - tyto chyby aplikace NEODSTRANÍ:</strong>
+                <div class="code" style="margin-top: 10px;">
+"access_codes": [
+    ABC123,           ← chybí uvozovky (CHYBA JSON)
+    "DEF456"          ← chybí čárka (CHYBA JSON)
+    "GHI789",         ← čárka za posledním kódem (CHYBA JSON)
+]
+                </div>
+                <p style="margin-top: 10px;"><strong>Poznámka:</strong> Tyto chyby způsobí nefunkčnost konfigurace, protože poruší JSON formát!</p>
+            </div>
+
+            <div class="success" style="background: #e8f5e9; border: 1px solid #4caf50;">
+                <strong>✅ SPRÁVNĚ - následující formáty budou fungovat:</strong>
+                <div class="code" style="margin-top: 10px; background: #1b5e20; color: #e8f5e9;">
+"access_codes": [
+    "ABC123",
+    "DEF456",
+    "GHI789"
+]
+                </div>
+                <p style="margin-top: 10px;"><em>Aplikace automaticky vyčistí nadbytečné mezery:</em></p>
+                <div class="code" style="margin-top: 5px; background: #1b5e20; color: #e8f5e9;">
+"access_codes": [
+    " ABC123 ",     ← mezery budou automaticky odstraněny
+    "  DEF456",    ← mezery budou automaticky odstraněny
+    "GHI789  "     ← mezery budou automaticky odstraněny
+]
+                </div>
+            </div>
+        </div>
+
+        <div class="step" style="border-left: 5px solid #2196f3;">
+            <span class="step-number" style="background: #2196f3;">4</span>
+            <strong style="font-size: 18px;">Nastavení roku narození (volitelné)</strong><br><br>
+
+            <p>V sekci <code>"user_profile"</code> můžete nastavit rok narození:</p>
+            <div class="code">
+"user_profile": {
+    "birth_year": 1972
+}
+            </div>
+            <div class="info">
+                <strong>💡 Poznámka:</strong> Rok narození se použije pro automatické vyplnění demografických údajů v dotazníku. Pokud nechcete změnu, ponechte výchozí hodnotu.
+            </div>
+        </div>
+
+        <div class="step" style="border-left: 5px solid #4caf50;">
+            <span class="step-number" style="background: #4caf50;">5</span>
+            <strong style="font-size: 18px;">Uložení a kontrola konfigurace</strong><br><br>
+
+            <ol style="margin-left: 20px;">
+                <li><strong>Uložte soubor:</strong> Stiskněte <code>Ctrl+S</code> nebo v menu Soubor → Uložit</li>
+                <li><strong>Zavřete editor:</strong> Zavřete Notepad</li>
+                <li><strong>Zkontrolujte:</strong> Ujistěte se, že jste:
+                    <ul>
+                        <li>✓ Vymazali testovací kódy</li>
+                        <li>✓ Vložili své hash kódy</li>
+                        <li>✓ Dodrželi správný formát (uvozovky, čárky)</li>
+                        <li>✓ Uložili změny</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="success" style="background: #e8f5e9; border: 2px solid #4caf50; padding: 20px; margin-top: 30px;">
+            <h3 style="color: #2e7d32; margin-top: 0;">✅ Konfigurace dokončena!</h3>
+            <p style="font-size: 16px;">Nyní jste připraveni spustit aplikaci a začít automaticky vyplňovat dotazníky!</p>
+            <p><strong>Pokračujte na sekci "Spuštění aplikace" níže.</strong></p>
+        </div>
+
+        <h2>🚀 Spuštění aplikace</h2>
+
+        <h3>🎯 První spuštění</h3>
+
+        <div class="warning">
+            <strong>⚠️ Před prvním spuštěním:</strong> Ujistěte se, že jste správně nakonfigurovali hash kódy projektů!
+        </div>
+
+        <ol>
+            <li>
+                <strong>Spuštění aplikace:</strong>
+                <ul>
+                    <li><strong>Standardní instalace:</strong> Dvojklik na <code>run_batch_windows.bat</code></li>
+                    <li><strong>Lokální instalace:</strong> Dvojklik na <code>run.bat</code></li>
+                </ul>
+            </li>
+            <li>
+                <strong>Co se stane při prvním spuštění:</strong>
+                <ul>
+                    <li>✓ Zkontroluje se konfigurace</li>
+                    <li>✓ Automaticky se stáhne správná verze ChromeDriver</li>
+                    <li>✓ Nastaví se executable permissions (Linux)</li>
+                    <li>✓ Otevře se Chrome browser v automatizovaném režimu</li>
+                    <li>✓ Aplikace se připojí na evaluační dotazník</li>
+                    <li>✓ Začne zpracovávat dotazníky podle vašich hash kódů</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Očekávané chování:</strong>
+                <ul>
+                    <li>Browser se otevře automaticky</li>
+                    <li>Uvidíte proces vyplňování v reálném čase</li>
+                    <li>V konzoli se zobrazují průběžné informace</li>
+                    <li>Po dokončení se browser automaticky zavře</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h3>🔍 Sledování průběhu</h3>
+        <p>Během běhu aplikace můžete sledovat:</p>
+        <ul>
+            <li><strong>Konzoli:</strong> Průběžné informace o zpracování</li>
+            <li><strong>Chrome browser:</strong> Vizuální průběh vyplňování</li>
+            <li><strong>Log soubory:</strong> Detailní záznam všech operací</li>
+        </ul>
+
+        <h2>📊 Výsledky a reporty</h2>
+
+        <p>Po dokončení zpracování najdete výsledky v složce <code>results/</code>:</p>
+
+        <h3>📄 Struktura reportu:</h3>
+        <div class="code">
+results/
+└── batch_report_batch_YYYYMMDD_HHMMSS.json
+        </div>
+
+        <h3>📋 Co obsahuje report:</h3>
+        <ul>
+            <li><strong>batch_id</strong> - Unikátní identifikátor běhu</li>
+            <li><strong>total_surveys</strong> - Celkový počet dotazníků</li>
+            <li><strong>successful_surveys</strong> - Počet úspěšně vyplněných</li>
+            <li><strong>failed_surveys</strong> - Počet neúspěšných pokusů</li>
+            <li><strong>results</strong> - Detail každého dotazníku:
+                <ul>
+                    <li>Hash kód projektu</li>
+                    <li>Status (SUCCESS/FAILED)</li>
+                    <li>Čas zpracování</li>
+                    <li>Případná chybová hláška</li>
+                </ul>
+            </li>
+            <li><strong>summary</strong> - Souhrnné statistiky:
+                <ul>
+                    <li>Úspěšnost v procentech</li>
+                    <li>Celkový čas zpracování</li>
+                    <li>Průměrný čas na dotazník</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="success">
+            <strong>💡 Tip:</strong> Reporty lze otevřít v libovolném textovém editoru nebo JSON vieweru pro lepší čitelnost.
+        </div>
+
+        <h2>🆘 Řešení problémů</h2>
+
+        <h3>❌ Časté chyby a řešení:</h3>
+
+        <div class="warning">
+            <strong>Chyba:</strong> "Python není rozpoznán jako interní nebo externí příkaz"<br>
+            <strong>Řešení:</strong> Python není v PATH. Přeinstalujte Python a zaškrtněte "Add Python to PATH".
+        </div>
+
+        <div class="warning">
+            <strong>Chyba:</strong> "ModuleNotFoundError: No module named..."<br>
+            <strong>Řešení:</strong> Spusťte <code>setup_project_windows.bat</code> pro reinstalaci knihoven.
+        </div>
+
+        <div class="warning">
+            <strong>Chyba:</strong> "ChromeDriver executable may have wrong permissions"<br>
+            <strong>Řešení:</strong> Aplikace automaticky opraví permissions. Spusťte znovu.
+        </div>
+
+        <div class="warning">
+            <strong>Chyba:</strong> Dotazník se nevyplňuje správně<br>
+            <strong>Řešení:</strong> Zkontrolujte správnost hash kódů projektů v konfiguraci.
+        </div>
+
+        <h3>🔧 Pokročilé řešení problémů:</h3>
+        <ol>
+            <li><strong>Restartujte počítač</strong> po instalaci Pythonu a Gitu</li>
+            <li><strong>Spusťte jako administrátor</strong> pokud máte problémy s právy</li>
+            <li><strong>Zkontrolujte antivirus</strong> - může blokovat automatizaci browseru</li>
+            <li><strong>Aktualizujte Chrome</strong> na nejnovější verzi</li>
+            <li><strong>Vypněte VPN</strong> - může způsobovat problémy s přístupem k dotazníkům</li>
+            <li><strong>Zkontrolujte firewall</strong> - může blokovat připojení ChromeDriveru</li>
+        </ol>
+
+        <h3>🔍 Debug režim:</h3>
+        <p>Pro detailnější informace o běhu aplikace:</p>
+        <ol>
+            <li>Otevřete <code>config/batch_config.json</code></li>
+            <li>Nastavte <code>"log_level": "DEBUG"</code></li>
+            <li>Spusťte aplikaci znovu</li>
+            <li>V konzoli a log souborech uvidíte detailní informace o každé operaci</li>
+        </ol>
+
+        <h2>📞 Podpora a další informace</h2>
+
+        <div class="info">
+            <strong>🔗 Užitečné odkazy:</strong><br>
+            <a href="https://github.com/maxparez/evaluace_filler" target="_blank">📁 GitHub repozitář (hlavní větev)</a><br>
+            <a href="https://github.com/maxparez/evaluace_filler/tree/windows-installer" target="_blank">💾 Windows installer větev (čistá instalace)</a><br>
+            <a href="https://github.com/maxparez/evaluace_filler/issues" target="_blank">🐛 Nahlášení chyb a problémů</a><br>
+            <a href="https://github.com/maxparez/evaluace_filler/blob/main/GIT.md" target="_blank">📖 Git workflow dokumentace</a>
+        </div>
+
+        <h3>💬 Kontakt:</h3>
+        <p>V případě problémů nebo dotazů:</p>
+        <ul>
+            <li>Vytvořte issue na GitHubu s detailním popisem problému</li>
+            <li>Přiložte log soubory z <code>logs/</code> složky</li>
+            <li>Uveďte verzi Windows a Pythonu</li>
+            <li>Popište kroky k reprodukci problému</li>
+        </ul>
+
+        <div class="success">
+            <strong>🎉 Gratulujeme!</strong><br>
+            Máte úspěšně nainstalován Evaluace Filler. Aplikace je připravena automatizovat vyplňování vašich evaluačních dotazníků!
+        </div>
+
+        <hr style="margin: 30px 0; border: none; border-top: 2px solid #3498db;">
+
+        <p style="text-align: center; color: #7f8c8d; font-size: 14px;">
+            <strong>Evaluace Filler</strong> - Automatizace evaluačních dotazníků pro OP JAK<br>
+            Vytvořeno s ❤️ pro efektivní zpracování dotazníků
+        </p>
+    </div>
+</body>
+</html>
