@@ -138,6 +138,24 @@ function Install-EvaluaceFiller {
         Write-Success "Konfigurační soubor vytvořen"
     }
 
+    # Create desktop shortcut for config
+    Write-Info "Vytvářím zástupce na ploše..."
+    try {
+        $WshShell = New-Object -comObject WScript.Shell
+        $DesktopPath = [System.Environment]::GetFolderPath('Desktop')
+        $ShortcutPath = Join-Path $DesktopPath "Evaluace Filler - Konfigurace.lnk"
+        $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
+        $Shortcut.TargetPath = "notepad.exe"
+        $Shortcut.Arguments = "`"$InstallPath\config\batch_config.json`""
+        $Shortcut.WorkingDirectory = "$InstallPath\config"
+        $Shortcut.Description = "Otevřít konfiguraci Evaluace Filler"
+        $Shortcut.IconLocation = "shell32.dll,70"  # Document icon
+        $Shortcut.Save()
+        Write-Success "Zástupce vytvořen na ploše"
+    } catch {
+        Write-Info "Nepodařilo se vytvořit zástupce (není kritické)"
+    }
+
     # Success message
     Write-Host "`n╔════════════════════════════════════════╗" -ForegroundColor Green
     Write-Host "║         INSTALACE DOKONČENA!                ║" -ForegroundColor Green
