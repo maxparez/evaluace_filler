@@ -1,0 +1,27 @@
+{
+  "batch_summary": {
+    "batch_id": "batch_20251001_095047",
+    "start_time": "2025-10-01T09:50:47.317660",
+    "end_time": "2025-10-01T09:52:51.315412",
+    "total_surveys": 1,
+    "completed_surveys": 1,
+    "failed_surveys": 0,
+    "survey_results": [
+      {
+        "access_code": "055CKr",
+        "start_time": "2025-10-01T09:50:47.318066",
+        "end_time": "2025-10-01T09:52:48.313432",
+        "status": "SUCCESS",
+        "error": null,
+        "pages_completed": 25,
+        "execution_time_seconds": 120.995366
+      }
+    ]
+  },
+  "performance_metrics": {
+    "total_execution_time_seconds": 123.997752,
+    "average_survey_time_seconds": 123.997752,
+    "success_rate_percent": 100.0,
+    "surveys_per_hour": 1.0
+  }
+}

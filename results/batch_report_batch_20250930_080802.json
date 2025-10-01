@@ -1,0 +1,32 @@
+{
+  "batch_id": "batch_20250930_080802",
+  "start_time": "2025-09-30T08:08:36.765507",
+  "total_surveys": 2,
+  "successful_surveys": 0,
+  "failed_surveys": 2,
+  "results": [
+    {
+      "access_code": "00XhkO",
+      "start_time": "2025-09-30T08:08:02.105477",
+      "end_time": "2025-09-30T08:08:16.465381",
+      "status": "FAILED",
+      "error": "'SmartPlaybackSystem' object has no attribute 'run_smart_playback'",
+      "pages_completed": 0,
+      "execution_time_seconds": 14.359904
+    },
+    {
+      "access_code": "00XcmS",
+      "start_time": "2025-09-30T08:08:19.466864",
+      "end_time": "2025-09-30T08:08:33.763700",
+      "status": "FAILED",
+      "error": "'SmartPlaybackSystem' object has no attribute 'run_smart_playback'",
+      "pages_completed": 0,
+      "execution_time_seconds": 14.296836
+    }
+  ],
+  "summary": {
+    "success_rate": 0.0,
+    "total_execution_time": 28.65674,
+    "average_time_per_survey": 14.32837
+  }
+}

@@ -341,48 +341,25 @@ class BatchSurveyProcessor:
                     current_url = driver.current_url
                     page_source = driver.page_source
 
-                    # Check for official completion page with specific div
+                    # Check for official completion page with specific div (after final submit was processed)
                     try:
                         completion_div = driver.find_element(By.CSS_SELECTOR, "div.completed-wrapper")
                         completion_text_div = driver.find_element(By.CSS_SELECTOR, "div.completed-text")
                         if completion_div and completion_text_div:
                             logger.success("🎉 SURVEY COMPLETED - Official completion page detected!")
-                            logger.info("✅ Completion message: 'Vaše odpovědi byly v pořádku uloženy. Děkujeme.'")
+                            completion_text = completion_text_div.text
+                            logger.info(f"✅ Completion message: {completion_text[:100]}")
                             break
                     except:
                         pass
 
                     # Fallback: If we just completed final submit, break immediately
                     if ("děkujeme" in page_source.lower() or
+                        "vaše odpovědi byly v pořádku uloženy" in page_source.lower() or
                         "dokončeno" in page_source.lower() or
                         "completed" in current_url.lower() or
                         "thank" in page_source.lower()):
                         logger.success("🎉 SURVEY COMPLETED - Thank you page detected!")
-                        break
-
-                    # Check for final page pattern that was just processed
-                    if page_processed and "konec evaluačního dotazníku" in page_source:
-                        logger.info("Final submit page detected, waiting for completion page...")
-                        time.sleep(5)  # Wait for redirect to completion page
-
-                        # Verify completion page after final submit
-                        try:
-                            # Check current URL and page source
-                            final_url = driver.current_url
-                            final_source = driver.page_source
-                            logger.debug(f"Final URL: {final_url}")
-
-                            completion_div = driver.find_element(By.CSS_SELECTOR, "div.completed-wrapper")
-                            completion_text = driver.find_element(By.CSS_SELECTOR, "div.completed-text").text
-                            logger.success("🎉 SURVEY COMPLETED - Official completion page confirmed!")
-                            logger.info(f"✅ Completion message: {completion_text[:100]}")
-                        except Exception as e:
-                            logger.warning(f"Completion page divs not found: {e}")
-                            logger.debug("Checking for completion indicators in page source...")
-                            if "Vaše odpovědi byly v pořádku uloženy" in final_source:
-                                logger.success("🎉 SURVEY COMPLETED - Completion text found in page!")
-                            else:
-                                logger.warning("Final submit executed but completion verification failed")
                         break
 
                     time.sleep(1)
