@@ -442,8 +442,26 @@ class SmartPlaybackSystem:
                             logger.warning("Regular click failed, trying JavaScript click")
                             self.driver.execute_script("arguments[0].click();", button)
 
-                        logger.success("🎉 FINAL SUBMIT CLICKED - SURVEY COMPLETED!")
-                        time.sleep(Config.NAVIGATION_DELAY)  # Wait for final submission
+                        logger.success("🎉 FINAL SUBMIT CLICKED - Waiting for completion page...")
+                        time.sleep(Config.NAVIGATION_DELAY + 2)  # Wait for final submission and redirect
+
+                        # Verify completion page
+                        try:
+                            completion_div = self.driver.find_element(By.CSS_SELECTOR, "div.completed-wrapper")
+                            completion_text = self.driver.find_element(By.CSS_SELECTOR, "div.completed-text").text
+                            logger.success("✅ SURVEY COMPLETED - Completion page confirmed!")
+                            logger.info(f"Completion message: {completion_text[:100]}")
+                        except Exception as e:
+                            logger.debug(f"Completion page divs not found: {e}")
+                            # Check page source for completion text
+                            page_source = self.driver.page_source
+                            if "Vaše odpovědi byly v pořádku uloženy" in page_source:
+                                logger.success("✅ SURVEY COMPLETED - Completion text found!")
+                            elif "děkujeme" in page_source.lower() or "completed" in page_source.lower():
+                                logger.success("✅ SURVEY COMPLETED - Generic completion indicators found!")
+                            else:
+                                logger.warning("Could not verify completion page, but final submit was clicked")
+
                         return True
                 except Exception as e:
                     logger.debug(f"Selector {selector} failed: {e}")

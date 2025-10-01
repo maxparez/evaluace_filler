@@ -1,0 +1,36 @@
+{
+  "batch_summary": {
+    "batch_id": "batch_20250930_082610",
+    "start_time": "2025-09-30T08:26:10.756896",
+    "end_time": "2025-09-30T08:31:08.488840",
+    "total_surveys": 2,
+    "completed_surveys": 1,
+    "failed_surveys": 1,
+    "survey_results": [
+      {
+        "access_code": "00XhkO",
+        "start_time": "2025-09-30T08:26:10.757469",
+        "end_time": "2025-09-30T08:30:21.320334",
+        "status": "SUCCESS",
+        "error": null,
+        "pages_completed": 57,
+        "execution_time_seconds": 250.562865
+      },
+      {
+        "access_code": "00XcmS",
+        "start_time": "2025-09-30T08:30:24.322186",
+        "end_time": "2025-09-30T08:31:05.487642",
+        "status": "FAILED",
+        "error": "Message: invalid session id\nStacktrace:\n#0 0x558eaa9f345a <unknown>\n#1 0x558eaa4985b3 <unknown>\n#2 0x558eaa4db66f <unknown>\n#3 0x558eaa50fd56 <unknown>\n#4 0x558eaa50a6c7 <unknown>\n#5 0x558eaa509805 <unknown>\n#6 0x558eaa4617b8 <unknown>\n#7 0x558eaa9b7f1b <unknown>\n#8 0x558eaa9bbe19 <unknown>\n#9 0x558eaa99eac9 <unknown>\n#10 0x558eaa9bc9c8 <unknown>\n#11 0x558eaa98334f <unknown>\n#12 0x558eaa45f5df <unknown>\n#13 0x7fbe7f5821ca <unknown>\n#14 0x7fbe7f58228b __libc_start_main\n#15 0x558eaa425daa _start\n",
+        "pages_completed": 0,
+        "execution_time_seconds": 41.165456
+      }
+    ]
+  },
+  "performance_metrics": {
+    "total_execution_time_seconds": 297.731944,
+    "average_survey_time_seconds": 148.865972,
+    "success_rate_percent": 50.0,
+    "surveys_per_hour": 2.0
+  }
+}

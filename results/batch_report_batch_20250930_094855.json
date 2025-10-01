@@ -1,0 +1,36 @@
+{
+  "batch_summary": {
+    "batch_id": "batch_20250930_094855",
+    "start_time": "2025-09-30T09:48:55.196877",
+    "end_time": "2025-09-30T09:54:00.135582",
+    "total_surveys": 2,
+    "completed_surveys": 1,
+    "failed_surveys": 1,
+    "survey_results": [
+      {
+        "access_code": "ABCD12",
+        "start_time": "2025-09-30T09:48:55.197436",
+        "end_time": "2025-09-30T09:53:33.075951",
+        "status": "SUCCESS",
+        "error": null,
+        "pages_completed": 55,
+        "execution_time_seconds": 277.878515
+      },
+      {
+        "access_code": "EFGH34",
+        "start_time": "2025-09-30T09:53:36.077999",
+        "end_time": "2025-09-30T09:53:57.134381",
+        "status": "FAILED",
+        "error": "HTTPConnectionPool(host='localhost', port=55115): Max retries exceeded with url: /session/6499c61563ea6ee1c1e146f8d5fa7180/url (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f0bfef17920>: Failed to establish a new connection: [Errno 111] Connection refused'))",
+        "pages_completed": 0,
+        "execution_time_seconds": 21.056382
+      }
+    ]
+  },
+  "performance_metrics": {
+    "total_execution_time_seconds": 304.938705,
+    "average_survey_time_seconds": 152.4693525,
+    "success_rate_percent": 50.0,
+    "surveys_per_hour": 2.0
+  }
+}

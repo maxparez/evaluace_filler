@@ -1,0 +1,36 @@
+{
+  "batch_summary": {
+    "batch_id": "batch_20250930_081441",
+    "start_time": "2025-09-30T08:14:41.512380",
+    "end_time": "2025-09-30T08:19:45.352267",
+    "total_surveys": 2,
+    "completed_surveys": 2,
+    "failed_surveys": 0,
+    "survey_results": [
+      {
+        "access_code": "00XhkO",
+        "start_time": "2025-09-30T08:14:41.512692",
+        "end_time": "2025-09-30T08:18:48.261838",
+        "status": "SUCCESS",
+        "error": null,
+        "pages_completed": 57,
+        "execution_time_seconds": 246.749146
+      },
+      {
+        "access_code": "00XcmS",
+        "start_time": "2025-09-30T08:18:51.263229",
+        "end_time": "2025-09-30T08:19:42.350806",
+        "status": "SUCCESS",
+        "error": null,
+        "pages_completed": 10,
+        "execution_time_seconds": 51.087577
+      }
+    ]
+  },
+  "performance_metrics": {
+    "total_execution_time_seconds": 303.839887,
+    "average_survey_time_seconds": 151.9199435,
+    "success_rate_percent": 100.0,
+    "surveys_per_hour": 2.0
+  }
+}
