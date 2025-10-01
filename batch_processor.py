@@ -316,13 +316,7 @@ class BatchSurveyProcessor:
 
             # Call the main survey loop directly, skipping connect_to_browser()
             page_count = 0
-
-            # Set different max_pages based on access code
-            if access_code == "00XcmS":
-                max_pages = 10  # Test code - only fill few questions
-                logger.info("🧪 TEST MODE: Limited to 10 pages for MATRIX_RANDOM_RATING testing")
-            else:
-                max_pages = 60  # Full survey
+            max_pages = 60  # Maximum pages safety limit
 
             try:
                 logger.info("🚀 STARTING SURVEY AUTOMATION WITH EXISTING BROWSER")
