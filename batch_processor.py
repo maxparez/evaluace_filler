@@ -316,7 +316,7 @@ class BatchSurveyProcessor:
 
             # Call the main survey loop directly, skipping connect_to_browser()
             page_count = 0
-            max_pages = 60  # Maximum pages safety limit
+            max_pages = 100  # Maximum pages safety limit
 
             try:
                 logger.info("🚀 STARTING SURVEY AUTOMATION WITH EXISTING BROWSER")
