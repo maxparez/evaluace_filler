@@ -362,7 +362,27 @@ class BatchSurveyProcessor:
 
                     # Check for final page pattern that was just processed
                     if page_processed and "konec evaluačního dotazníku" in page_source:
-                        logger.success("🎉 SURVEY COMPLETED - Final submit executed!")
+                        logger.info("Final submit page detected, waiting for completion page...")
+                        time.sleep(5)  # Wait for redirect to completion page
+
+                        # Verify completion page after final submit
+                        try:
+                            # Check current URL and page source
+                            final_url = driver.current_url
+                            final_source = driver.page_source
+                            logger.debug(f"Final URL: {final_url}")
+
+                            completion_div = driver.find_element(By.CSS_SELECTOR, "div.completed-wrapper")
+                            completion_text = driver.find_element(By.CSS_SELECTOR, "div.completed-text").text
+                            logger.success("🎉 SURVEY COMPLETED - Official completion page confirmed!")
+                            logger.info(f"✅ Completion message: {completion_text[:100]}")
+                        except Exception as e:
+                            logger.warning(f"Completion page divs not found: {e}")
+                            logger.debug("Checking for completion indicators in page source...")
+                            if "Vaše odpovědi byly v pořádku uloženy" in final_source:
+                                logger.success("🎉 SURVEY COMPLETED - Completion text found in page!")
+                            else:
+                                logger.warning("Final submit executed but completion verification failed")
                         break
 
                     time.sleep(1)
