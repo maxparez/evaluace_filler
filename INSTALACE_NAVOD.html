@@ -242,7 +242,19 @@
 
         <ol>
             <li>Stáhněte si kontrolní skript: <a href="https://raw.githubusercontent.com/maxparez/evaluace_filler/main/setup_check_windows.bat" class="download-link">📋 setup_check_windows.bat</a></li>
-            <li>Spusťte jej dvojklikem</li>
+            <li>
+                <strong>Spuštění skriptu</strong><br>
+                Spusťte jej dvojklikem
+                <div class="warning" style="background: #ffebee; border: 1px solid #f44336; margin-top: 10px;">
+                    <strong>❌ Problém:</strong> Otevře se Notepad místo spuštění?<br>
+                    <strong>✅ Řešení:</strong>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Klikněte <strong>pravým tlačítkem</strong> na soubor .bat</li>
+                        <li>Vyberte <strong>"Otevřít pomocí"</strong> → <strong>"Příkazový řádek"</strong> nebo <strong>"Command Prompt"</strong></li>
+                        <li>Nebo přejmenujte soubor z <code>.bat.txt</code> na <code>.bat</code> (pokud má dvojí příponu)</li>
+                    </ul>
+                </div>
+            </li>
             <li>Skript automaticky zkontroluje:
                 <ul>
                     <li>Python instalaci a PATH</li>
@@ -336,6 +348,15 @@
                 <li>
                     <strong>Spuštění installeru</strong><br>
                     Dvojklik na stažený soubor <code>install.bat</code>
+                    <div class="warning" style="background: #ffebee; border: 1px solid #f44336; margin-top: 10px;">
+                        <strong>❌ Problém:</strong> Otevře se Notepad místo spuštění?<br>
+                        <strong>✅ Řešení:</strong>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Klikněte <strong>pravým tlačítkem</strong> na soubor .bat</li>
+                            <li>Vyberte <strong>"Otevřít pomocí"</strong> → <strong>"Příkazový řádek"</strong></li>
+                            <li>Nebo zkontrolujte, že soubor končí na <code>.bat</code> (ne <code>.bat.txt</code>)</li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
                     <strong>Sledování průběhu</strong><br>
@@ -409,7 +430,16 @@
                 <li>
                     <strong>Spuštění installeru</strong><br>
                     Ve složce dvojkliknete na <code>install_local.bat</code>
-                    <div class="warning">
+                    <div class="warning" style="background: #ffebee; border: 1px solid #f44336; margin-top: 10px;">
+                        <strong>❌ Problém:</strong> Otevře se Notepad místo spuštění?<br>
+                        <strong>✅ Řešení:</strong>
+                        <ul style="margin: 10px 0 0 20px;">
+                            <li>Klikněte <strong>pravým tlačítkem</strong> na soubor .bat</li>
+                            <li>Vyberte <strong>"Otevřít pomocí"</strong> → <strong>"Příkazový řádek"</strong></li>
+                            <li>Nebo zkontrolujte, že soubor končí na <code>.bat</code> (ne <code>.bat.txt</code>)</li>
+                        </ul>
+                    </div>
+                    <div class="warning" style="margin-top: 10px;">
                         <strong>⚠️ Pozor:</strong> Pokud složka není prázdná, installer se zeptá na potvrzení před přepsáním souborů.
                     </div>
                 </li>
