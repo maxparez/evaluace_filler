@@ -341,7 +341,18 @@ class BatchSurveyProcessor:
                     current_url = driver.current_url
                     page_source = driver.page_source
 
-                    # If we just completed final submit, break immediately
+                    # Check for official completion page with specific div
+                    try:
+                        completion_div = driver.find_element(By.CSS_SELECTOR, "div.completed-wrapper")
+                        completion_text_div = driver.find_element(By.CSS_SELECTOR, "div.completed-text")
+                        if completion_div and completion_text_div:
+                            logger.success("🎉 SURVEY COMPLETED - Official completion page detected!")
+                            logger.info("✅ Completion message: 'Vaše odpovědi byly v pořádku uloženy. Děkujeme.'")
+                            break
+                    except:
+                        pass
+
+                    # Fallback: If we just completed final submit, break immediately
                     if ("děkujeme" in page_source.lower() or
                         "dokončeno" in page_source.lower() or
                         "completed" in current_url.lower() or
