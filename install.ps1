@@ -163,10 +163,12 @@ function Install-EvaluaceFiller {
 
     Write-Success "Aplikace nainstalována v: $InstallPath"
     Write-Info "`nDALŠÍ KROKY:"
-    Write-Host "  1. Otevřete soubor: $InstallPath\config\batch_config.json" -ForegroundColor Yellow
+    Write-Host "  1. Upravte konfiguraci - použijte zástupce na ploše nebo otevřete:" -ForegroundColor Yellow
+    Write-Host "     $InstallPath\config\batch_config.json" -ForegroundColor Cyan
     Write-Host "  2. Vložte své hash kódy místo příkladů (ABCD12, EFGH34)" -ForegroundColor Yellow
-    Write-Host "  3. Uložte soubor" -ForegroundColor Yellow
-    Write-Host "  4. Spusťte: $InstallPath\venv\Scripts\python.exe $InstallPath\batch_processor.py --config $InstallPath\config\batch_config.json" -ForegroundColor Yellow
+    Write-Host "  3. Uložte soubor (Ctrl+S)" -ForegroundColor Yellow
+    Write-Host "  4. Spusťte aplikaci pomocí:" -ForegroundColor Yellow
+    Write-Host "     $InstallPath\run_batch_windows.bat" -ForegroundColor Cyan
     Write-Host "`nPodrobný návod najdete v: $InstallPath\INSTALACE_NAVOD.html`n" -ForegroundColor Cyan
 }
 
