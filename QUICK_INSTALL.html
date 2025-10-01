@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluace Filler - Rychlá instalace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+
+        .highlight {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 5px;
+        }
+
+        .highlight strong {
+            color: #1976d2;
+            font-size: 1.1em;
+        }
+
+        .command-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .copy-button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .copy-button:active {
+            transform: scale(0.95);
+        }
+
+        .copy-button.copied {
+            background: #27ae60;
+        }
+
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            margin: 20px 0;
+            padding-left: 60px;
+            position: relative;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning strong {
+            color: #856404;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+        }
+
+        .prereq {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .prereq h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        .prereq ul {
+            margin-left: 20px;
+        }
+
+        .prereq li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        kbd {
+            background: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ Evaluace Filler</h1>
+        <div class="subtitle">Rychlá instalace pomocí PowerShell</div>
+
+        <div class="highlight">
+            <strong>🎯 Nejrychlejší způsob instalace!</strong>
+            <p style="margin-top: 10px;">Jeden příkaz nainstaluje vše automaticky. Celá instalace zabere pouze 2-3 minuty.</p>
+        </div>
+
+        <div class="prereq">
+            <h3>📋 Prerekvizity (musíte mít nainstalováno):</h3>
+            <ul>
+                <li><strong>Python 3.10+</strong> - <a href="https://www.python.org/downloads/" target="_blank">stáhnout</a> (při instalaci zaškrtněte "Add Python to PATH")</li>
+                <li><strong>Git</strong> - <a href="https://git-scm.com/download/win" target="_blank">stáhnout</a></li>
+            </ul>
+        </div>
+
+        <h2 style="margin: 30px 0 20px 0; color: #2c3e50;">📝 Postup instalace:</h2>
+
+        <ol class="steps">
+            <li>
+                <strong>Zkopírujte instalační příkaz</strong><br>
+                Klikněte na tlačítko "📋 Zkopírovat příkaz" níže
+                <div class="command-box">
+                    <button class="copy-button" onclick="copyCommand()">📋 Zkopírovat příkaz</button>
+                    <code id="install-command">irm https://raw.githubusercontent.com/maxparez/evaluace_filler/main/install.ps1 | iex</code>
+                </div>
+            </li>
+
+            <li>
+                <strong>Otevřete PowerShell</strong><br>
+                Stiskněte <kbd>Win</kbd>+<kbd>X</kbd> a vyberte "Windows PowerShell" nebo "Terminal"<br>
+                <small style="color: #7f8c8d;">(Můžete také vyhledat "PowerShell" ve Start menu)</small>
+            </li>
+
+            <li>
+                <strong>Vložte příkaz</strong><br>
+                V PowerShellu klikněte pravým tlačítkem myši (automaticky vloží zkopírovaný text)<br>
+                nebo stiskněte <kbd>Ctrl</kbd>+<kbd>V</kbd>
+            </li>
+
+            <li>
+                <strong>Spusťte instalaci</strong><br>
+                Stiskněte <kbd>Enter</kbd> a počkejte na dokončení (2-3 minuty)<br>
+                <small style="color: #7f8c8d;">Uvidíte zelené ✓ symboly při úspěšném postupu</small>
+            </li>
+        </ol>
+
+        <div class="success">
+            <strong>✅ Po dokončení instalace:</strong>
+            <ol style="margin: 15px 0 0 20px;">
+                <li>Otevřete soubor <code>config\batch_config.json</code></li>
+                <li>Vložte své hash kódy místo příkladů (ABCD12, EFGH34)</li>
+                <li>Uložte soubor a spusťte aplikaci</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Nefunguje PowerShell?</strong><br>
+            <p style="margin-top: 10px;">Některé firemní počítače mají PowerShell blokovaný. V tom případě použijte <a href="INSTALACE_NAVOD.html">standardní instalaci přes .bat soubory</a>.</p>
+        </div>
+
+        <div class="link">
+            <p>Potřebujete podrobnější návod nebo máte problémy?</p>
+            <a href="INSTALACE_NAVOD.html">📖 Zobrazit kompletní návod k instalaci</a>
+        </div>
+    </div>
+
+    <script>
+        function copyCommand() {
+            const command = document.getElementById('install-command').textContent;
+            const button = document.querySelector('.copy-button');
+
+            navigator.clipboard.writeText(command).then(() => {
+                button.textContent = '✓ Zkopírováno!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = '📋 Zkopírovat příkaz';
+                    button.classList.remove('copied');
+                }, 3000);
+            }).catch(err => {
+                alert('Chyba při kopírování. Zkopírujte příkaz ručně: ' + command);
+            });
+        }
+    </script>
+</body>
+</html>
