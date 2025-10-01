@@ -333,7 +333,8 @@ class BatchSurveyProcessor:
 
                     # Update status indicator
                     if status_manager:
-                        status_manager.processing_page(page_count, f'Vyplňuji stránku {page_count}')
+                        status_text = f'Automatické vyplňování | Dotazník {survey_number} / {total_surveys} | Stránka {page_count}'
+                        status_manager.set_status('processing', status_text)
 
                     page_processed = playback_system.process_current_page()
 
