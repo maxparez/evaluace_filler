@@ -1,10 +1,13 @@
 # Evaluace Filler - PowerShell Installer
+# Version: 1.1.0
 # Quick installation script for Windows
 # Usage: irm https://raw.githubusercontent.com/maxparez/evaluace_filler/main/install.ps1 | iex
 
 param(
     [string]$InstallPath = "$env:LOCALAPPDATA\EvaluaceFiller"
 )
+
+$SCRIPT_VERSION = "1.1.0"
 
 # Color functions
 function Write-Success {
@@ -25,6 +28,7 @@ function Write-Error {
 function Write-Banner {
     Write-Host "`n╔════════════════════════════════════════╗" -ForegroundColor Green
     Write-Host "║   EVALUACE FILLER - AUTOMATICKÁ INSTALACE   ║" -ForegroundColor Green
+    Write-Host "║            Verze: $SCRIPT_VERSION                    ║" -ForegroundColor Green
     Write-Host "╚════════════════════════════════════════╝`n" -ForegroundColor Green
 }
 
@@ -140,32 +144,51 @@ function Install-EvaluaceFiller {
 
     # Create desktop shortcuts
     Write-Info "Vytvářím zástupce na ploše..."
+    $shortcutsCreated = 0
     try {
         $WshShell = New-Object -comObject WScript.Shell
         $DesktopPath = [System.Environment]::GetFolderPath('Desktop')
 
         # Shortcut 1: Config editor
-        $ShortcutPath = Join-Path $DesktopPath "Evaluace Filler - Konfigurace.lnk"
-        $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
-        $Shortcut.TargetPath = "notepad.exe"
-        $Shortcut.Arguments = "`"$InstallPath\config\batch_config.json`""
-        $Shortcut.WorkingDirectory = "$InstallPath\config"
-        $Shortcut.Description = "Otevřít konfiguraci Evaluace Filler"
-        $Shortcut.IconLocation = "shell32.dll,70"  # Document icon
-        $Shortcut.Save()
+        try {
+            $ShortcutPath = Join-Path $DesktopPath "Evaluace Filler - Konfigurace.lnk"
+            $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
+            $Shortcut.TargetPath = "notepad.exe"
+            $Shortcut.Arguments = "`"$InstallPath\config\batch_config.json`""
+            $Shortcut.WorkingDirectory = "$InstallPath\config"
+            $Shortcut.Description = "Otevřít konfiguraci Evaluace Filler"
+            $Shortcut.IconLocation = "shell32.dll,70"  # Document icon
+            $Shortcut.Save()
+            Write-Success "  → Vytvořen: Evaluace Filler - Konfigurace.lnk"
+            $shortcutsCreated++
+        } catch {
+            Write-Error "  → Chyba při vytváření zástupce pro konfiguraci: $($_.Exception.Message)"
+        }
 
         # Shortcut 2: Run application
-        $ShortcutPath2 = Join-Path $DesktopPath "Evaluace Filler - Spustit.lnk"
-        $Shortcut2 = $WshShell.CreateShortcut($ShortcutPath2)
-        $Shortcut2.TargetPath = "$InstallPath\run_batch_windows.bat"
-        $Shortcut2.WorkingDirectory = "$InstallPath"
-        $Shortcut2.Description = "Spustit Evaluace Filler"
-        $Shortcut2.IconLocation = "shell32.dll,25"  # Play/Run icon
-        $Shortcut2.Save()
+        try {
+            $ShortcutPath2 = Join-Path $DesktopPath "Evaluace Filler - Spustit.lnk"
+            $Shortcut2 = $WshShell.CreateShortcut($ShortcutPath2)
+            $Shortcut2.TargetPath = "$InstallPath\run_batch_windows.bat"
+            $Shortcut2.WorkingDirectory = "$InstallPath"
+            $Shortcut2.Description = "Spustit Evaluace Filler"
+            $Shortcut2.IconLocation = "shell32.dll,25"  # Play/Run icon
+            $Shortcut2.Save()
+            Write-Success "  → Vytvořen: Evaluace Filler - Spustit.lnk"
+            $shortcutsCreated++
+        } catch {
+            Write-Error "  → Chyba při vytváření zástupce pro spuštění: $($_.Exception.Message)"
+        }
 
-        Write-Success "Zástupce vytvořeny na ploše"
+        if ($shortcutsCreated -eq 2) {
+            Write-Success "Oba zástupce úspěšně vytvořeny na ploše"
+        } elseif ($shortcutsCreated -eq 1) {
+            Write-Info "Vytvořen pouze 1 zástupce (druhý selhal)"
+        } else {
+            Write-Info "Nepodařilo se vytvořit žádný zástupce"
+        }
     } catch {
-        Write-Info "Nepodařilo se vytvořit zástupce (není kritické)"
+        Write-Info "Nepodařilo se vytvořit zástupce (není kritické): $($_.Exception.Message)"
     }
 
     # Success message
