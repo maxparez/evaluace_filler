@@ -331,6 +331,10 @@ class BatchSurveyProcessor:
                     page_count += 1
                     logger.info(f"\n--- PAGE {page_count} ---")
 
+                    # Update status indicator
+                    if status_manager:
+                        status_manager.processing_page(page_count, f'Vyplňuji stránku {page_count}')
+
                     page_processed = playback_system.process_current_page()
 
                     if not page_processed:
