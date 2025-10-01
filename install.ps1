@@ -138,11 +138,13 @@ function Install-EvaluaceFiller {
         Write-Success "Konfigurační soubor vytvořen"
     }
 
-    # Create desktop shortcut for config
+    # Create desktop shortcuts
     Write-Info "Vytvářím zástupce na ploše..."
     try {
         $WshShell = New-Object -comObject WScript.Shell
         $DesktopPath = [System.Environment]::GetFolderPath('Desktop')
+
+        # Shortcut 1: Config editor
         $ShortcutPath = Join-Path $DesktopPath "Evaluace Filler - Konfigurace.lnk"
         $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
         $Shortcut.TargetPath = "notepad.exe"
@@ -151,7 +153,17 @@ function Install-EvaluaceFiller {
         $Shortcut.Description = "Otevřít konfiguraci Evaluace Filler"
         $Shortcut.IconLocation = "shell32.dll,70"  # Document icon
         $Shortcut.Save()
-        Write-Success "Zástupce vytvořen na ploše"
+
+        # Shortcut 2: Run application
+        $ShortcutPath2 = Join-Path $DesktopPath "Evaluace Filler - Spustit.lnk"
+        $Shortcut2 = $WshShell.CreateShortcut($ShortcutPath2)
+        $Shortcut2.TargetPath = "$InstallPath\run_batch_windows.bat"
+        $Shortcut2.WorkingDirectory = "$InstallPath"
+        $Shortcut2.Description = "Spustit Evaluace Filler"
+        $Shortcut2.IconLocation = "shell32.dll,25"  # Play/Run icon
+        $Shortcut2.Save()
+
+        Write-Success "Zástupce vytvořeny na ploše"
     } catch {
         Write-Info "Nepodařilo se vytvořit zástupce (není kritické)"
     }
